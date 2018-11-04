@@ -1,4 +1,5 @@
-# india-elections
+# india-elections [![Waffle.io - Columns and their card count](https://badge.waffle.io/v-adhithyan/india-elections.svg?columns=all)](https://waffle.io/v-adhithyan/india-elections)
+
   Lets visualize India elections 2019 . (UPS vs NDA). [Work in progress.]
 ## Prerequisites
   - Make sure Python 3.6 is installed or a version of Python greater than 3.6
