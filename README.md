@@ -15,7 +15,7 @@
   - Install dependencies ```pip install -r requirements.txt```
   - Migrate the app ```python manage.py migrate```
   - Start server ```python manage.py runserver```
-  - Open browser and go to localhost:5000 - You will see India elections 2k19 - visulizations
+  - Open browser and go to localhost:8000/ - You will see India elections 2k19 - visulizations
   
 ## Contributors
   - [Ayyappan Thirunavukarasu](https://github.com/ayps)
