@@ -1,4 +1,5 @@
 # india-elections [![Waffle.io - Columns and their card count](https://badge.waffle.io/v-adhithyan/india-elections.svg?columns=all)](https://waffle.io/v-adhithyan/india-elections)
+[![Build Status](https://travis-ci.com/v-adhithyan/india-elections.svg?branch=master)](https://travis-ci.com/v-adhithyan/india-elections)
 
   Lets visualize India elections 2019 . (UPS vs NDA). [Work in progress.]
 ## Prerequisites
@@ -12,7 +13,8 @@
   - Create virtualenv ```virtualenv elections```
   - Activate virtualenv ```source elections/bin/activate```
   - Install dependencies ```pip install -r requirements.txt```
-  - Start server ```python application.py```
+  - Migrate the app ```python manage.py migrate```
+  - Start server ```python manage.py runserver```
   - Open browser and go to localhost:5000 - You will see India elections 2k19 - visulizations
   
 ## Contributors
