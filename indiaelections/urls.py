@@ -22,6 +22,6 @@ from core import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-                  # url(r'', views.hello_world),
-                  url(r'^poc/', views.poc.as_view())
-              ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    # url(r'', views.hello_world),
+    url(r'^poc/', views.poc.as_view())
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
