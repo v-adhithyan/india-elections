@@ -1,0 +1,190 @@
+{% load static %}
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Varela+Round|Muli|Karla|Oxygen" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{% static 'css/poc.css' %}" rel="stylesheet" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js"></script>
+    <title>
+        India 2019
+    </title>
+    <style>
+    .primary-color {
+       background-color: #6f47BB;
+       color: white;
+    }
+    a {
+       color: white;
+    }
+    .header {
+       position: sticky;
+       left: 0;
+       top: 0;
+       height: auto;
+       width: 100%;
+       color: white;
+       text-align: center;
+       background-color: #6f47BB;
+    }
+    .btn-color {
+       background-color: #2f65e6;
+    }
+    .upa-color {
+       color: #48b6f6;
+    }
+    .nda-color {
+       color: #5771A5;
+    }
+    body {
+       background-color: #F1F2F5;
+       color: black;
+       font-family: 'Karla', 'Oxygen', 'Muli', 'Varela Round', sans-serif;
+    }
+
+    .card {
+       border: 1px solid;
+       border-color: white;
+       border-radius: 10px;
+       margin-top: 10px;
+       margin-bottom: 10px;
+       margin-left: 10px;
+       margin-right: 10px;
+       padding-left: 5px;
+       padding-right: 5px;
+       padding-top: 5px;
+       padding-bottom: 5px;
+       background-color: white;
+    }
+
+
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-default primary-color">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <h1>#india-elections-2k19</h1>
+            <h2 style="text-align:right">- An analysis of tweets</h2>
+        </div>
+    </div>
+</nav>
+<h2>
+    <center>tweet sentiment analysis</center>
+</h2>
+<div class="container" style="position:relative;">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card">
+                <center>
+                    <h1 class="upa-color">UPA</h1>
+                </center>
+                <ul>
+                    <li>50 % Positive</li>
+                    <li>50 % Negative</li>
+                </ul>
+                <center>
+                    <canvas id="upa-chart"></canvas>
+                    <script>
+                        var ctx = document.getElementById("upa-chart");
+                        var myChart = new Chart(ctx, {
+                            type: 'doughnut',
+                            data: {
+                            labels: ["Red", "Green"],
+                            datasets: [{
+                            label: '# tweet sentiments',
+                            data: [50, 50],
+                            backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            ],
+                            borderColor: [
+                            'rgba(255,99,132,1)',
+                            'rgba(75, 192, 192, 1)',
+                            ],
+                            borderWidth: 1
+                            }]
+                          },
+                           options: {
+                            scales: {
+                                yAxes: [{
+                                ticks: {
+                                    beginAtZero:true
+                                }
+                                }]
+                            }
+                        }});
+
+
+                    </script>
+                </center>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="card">
+                <center>
+                    <h1 class="nda-color">NDA</h1>
+                </center>
+                <ul>
+                    <li>50 % Positive</li>
+                    <li>50 % Negative</li>
+                </ul>
+                <center>
+                    <canvas id="nda-chart"></canvas>
+                    <script>
+                        var ctx = document.getElementById("nda-chart");
+                        var myChart = new Chart(ctx, {
+                            type: 'doughnut',
+                            data: {
+                            labels: ["Red", "Green"],
+                            datasets: [{
+                            label: '# tweet sentiments',
+                            data: [50, 50],
+                            backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            ],
+                            borderColor: [
+                            'rgba(255,99,132,1)',
+                            'rgba(75, 192, 192, 1)',
+                            ],
+                            borderWidth: 1
+                            }]
+                          },
+                           options: {
+                            scales: {
+                                yAxes: [{
+                                ticks: {
+                                    beginAtZero:true
+                                }
+                                }]
+                            }
+                        }});
+
+
+                    </script>
+                </center>
+            </div>
+        </div>
+    </div>
+</div>
+<center><h2>tweet counts by hashtag</h2></center>
+<div class="row">
+    <div class="col-sm-6">
+        <div class="card">
+            <h2>#upa #modi #bjp #rss</h2>
+            <h3><p class="upa-color" style="text-align:center">100 m posts</p></h3>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="card">
+            <h2>#nda #rahulgandhi #sonia #congress</h2>
+            <h3><p class="nda-color" style="text-align:center">100 m posts</p></h3>
+        </div>
+    </div>
+</div>
+</body>
+</html>
