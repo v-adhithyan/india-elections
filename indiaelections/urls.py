@@ -17,11 +17,12 @@ from django.conf import settings
 from django.conf.urls import url
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.views.decorators.cache import cache_page
 
 from core import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     # url(r'', views.hello_world),
-    url(r'^poc/', views.poc.as_view())
+    url(r'^poc/', cache_page(600)(views.poc.as_view()), name='poc')
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
