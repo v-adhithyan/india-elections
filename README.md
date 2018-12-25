@@ -16,7 +16,10 @@
   - Migrate the app ```python manage.py migrate```
   - Start server ```python manage.py runserver```
   - Open browser and go to localhost:8000/ - You will see India elections 2k19 - visulizations
-  
+
+## POC
+  - <https://indiaelections.pythonanywhere.com/poc>
+
 ## Contributors
   - [Ayyappan Thirunavukarasu](https://github.com/ayps)
   - [Adhithyan Vijayakumar](https://github.com/v-adhithyan)
