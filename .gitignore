@@ -96,3 +96,4 @@ chat-service/*
 !.elasticbeanstalk/*.global.yml
 .idea/*
 nohup.out
+*.sqlite3

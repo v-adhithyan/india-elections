@@ -1,2 +1,5 @@
 django
 djangorestframework
+ipython
+tweepy
+textblob
