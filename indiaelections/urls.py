@@ -24,5 +24,6 @@ from core import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     # url(r'', views.hello_world),
-    url(r'^poc/', cache_page(600)(views.poc.as_view()), name='poc')
+    url(r'^poc/', cache_page(600)(views.poc.as_view()), name='poc'),
+    url(r'^word-cloud/', views.get_word_cloud, name="get-word-cloud"),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -3,3 +3,7 @@ djangorestframework
 ipython
 tweepy
 textblob
+matplotlib
+wordcloud
+pandas
+ipdb
