@@ -7,6 +7,10 @@ install:
   - pip install flake8
 # command to run tests and style check
 script:
+  - export TW_ACCESS_KEY='test'
+  - export TW_CONSUMER_SECRET='test'
+  - export TW_ACCESS_TOKEN='test'
+  - export TW_ACCESS_TOKEN_SECRET='test'
   - pytest
   - flake8 .
   - pytest --cov=core
