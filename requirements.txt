@@ -7,3 +7,6 @@ matplotlib
 wordcloud
 pandas
 ipdb
+mock
+pytest-django
+pytest-cov

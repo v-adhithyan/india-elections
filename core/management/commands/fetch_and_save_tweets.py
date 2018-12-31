@@ -10,7 +10,9 @@ class Command(LabelCommand):
             twitter_api = TwitterApi()
             count = twitter_api.get_and_save_tweets(query=label)
 
-            self.stdout.write(self.style.SUCCESS('Downloaded {} tweets relating to {} and saved in db').format(count, label))
+            self.stdout.write(self.style.SUCCESS
+                              ('Downloaded {} tweets relating to {} and saved in db')
+                              .format(count, label))
         except CommandError as e:
             self.stderr.write(str(e))
             raise

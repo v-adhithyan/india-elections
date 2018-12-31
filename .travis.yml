@@ -9,3 +9,4 @@ install:
 script:
   - pytest
   - flake8 .
+  - pytest --cov=core
