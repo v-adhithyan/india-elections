@@ -7,6 +7,7 @@ install:
   - pip install flake8
 # command to run tests and style check
 script:
+  - export DJANGO_SETTINGS_MODULE=indiaelections.settings
   - export TW_CONSUMER_KEY='test'
   - export TW_CONSUMER_SECRET='test'
   - export TW_ACCESS_TOKEN='test'
