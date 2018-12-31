@@ -36,7 +36,10 @@ def generate_word_cloud(q='bjp'):
         for word in tokens:
             comment_words = comment_words + word + ' '
 
-    wordcloud = WordCloud(width=800, height=800, background_color='white', stopwords=stopwords,
+    wordcloud = WordCloud(width=800,
+                          height=800,
+                          background_color='white',
+                          stopwords=stopwords,
                           min_font_size=10).generate(comment_words)
 
     plot.figure(figsize=(8, 8), facecolor=None)

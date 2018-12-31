@@ -14,9 +14,9 @@ class poc(TemplateView):
 
 
 def get_word_cloud(request):
-    try:
+    if request.GET.get('q'):
         q = request.GET['q']
         with open(generate_word_cloud(q=q), "rb") as f:
             return HttpResponse(f.read(), content_type='image/png')
-    except:
-        return HttpResponse("Pass a q parameter")
+
+    return HttpResponse("A query parameter q is required to generate word cloud")
