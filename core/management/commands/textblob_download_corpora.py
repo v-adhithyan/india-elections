@@ -14,4 +14,3 @@ class Command(BaseCommand):
                                 )
         out = proc.stdout.read().decode("utf-8")
         self.stdout.write(out)
-
