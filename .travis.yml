@@ -15,3 +15,5 @@ script:
   - pytest
   - flake8 .
   - pytest --cov=core
+after_success:
+- bash < (curl -s https://codecov.io/bash)
