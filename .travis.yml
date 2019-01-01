@@ -7,5 +7,13 @@ install:
   - pip install flake8
 # command to run tests and style check
 script:
+  - export DJANGO_SETTINGS_MODULE=indiaelections.settings
+  - export TW_CONSUMER_KEY='test'
+  - export TW_CONSUMER_SECRET='test'
+  - export TW_ACCESS_TOKEN='test'
+  - export TW_ACCESS_TOKEN_SECRET='test'
   - pytest
   - flake8 .
+  - pytest --cov=core
+after_success:
+- bash < (curl -s https://codecov.io/bash)
