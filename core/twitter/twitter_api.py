@@ -25,10 +25,12 @@ class TwitterApi(object):
 
         for tweet in fetched_tweets:
             parsed_tweet = OrderedDict()
+            cleaned_tweet = clean_tweet(tweet.text)
+
             parsed_tweet['q'] = query
             parsed_tweet['tweet'] = tweet.text
-            parsed_tweet['cleaned_tweet'] = clean_tweet(tweet)
-            parsed_tweet['tweet_sentiment'] = get_tweet_sentiment(tweet)
+            parsed_tweet['cleaned_tweet'] = cleaned_tweet
+            parsed_tweet['tweet_sentiment'] = get_tweet_sentiment(cleaned_tweet)
             tweets.append(parsed_tweet)
 
         Tweet.bulk_save(tweets)

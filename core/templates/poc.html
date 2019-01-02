@@ -8,7 +8,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1" name="viewport">
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-  <link href="{% static 'css/poc.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js"></script>
@@ -44,7 +44,7 @@
           <center>
             <canvas id="upa-chart"></canvas>
             <script>
-              generateDoughnutChart("upa-chart", [50, 50]);
+              generateDoughnutChart("upa-chart", [6, 21, 73]);
             </script>
           </center>
         </div>
@@ -61,7 +61,7 @@
           <center>
             <canvas id="nda-chart"></canvas>
             <script>
-              generateDoughnutChart("nda-chart", [50, 40]);
+              generateDoughnutChart("nda-chart", [50, 40, 10]);
             </script>
           </center>
         </div>
