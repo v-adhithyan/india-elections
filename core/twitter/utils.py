@@ -25,7 +25,7 @@ def get_tweet_sentiment(tweet) -> str:
 
 def generate_word_cloud(q='bjp'):
     tweets = Tweet.objects.filter(q=q)
-    tweet_texts = (tweet.tweet for tweet in tweets)
+    tweet_texts = (tweet.cleaned_text for tweet in tweets)
     comment_words = ' '
     stopwords = set(STOPWORDS)
 
@@ -50,3 +50,58 @@ def generate_word_cloud(q='bjp'):
     temp_file = tempfile.NamedTemporaryFile(delete=False)
     plot.savefig(temp_file.name)
     return temp_file.name + ".png"
+
+
+def generate_view_dict() -> dict:
+    candidate_n_party_dict = dict()
+    candidate_n_party_dict['modi'] = "upa"
+    candidate_n_party_dict["bjp"] = "upa"
+    candidate_n_party_dict["#Modi2019Interview"] = "upa"
+    candidate_n_party_dict["congress"] = "nda"
+    candidate_n_party_dict["rahulgandhi"] = "nda"
+    candidate_n_party_dict["soniagandhi"] = "nda"
+
+    tweets = Tweet.objects.all()
+    data = {
+        "upa_positive": 0,
+        "upa_negative": 0,
+        "upa_neutral": 0,
+        "nda_positive": 0,
+        "nda_negative": 0,
+        "nda_neutral": 0,
+        "upa_tags": set(),
+        "nda_tags": set(),
+        "upa_post_count": 0,
+        "nda_post_count": 0
+    }
+
+    upa_post_count = 0
+    nda_post_count = 0
+
+    for tweet in tweets:
+        tag = "#" + tweet.q
+        party = candidate_n_party_dict.get(tweet.q, '')
+
+        if party == "nda":
+            nda_tags = data["nda_tags"]
+            nda_tags.add(tag)
+
+            data["nda_" + tweet.sentiment] += 1
+            data["nda_tags"] = nda_tags
+            nda_post_count += 1
+            continue
+
+        if party == "upa":
+            upa_tags = data["upa_tags"]
+            upa_tags.add(tag)
+
+            data["upa_" + tweet.sentiment] += 1
+            data["upa_tags"] = upa_tags
+            upa_post_count += 1
+            continue
+
+    data["upa_tags"] = " ".join(list(data["upa_tags"]))
+    data["nda_tags"] = " ".join(list(data["nda_tags"]))
+    data["upa_post_count"] = upa_post_count
+    data["nda_post_count"] = nda_post_count
+    return data

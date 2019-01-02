@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block content %}
+<body>
+  <nav class="navbar navbar-default primary-color">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <h1>#india-elections-2k19</h1>
+        <h2 style="text-align:right">- An analysis of tweets</h2>
+      </div>
+    </div>
+  </nav>
+  <h2>
+    <center>tweet sentiment analysis</center>
+  </h2>
+  <div class="container" style="position:relative;">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="card">
+          <center>
+            <h1 class="upa-color">UPA</h1>
+          </center>
+          <ul>
+            <li>{{ upa_positive }}  Positive</li>
+            <li>{{ upa_negative }}  Negative</li>
+            <li>{{ upa_neutral }} Neutral</li>
+          </ul>
+          <center>
+            <canvas id="upa-chart"></canvas>
+            <script>
+              generateDoughnutChart("upa-chart", [{{ upa_positive }}, 
+              {{ upa_negative }}, 
+              {{ upa_neutral }}]
+              );
+            </script>
+          </center>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="card">
+          <center>
+            <h1 class="nda-color">NDA</h1>
+          </center>
+          <ul>
+            <li>{{ nda_positive }}  Positive</li>
+            <li>{{ nda_negative }}  Negative</li>
+            <li>{{ nda_neutral }} Neutral</li>
+          </ul>
+          <center>
+            <canvas id="nda-chart"></canvas>
+            <script>
+              generateDoughnutChart("nda-chart", [{{ nda_positive }}, 
+              {{ nda_negative }}, 
+              {{ nda_neutral }}]
+              );
+            </script>
+          </center>
+        </div>
+      </div>
+    </div>
+  </div>
+  <center>
+    <h2>tweet counts by hashtag</h2>
+  </center>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="card">
+        <h2>{{ nda_tags }}</h2>
+        <h3>
+          <p class="upa-color" style="text-align:center">{{ upa_post_count }} posts</p>
+        </h3>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="card">
+        <h2>{{ upa_tags }}</h2>
+        <h3>
+          <p class="nda-color" style="text-align:center">{{ nda_post_count }} posts</p>
+        </h3>
+      </div>
+    </div>
+  </div>
+</body>
+{% endblock %}
