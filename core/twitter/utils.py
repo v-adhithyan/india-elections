@@ -1,6 +1,5 @@
 import re
 import tempfile
-from collections import ChainMap
 
 import matplotlib.pyplot as plot
 import textblob
@@ -57,7 +56,6 @@ def generate_view_dict() -> dict:
     candidate_n_party_dict = dict()
     candidate_n_party_dict['modi'] = "upa"
     candidate_n_party_dict["bjp"] = "upa"
-    #candidate_n_party_dict["h+raja"] = "upa"
     candidate_n_party_dict["#Modi2019Interview"] = "upa"
     candidate_n_party_dict["congress"] = "nda"
     candidate_n_party_dict["rahulgandhi"] = "nda"

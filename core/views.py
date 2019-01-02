@@ -1,5 +1,3 @@
-from urllib.parse import parse_qs
-
 from django.http.response import HttpResponse
 from django.shortcuts import render
 from django.views.generic import TemplateView
