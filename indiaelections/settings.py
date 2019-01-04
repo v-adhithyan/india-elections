@@ -31,9 +31,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'y3vo#u624v3c7(%luo&@-*=@oj30bn9+fwmsytkfyc22tx%)xc'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("IE_DEBUG", True)
+try:
+    DEBUG = os.environ["IE_DEBUG"]
+except KeyError:
+    DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["indiaelections.pythonanywhere.com"]
 
 # Application definition
 
