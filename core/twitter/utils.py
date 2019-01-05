@@ -1,3 +1,4 @@
+import os
 import re
 import tempfile
 
@@ -6,7 +7,7 @@ import textblob
 from django.utils.encoding import smart_text
 from wordcloud import WordCloud, STOPWORDS
 
-from core.models import Tweet
+from core.models import Tweet, Wordcloud
 
 
 def clean_tweet(tweet):
@@ -23,7 +24,24 @@ def get_tweet_sentiment(tweet) -> str:
         return "negative"
 
 
-def generate_word_cloud(q='bjp'):
+def get_word_cloud(q):
+    try:
+        wordcloud = Wordcloud.objects.get(q=q)
+
+        if not os.path.exists(wordcloud.file_path):
+            file_path = _generate_word_cloud(q=q)
+            wordcloud.file_path = file_path
+            wordcloud.save()
+            return file_path
+
+        return wordcloud.file_path
+    except Wordcloud.DoesNotExist:
+        file_path = _generate_word_cloud(q=q)
+        Wordcloud.objects.create(q=q, file_path=file_path)
+        return file_path
+
+
+def _generate_word_cloud(q):
     tweets = Tweet.objects.filter(q=q)
     tweet_texts = (tweet.cleaned_text for tweet in tweets)
     comment_words = ' '
