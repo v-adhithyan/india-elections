@@ -35,3 +35,14 @@ class Tweet(models.Model):
 
     def __unicode__(self):
         return "{} :: {}".format(self.sentiment, self.tweet)
+
+
+class Wordcloud(models.Model):
+    q = models.CharField(max_length=100)
+    file_path = models.CharField(max_length=200)
+
+    def __str__(self):
+        return "{} wordcloud path :: {}".format(self.q, self.file_path)
+
+    def __unicode__(self):
+        return "{} wordcloud path :: {}".format(self.q, self.file_path)

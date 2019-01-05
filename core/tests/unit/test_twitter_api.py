@@ -1,8 +1,10 @@
 import mock
+import pytest
 
 from core.twitter.twitter_api import TwitterApi
 
 
+@pytest.mark.usefixtures('tweets')
 def test_get_and_save_tweets(tweets):
     with mock.patch(
         'core.twitter.twitter_api.TwitterApi.get_and_save_tweets'

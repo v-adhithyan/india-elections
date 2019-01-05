@@ -32,11 +32,11 @@ SECRET_KEY = 'y3vo#u624v3c7(%luo&@-*=@oj30bn9+fwmsytkfyc22tx%)xc'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 try:
-    DEBUG = os.environ["IE_DEBUG"]
+    DEBUG = bool(os.environ["IE_DEBUG"])
 except KeyError:
     DEBUG = False
 
-ALLOWED_HOSTS = ["indiaelections.pythonanywhere.com"]
+ALLOWED_HOSTS = ["indiaelections.pythonanywhere.com"] if not DEBUG else []
 
 # Application definition
 
