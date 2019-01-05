@@ -1,5 +1,6 @@
 # india-elections [![Waffle.io - Columns and their card count](https://badge.waffle.io/v-adhithyan/india-elections.svg?columns=all)](https://waffle.io/v-adhithyan/india-elections)
 [![Build Status](https://travis-ci.com/v-adhithyan/india-elections.svg?branch=master)](https://travis-ci.com/v-adhithyan/india-elections)
+[![codecov](https://codecov.io/gh/v-adhithyan/india-elections/branch/master/graph/badge.svg)](https://codecov.io/gh/v-adhithyan/india-elections)
 
   Lets visualize India elections 2019 . (UPS vs NDA). [Work in progress.]
 ## Prerequisites
