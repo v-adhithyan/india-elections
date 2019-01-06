@@ -31,7 +31,9 @@ class TwitterApi(object):
             parsed_tweet['tweet'] = tweet.text
             parsed_tweet['cleaned_tweet'] = cleaned_tweet
             parsed_tweet['tweet_sentiment'] = get_tweet_sentiment(cleaned_tweet)
-            tweets.append(parsed_tweet)
+
+            if not hasattr(tweet, 'retweeted_status'):
+                tweets.append(parsed_tweet)
 
         Tweet.bulk_save(tweets)
 

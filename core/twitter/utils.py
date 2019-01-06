@@ -11,7 +11,9 @@ from core.models import Tweet, Wordcloud
 
 
 def clean_tweet(tweet):
-    return ' '.join(re.sub(r"(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", smart_text(tweet)).split())
+    tweet = ' '.join(re.sub(r"(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", smart_text(tweet)).split())
+    tweet = tweet.replace("RT ", "").strip()
+    return tweet
 
 
 def get_tweet_sentiment(tweet) -> str:
