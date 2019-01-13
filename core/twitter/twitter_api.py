@@ -8,8 +8,7 @@ from core.constants import (
     TW_CONSUMER_KEY,
     TW_CONSUMER_SECRET,
 )
-from core.models import Tweet
-from core.twitter.utils import clean_tweet, get_tweet_sentiment
+from core.twitter.utils import clean_tweet, get_tweet_sentiment, _generate_word_cloud_1
 
 
 class TwitterApi(object):
@@ -35,6 +34,6 @@ class TwitterApi(object):
             if not hasattr(tweet, 'retweeted_status'):
                 tweets.append(parsed_tweet)
 
-        Tweet.bulk_save(tweets)
+        _generate_word_cloud_1(query, tweets)
 
         return len(tweets)

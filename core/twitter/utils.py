@@ -7,7 +7,9 @@ import textblob
 from django.utils.encoding import smart_text
 from wordcloud import WordCloud, STOPWORDS
 
-from core.models import Tweet, Wordcloud
+from core.models import TweetStats, Wordcloud
+
+_STOPWORDS = set(STOPWORDS)
 
 
 def clean_tweet(tweet):
@@ -29,25 +31,31 @@ def get_tweet_sentiment(tweet) -> str:
 def get_word_cloud(q):
     try:
         wordcloud = Wordcloud.objects.get(q=q)
-
         if not os.path.exists(wordcloud.file_path):
-            file_path = _generate_word_cloud(q=q)
+            file_path = _generate_word_cloud_1(q=q)
             wordcloud.file_path = file_path
             wordcloud.save()
             return file_path
 
         return wordcloud.file_path
     except Wordcloud.DoesNotExist:
-        file_path = _generate_word_cloud(q=q)
+        file_path = _generate_word_cloud_1(q=q)
         Wordcloud.objects.create(q=q, file_path=file_path)
         return file_path
 
 
-def _generate_word_cloud(q):
-    tweets = Tweet.objects.filter(q=q)
-    tweet_texts = (tweet.cleaned_text for tweet in tweets)
+def put_word_cloud(q, file_path):
+    try:
+        wc = Wordcloud.objects.get(q=q)
+        wc.file_path = file_path
+        wc.save()
+    except Wordcloud.DoesNotExist:
+        Wordcloud.objects.create(q=q, file_path=file_path)
+
+
+def _generate_word_cloud_1(q, tweets_dict):
+    tweet_texts = (tweet['cleaned_tweet'] for tweet in tweets_dict)
     comment_words = ' '
-    stopwords = set(STOPWORDS)
 
     for tweet in tweet_texts:
         tweet = smart_text(tweet).lower()
@@ -56,10 +64,12 @@ def _generate_word_cloud(q):
         for word in tokens:
             comment_words = comment_words + word + ' '
 
+    comment_words += TweetStats.get_comment_words(q=q)
+
     wordcloud = WordCloud(width=800,
                           height=800,
                           background_color='white',
-                          stopwords=stopwords,
+                          stopwords=_STOPWORDS,
                           min_font_size=10).generate(comment_words)
 
     plot.figure(figsize=(8, 8), facecolor=None)
@@ -69,6 +79,10 @@ def _generate_word_cloud(q):
 
     temp_file = tempfile.NamedTemporaryFile(delete=False)
     plot.savefig(temp_file.name)
+
+    put_word_cloud(q, file_path=temp_file.name + ".png")
+    TweetStats.objects.create(q=q, count=len(tweets_dict), comment_words=comment_words)
+
     return temp_file.name + ".png"
 
 
@@ -81,7 +95,7 @@ def generate_view_dict() -> dict:
     candidate_n_party_dict["rahulgandhi"] = "nda"
     candidate_n_party_dict["soniagandhi"] = "nda"
 
-    tweets = Tweet.objects.all()
+    tweets = TweetStats.objects.all()
     data = {
         "upa_positive": 0,
         "upa_negative": 0,
@@ -108,7 +122,7 @@ def generate_view_dict() -> dict:
 
             data["nda_" + tweet.sentiment] += 1
             data["nda_tags"] = nda_tags
-            nda_post_count += 1
+            nda_post_count += tweet.count
             continue
 
         if party == "upa":
@@ -117,7 +131,7 @@ def generate_view_dict() -> dict:
 
             data["upa_" + tweet.sentiment] += 1
             data["upa_tags"] = upa_tags
-            upa_post_count += 1
+            upa_post_count += tweet.count
             continue
 
     data["upa_tags"] = " ".join(list(data["upa_tags"]))
