@@ -1,17 +1,22 @@
 import os
 import re
 import tempfile
+from collections import namedtuple
 
 import matplotlib.pyplot as plot
 import textblob
 from django.utils.encoding import smart_text
 from wordcloud import WordCloud, STOPWORDS
 
-from core.models import Tweet, Wordcloud
+from core.models import TweetStats, Wordcloud
+
+_STOPWORDS = set(STOPWORDS)
 
 
 def clean_tweet(tweet):
-    return ' '.join(re.sub(r"(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", smart_text(tweet)).split())
+    tweet = ' '.join(re.sub(r"(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", smart_text(tweet)).split())
+    tweet = tweet.replace("RT ", "").strip()
+    return tweet
 
 
 def get_tweet_sentiment(tweet) -> str:
@@ -27,37 +32,58 @@ def get_tweet_sentiment(tweet) -> str:
 def get_word_cloud(q):
     try:
         wordcloud = Wordcloud.objects.get(q=q)
-
         if not os.path.exists(wordcloud.file_path):
-            file_path = _generate_word_cloud(q=q)
+            file_path = _generate_word_cloud_1(q=q)
             wordcloud.file_path = file_path
             wordcloud.save()
             return file_path
 
         return wordcloud.file_path
     except Wordcloud.DoesNotExist:
-        file_path = _generate_word_cloud(q=q)
+        file_path = _generate_word_cloud_1(q=q)
         Wordcloud.objects.create(q=q, file_path=file_path)
         return file_path
 
 
-def _generate_word_cloud(q):
-    tweets = Tweet.objects.filter(q=q)
-    tweet_texts = (tweet.cleaned_text for tweet in tweets)
-    comment_words = ' '
-    stopwords = set(STOPWORDS)
+def put_word_cloud(q, file_path):
+    try:
+        wc = Wordcloud.objects.get(q=q)
+        wc.file_path = file_path
+        wc.save()
+    except Wordcloud.DoesNotExist:
+        Wordcloud.objects.create(q=q, file_path=file_path)
 
-    for tweet in tweet_texts:
-        tweet = smart_text(tweet).lower()
+
+def _generate_word_cloud_1(q, tweets_dict):
+    Tweet = namedtuple("Tweet", "tweet sentiment")
+
+    tweets = (Tweet(tweet["cleaned_tweet"], tweet['tweet_sentiment']) for tweet in tweets_dict)
+    comment_words = ' '
+
+    pos = 0
+    neg = 0
+    neu = 0
+
+    for _tweet in tweets:
+        tweet = smart_text(_tweet.tweet).lower()
         tokens = tweet.split(" ")
 
         for word in tokens:
             comment_words = comment_words + word + ' '
 
+        if _tweet.sentiment == "positive":
+            pos += 1
+        elif _tweet.sentiment == "negative":
+            neg += 1
+        else:
+            neu += 1
+
+    comment_words += TweetStats.get_comment_words(q=q)
+
     wordcloud = WordCloud(width=800,
                           height=800,
                           background_color='white',
-                          stopwords=stopwords,
+                          stopwords=_STOPWORDS,
                           min_font_size=10).generate(comment_words)
 
     plot.figure(figsize=(8, 8), facecolor=None)
@@ -67,6 +93,11 @@ def _generate_word_cloud(q):
 
     temp_file = tempfile.NamedTemporaryFile(delete=False)
     plot.savefig(temp_file.name)
+
+    put_word_cloud(q, file_path=temp_file.name + ".png")
+    TweetStats.objects.create(q=q, count=len(tweets_dict), comment_words=comment_words,
+                              positive=pos, negative=neg, neutral=neg)
+
     return temp_file.name + ".png"
 
 
@@ -79,7 +110,7 @@ def generate_view_dict() -> dict:
     candidate_n_party_dict["rahulgandhi"] = "nda"
     candidate_n_party_dict["soniagandhi"] = "nda"
 
-    tweets = Tweet.objects.all()
+    tweets = TweetStats.objects.all()
     data = {
         "upa_positive": 0,
         "upa_negative": 0,
@@ -104,18 +135,22 @@ def generate_view_dict() -> dict:
             nda_tags = data["nda_tags"]
             nda_tags.add(tag)
 
-            data["nda_" + tweet.sentiment] += 1
+            data["nda_positive"] = tweet.positive
+            data["nda_negative"] = tweet.negative
+            data["nda_neutral"] = tweet.neutral
             data["nda_tags"] = nda_tags
-            nda_post_count += 1
+            nda_post_count += tweet.count
             continue
 
         if party == "upa":
             upa_tags = data["upa_tags"]
             upa_tags.add(tag)
 
-            data["upa_" + tweet.sentiment] += 1
+            data["upa_positive"] = tweet.positive
+            data["upa_negative"] = tweet.negative
+            data["upa_neutral"] = tweet.neutral
             data["upa_tags"] = upa_tags
-            upa_post_count += 1
+            upa_post_count += tweet.count
             continue
 
     data["upa_tags"] = " ".join(list(data["upa_tags"]))

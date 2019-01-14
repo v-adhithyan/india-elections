@@ -27,7 +27,7 @@ def test_clean_tweet():
 @pytest.mark.usefixtures("tweets")
 @pytest.mark.django_db
 def test_get_wordcloud(tweets):
-    with mock.patch('core.twitter.utils._generate_word_cloud') as generate_word_cloud:
+    with mock.patch('core.twitter.utils._generate_word_cloud_1') as generate_word_cloud:
         q = "test"
         with tempfile.NamedTemporaryFile() as f:
             mocked_filename = f.name + ".png"
