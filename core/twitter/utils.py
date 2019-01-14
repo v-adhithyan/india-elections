@@ -1,6 +1,7 @@
 import os
 import re
 import tempfile
+from collections import namedtuple
 
 import matplotlib.pyplot as plot
 import textblob
@@ -54,15 +55,28 @@ def put_word_cloud(q, file_path):
 
 
 def _generate_word_cloud_1(q, tweets_dict):
-    tweet_texts = (tweet['cleaned_tweet'] for tweet in tweets_dict)
+    Tweet = namedtuple("Tweet", "tweet sentiment")
+
+    tweets = (Tweet(tweet["cleaned_tweet"], tweet['tweet_sentiment']) for tweet in tweets_dict)
     comment_words = ' '
 
-    for tweet in tweet_texts:
-        tweet = smart_text(tweet).lower()
+    pos = 0
+    neg = 0
+    neu = 0
+
+    for _tweet in tweets:
+        tweet = smart_text(_tweet.tweet).lower()
         tokens = tweet.split(" ")
 
         for word in tokens:
             comment_words = comment_words + word + ' '
+
+        if _tweet.sentiment == "positive":
+            pos += 1
+        elif _tweet.sentiment == "negative":
+            neg += 1
+        else:
+            neu += 1
 
     comment_words += TweetStats.get_comment_words(q=q)
 
@@ -81,7 +95,8 @@ def _generate_word_cloud_1(q, tweets_dict):
     plot.savefig(temp_file.name)
 
     put_word_cloud(q, file_path=temp_file.name + ".png")
-    TweetStats.objects.create(q=q, count=len(tweets_dict), comment_words=comment_words)
+    TweetStats.objects.create(q=q, count=len(tweets_dict), comment_words=comment_words,
+                              positive=pos, negative=neg, neutral=neg)
 
     return temp_file.name + ".png"
 
@@ -120,7 +135,9 @@ def generate_view_dict() -> dict:
             nda_tags = data["nda_tags"]
             nda_tags.add(tag)
 
-            data["nda_" + tweet.sentiment] += 1
+            data["nda_positive"] = tweet.positive
+            data["nda_negative"] = tweet.negative
+            data["nda_neutral"] = tweet.neutral
             data["nda_tags"] = nda_tags
             nda_post_count += tweet.count
             continue
@@ -129,7 +146,9 @@ def generate_view_dict() -> dict:
             upa_tags = data["upa_tags"]
             upa_tags.add(tag)
 
-            data["upa_" + tweet.sentiment] += 1
+            data["upa_positive"] = tweet.positive
+            data["upa_negative"] = tweet.negative
+            data["upa_neutral"] = tweet.neutral
             data["upa_tags"] = upa_tags
             upa_post_count += tweet.count
             continue

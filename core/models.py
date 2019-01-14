@@ -6,6 +6,9 @@ class TweetStats(models.Model):
     count = models.PositiveIntegerField()
     comment_words = models.TextField()
     added_time = models.DateTimeField(auto_now_add=True)
+    positive = models.PositiveIntegerField(default=0)
+    negative = models.PositiveIntegerField(default=0)
+    neutral = models.PositiveIntegerField(default=0)
 
     @classmethod
     def get_comment_words(cls, q) -> str:
