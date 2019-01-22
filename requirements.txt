@@ -11,3 +11,4 @@ mock
 pytest-django
 pytest-cov
 sentry-sdk==0.6.4
+guess-indian-gender

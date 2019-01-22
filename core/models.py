@@ -9,6 +9,8 @@ class TweetStats(models.Model):
     positive = models.PositiveIntegerField(default=0)
     negative = models.PositiveIntegerField(default=0)
     neutral = models.PositiveIntegerField(default=0)
+    male = models.PositiveIntegerField(default=0)
+    female = models.PositiveIntegerField(default=0)
 
     @classmethod
     def get_comment_words(cls, q) -> str:

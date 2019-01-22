@@ -1,6 +1,7 @@
 from collections import OrderedDict
 
 import tweepy
+from guess_indian_gender import IndianGenderPredictor
 
 from core.constants import (
     TW_ACCESS_TOKEN,
@@ -8,8 +9,9 @@ from core.constants import (
     TW_CONSUMER_KEY,
     TW_CONSUMER_SECRET,
 )
-from core.twitter.utils import clean_tweet, get_tweet_sentiment, _generate_word_cloud_1
+from core.twitter.utils import clean_tweet, get_tweet_sentiment, generate_word_cloud_1
 
+predictor = IndianGenderPredictor()
 
 class TwitterApi(object):
 
@@ -30,10 +32,11 @@ class TwitterApi(object):
             parsed_tweet['tweet'] = tweet.text
             parsed_tweet['cleaned_tweet'] = cleaned_tweet
             parsed_tweet['tweet_sentiment'] = get_tweet_sentiment(cleaned_tweet)
+            parsed_tweet['user_name'] = tweet.user.screen_name
 
             if not hasattr(tweet, 'retweeted_status'):
                 tweets.append(parsed_tweet)
 
-        _generate_word_cloud_1(query, tweets)
+        generate_word_cloud_1(query, tweets)
 
         return len(tweets)

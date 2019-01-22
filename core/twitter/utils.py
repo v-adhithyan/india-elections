@@ -6,11 +6,13 @@ from collections import namedtuple
 import matplotlib.pyplot as plot
 import textblob
 from django.utils.encoding import smart_text
+from gender_guess_indian import IndianGenderPredictor
 from wordcloud import WordCloud, STOPWORDS
 
 from core.models import TweetStats, Wordcloud
 
 _STOPWORDS = set(STOPWORDS)
+GENDER_PREDICTOR = IndianGenderPredictor()
 
 
 def clean_tweet(tweet):
@@ -54,15 +56,17 @@ def put_word_cloud(q, file_path):
         Wordcloud.objects.create(q=q, file_path=file_path)
 
 
-def _generate_word_cloud_1(q, tweets_dict):
-    Tweet = namedtuple("Tweet", "tweet sentiment")
+def generate_word_cloud_1(q, tweets_dict):
+    Tweet = namedtuple("Tweet", "tweet sentiment user_name")
 
-    tweets = (Tweet(tweet["cleaned_tweet"], tweet['tweet_sentiment']) for tweet in tweets_dict)
+    tweets = (Tweet(tweet["cleaned_tweet"], tweet['tweet_sentiment'], tweet['user_name']) for tweet in tweets_dict)
     comment_words = ' '
 
     pos = 0
     neg = 0
     neu = 0
+    male = 0
+    female = 0
 
     for _tweet in tweets:
         tweet = smart_text(_tweet.tweet).lower()
@@ -77,6 +81,13 @@ def _generate_word_cloud_1(q, tweets_dict):
             neg += 1
         else:
             neu += 1
+
+        gender = GENDER_PREDICTOR.predict(name=_tweet.user_name)
+        print(gender)
+        if gender == 'male':
+            male += 1
+        if gender == 'female':
+            female += 1
 
     comment_words += TweetStats.get_comment_words(q=q)
 
@@ -95,8 +106,12 @@ def _generate_word_cloud_1(q, tweets_dict):
     plot.savefig(temp_file.name)
 
     put_word_cloud(q, file_path=temp_file.name + ".png")
+    print("male {}".format(male))
+    print("female {}".format(female))
+
     TweetStats.objects.create(q=q, count=len(tweets_dict), comment_words=comment_words,
-                              positive=pos, negative=neg, neutral=neg)
+                              positive=pos, negative=neg, neutral=neg,
+                              male=male, female=female)
 
     return temp_file.name + ".png"
 
