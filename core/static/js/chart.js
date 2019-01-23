@@ -31,3 +31,27 @@ function generateDoughnutChart(elementId, data) {
     }
   });
 }
+
+function generatePolarChart(elementId, data) {
+  var ctx = document.getElementById(elementId);
+  var myChart = new Chart(ctx, {
+    type: 'polarArea',
+    data: {
+      labels: ["Female", "Male"],
+      datasets: [{
+        label: '# tweet counts by gender',
+        data: data,
+        backgroundColor: [
+          'rgba(255, 192, 203, 0.2)',
+          'rgba(0, 0, 255, 0.2)'
+        ],
+        borderColor: [
+          'rgba(255, 192, 203, 1)',
+          'rgba(0, 0, 255, 1)',
+        ],
+        borderWidth: 1
+      }]
+    },
+
+  });
+}

@@ -1,7 +1,6 @@
 from collections import OrderedDict
 
 import tweepy
-from guess_indian_gender import IndianGenderPredictor
 
 from core.constants import (
     TW_ACCESS_TOKEN,
@@ -11,7 +10,6 @@ from core.constants import (
 )
 from core.twitter.utils import clean_tweet, get_tweet_sentiment, generate_word_cloud_1
 
-predictor = IndianGenderPredictor()
 
 class TwitterApi(object):
 

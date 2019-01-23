@@ -6,7 +6,7 @@ from collections import namedtuple
 import matplotlib.pyplot as plot
 import textblob
 from django.utils.encoding import smart_text
-from gender_guess_indian import IndianGenderPredictor
+from guess_indian_gender import IndianGenderPredictor
 from wordcloud import WordCloud, STOPWORDS
 
 from core.models import TweetStats, Wordcloud
@@ -83,7 +83,6 @@ def generate_word_cloud_1(q, tweets_dict):
             neu += 1
 
         gender = GENDER_PREDICTOR.predict(name=_tweet.user_name)
-        print(gender)
         if gender == 'male':
             male += 1
         if gender == 'female':
@@ -106,8 +105,6 @@ def generate_word_cloud_1(q, tweets_dict):
     plot.savefig(temp_file.name)
 
     put_word_cloud(q, file_path=temp_file.name + ".png")
-    print("male {}".format(male))
-    print("female {}".format(female))
 
     TweetStats.objects.create(q=q, count=len(tweets_dict), comment_words=comment_words,
                               positive=pos, negative=neg, neutral=neg,
@@ -136,7 +133,11 @@ def generate_view_dict() -> dict:
         "upa_tags": set(),
         "nda_tags": set(),
         "upa_post_count": 0,
-        "nda_post_count": 0
+        "nda_post_count": 0,
+        "upa_male": 0,
+        "upa_female": 0,
+        "nda_male": 0,
+        "nda_female": 0
     }
 
     upa_post_count = 0
@@ -150,10 +151,12 @@ def generate_view_dict() -> dict:
             nda_tags = data["nda_tags"]
             nda_tags.add(tag)
 
-            data["nda_positive"] = tweet.positive
-            data["nda_negative"] = tweet.negative
-            data["nda_neutral"] = tweet.neutral
+            data["nda_positive"] += tweet.positive
+            data["nda_negative"] += tweet.negative
+            data["nda_neutral"] += tweet.neutral
             data["nda_tags"] = nda_tags
+            data["nda_male"] += tweet.male
+            data["nda_female"] += tweet.female
             nda_post_count += tweet.count
             continue
 
@@ -161,10 +164,12 @@ def generate_view_dict() -> dict:
             upa_tags = data["upa_tags"]
             upa_tags.add(tag)
 
-            data["upa_positive"] = tweet.positive
-            data["upa_negative"] = tweet.negative
-            data["upa_neutral"] = tweet.neutral
+            data["upa_positive"] += tweet.positive
+            data["upa_negative"] += tweet.negative
+            data["upa_neutral"] += tweet.neutral
             data["upa_tags"] = upa_tags
+            data["upa_male"] += tweet.male
+            data["upa_female"] += tweet.female
             upa_post_count += tweet.count
             continue
 

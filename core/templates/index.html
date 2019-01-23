@@ -31,6 +31,15 @@
               {{ upa_negative }}, 
               {{ upa_neutral }}]
               );
+
+            </script>
+          </center>
+          <center>
+            <canvas id="upa-gender-chart"></canvas>
+            <script>
+              generatePolarChart("upa-gender-chart", [{{ upa_female }},
+              {{ upa_male }}]
+              );
             </script>
           </center>
         </div>
@@ -51,6 +60,14 @@
               generateDoughnutChart("nda-chart", [{{ nda_positive }}, 
               {{ nda_negative }}, 
               {{ nda_neutral }}]
+              );
+            </script>
+          </center>
+          <center>
+            <canvas id="nda-gender-chart"></canvas>
+            <script>
+              generatePolarChart("nda-gender-chart", [{{ nda_female }},
+              {{ nda_male }}]
               );
             </script>
           </center>
