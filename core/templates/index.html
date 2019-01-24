@@ -24,7 +24,10 @@
             <li>{{ upa_negative }}  Negative</li>
             <li>{{ upa_neutral }} Neutral</li>
           </ul>
+          </div>
+          <div class="card">
           <center>
+            <h2>Tweet sentiments</h2>
             <canvas id="upa-chart"></canvas>
             <script>
               generateDoughnutChart("upa-chart", [{{ upa_positive }}, 
@@ -34,7 +37,10 @@
 
             </script>
           </center>
+          </div>
+          <div class="card">
           <center>
+            <h2>Tweet counts by gender</h2>
             <canvas id="upa-gender-chart"></canvas>
             <script>
               generatePolarChart("upa-gender-chart", [{{ upa_female }},
@@ -54,7 +60,10 @@
             <li>{{ nda_negative }}  Negative</li>
             <li>{{ nda_neutral }} Neutral</li>
           </ul>
+        </div>
+        <div class="card">
           <center>
+            <h2>Tweet sentiments</h2>
             <canvas id="nda-chart"></canvas>
             <script>
               generateDoughnutChart("nda-chart", [{{ nda_positive }}, 
@@ -63,7 +72,10 @@
               );
             </script>
           </center>
+        </div>
+        <div class="card">
           <center>
+            <h2>Tweet counts by gender</h2>
             <canvas id="nda-gender-chart"></canvas>
             <script>
               generatePolarChart("nda-gender-chart", [{{ nda_female }},
