@@ -115,12 +115,13 @@ def generate_word_cloud_1(q, tweets_dict):
 
 def generate_view_dict() -> dict:
     candidate_n_party_dict = dict()
-    candidate_n_party_dict['modi'] = "upa"
-    candidate_n_party_dict["bjp"] = "upa"
-    candidate_n_party_dict["#Modi2019Interview"] = "upa"
-    candidate_n_party_dict["congress"] = "nda"
-    candidate_n_party_dict["rahulgandhi"] = "nda"
-    candidate_n_party_dict["soniagandhi"] = "nda"
+    candidate_n_party_dict['modi'] = "nda"
+    candidate_n_party_dict["bjp"] = "nda"
+    candidate_n_party_dict["#Modi2019Interview"] = "nda"
+    candidate_n_party_dict["congress"] = "upa"
+    candidate_n_party_dict["rahulgandhi"] = "upa"
+    candidate_n_party_dict["soniagandhi"] = "upa"
+    candidate_n_party_dict["Priyanka"] = "upa"
 
     tweets = TweetStats.objects.all()
     data = {

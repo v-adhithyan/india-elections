@@ -21,6 +21,14 @@ class TweetStats(models.Model):
 
         return words.strip()
 
+    def __str__(self):
+        q_and_count = "q -> {}\n count {}\n".format(self.q, self.count)
+        sentiment = "positive:negative:neutral::{},{},{}\n".format(self.positive,
+                                                                   self.negative,
+                                                                   self.neutral)
+        gender = "male:female::{},{}".format(self.male, self.female)
+        return q_and_count + sentiment + gender
+
 
 class Wordcloud(models.Model):
     q = models.CharField(max_length=100)

@@ -43,7 +43,7 @@
             <h2>Tweet counts by gender</h2>
             <canvas id="upa-gender-chart"></canvas>
             <script>
-              generatePolarChart("upa-gender-chart", [{{ upa_female }},
+              generateBarChart("upa-gender-chart", [{{ upa_female }},
               {{ upa_male }}]
               );
             </script>
@@ -78,7 +78,7 @@
             <h2>Tweet counts by gender</h2>
             <canvas id="nda-gender-chart"></canvas>
             <script>
-              generatePolarChart("nda-gender-chart", [{{ nda_female }},
+              generateBarChart("nda-gender-chart", [{{ nda_female }},
               {{ nda_male }}]
               );
             </script>
@@ -93,7 +93,7 @@
   <div class="row">
     <div class="col-sm-6">
       <div class="card">
-        <h2>{{ nda_tags }}</h2>
+        <h2>{{ upa_tags }}</h2>
         <h3>
           <p class="upa-color" style="text-align:center">{{ upa_post_count }} posts</p>
         </h3>
@@ -101,7 +101,7 @@
     </div>
     <div class="col-sm-6">
       <div class="card">
-        <h2>{{ upa_tags }}</h2>
+        <h2>{{ nda_tags }}</h2>
         <h3>
           <p class="nda-color" style="text-align:center">{{ nda_post_count }} posts</p>
         </h3>

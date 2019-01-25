@@ -32,10 +32,10 @@ function generateDoughnutChart(elementId, data) {
   });
 }
 
-function generatePolarChart(elementId, data) {
+function generateBarChart(elementId, data) {
   var ctx = document.getElementById(elementId);
   var myChart = new Chart(ctx, {
-    type: 'polarArea',
+    type: 'bar',
     data: {
       labels: ["Female", "Male"],
       datasets: [{
