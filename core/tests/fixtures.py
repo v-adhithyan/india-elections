@@ -1,9 +1,8 @@
 import json
 import pathlib
-
-import pytest
 from collections import namedtuple
 
+import pytest
 
 Tweet = namedtuple('Tweet', 'q text user')
 User = namedtuple('User', 'screen_name')
