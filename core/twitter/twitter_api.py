@@ -8,7 +8,7 @@ from core.constants import (
     TW_CONSUMER_KEY,
     TW_CONSUMER_SECRET,
 )
-from core.twitter.utils import clean_tweet, get_tweet_sentiment, _generate_word_cloud_1
+from core.twitter.utils import clean_tweet, get_tweet_sentiment, generate_word_cloud_1
 
 
 class TwitterApi(object):
@@ -18,8 +18,7 @@ class TwitterApi(object):
         auth.set_access_token(TW_ACCESS_TOKEN, TW_ACCESS_TOKEN_SECRET)
         self.api = tweepy.API(auth)
 
-    def get_and_save_tweets(self, query, max_count=200) -> int:
-        fetched_tweets = self.api.search(q=query, count=max_count)
+    def frame_tweets(self, fetched_tweets, query):
         tweets = []
 
         for tweet in fetched_tweets:
@@ -30,10 +29,15 @@ class TwitterApi(object):
             parsed_tweet['tweet'] = tweet.text
             parsed_tweet['cleaned_tweet'] = cleaned_tweet
             parsed_tweet['tweet_sentiment'] = get_tweet_sentiment(cleaned_tweet)
+            parsed_tweet['user_name'] = tweet.user.screen_name
 
             if not hasattr(tweet, 'retweeted_status'):
                 tweets.append(parsed_tweet)
 
-        _generate_word_cloud_1(query, tweets)
+        return tweets
 
+    def get_and_save_tweets(self, query, max_count=200) -> int:
+        fetched_tweets = self.api.search(q=query, count=max_count)
+        tweets = self.frame_tweets(fetched_tweets, query)
+        generate_word_cloud_1(query, tweets)
         return len(tweets)

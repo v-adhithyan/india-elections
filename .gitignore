@@ -77,7 +77,6 @@ celerybeat-schedule
 
 # dotenv
 .env
-
 # virtualenv
 venv/
 ENV/
@@ -97,3 +96,4 @@ chat-service/*
 .idea/*
 nohup.out
 *.sqlite3
+admin/

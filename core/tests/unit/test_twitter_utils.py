@@ -2,9 +2,13 @@ import tempfile
 
 import mock
 import pytest
+from itertools import product
 
 from core.models import Wordcloud
-from core.twitter.utils import get_tweet_sentiment, clean_tweet, get_word_cloud
+from core.twitter.utils import (get_tweet_sentiment,
+                                clean_tweet,
+                                get_word_cloud,
+                                generate_view_dict)
 
 
 def test_get_tweet_sentiment():
@@ -40,3 +44,17 @@ def test_get_wordcloud(tweets):
             assert wordcloud_from_db
             assert wordcloud_from_db.file_path == mocked_filename
             assert wordcloud_from_db.q == q
+
+
+@pytest.mark.django_db
+def test_generate_view_dict():
+    data = generate_view_dict()
+
+    assert isinstance(data, dict)
+
+    data_keys = data.keys()
+    parties = ["upa", "nda"]
+    keys = ["positive", "negative", "neutral", "male", "female", "tags", "post_count"]
+    for p in product(parties, keys):
+        expected_key = "_".join(p)
+        assert expected_key in data_keys

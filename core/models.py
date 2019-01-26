@@ -9,6 +9,8 @@ class TweetStats(models.Model):
     positive = models.PositiveIntegerField(default=0)
     negative = models.PositiveIntegerField(default=0)
     neutral = models.PositiveIntegerField(default=0)
+    male = models.PositiveIntegerField(default=0)
+    female = models.PositiveIntegerField(default=0)
 
     @classmethod
     def get_comment_words(cls, q) -> str:
@@ -18,6 +20,14 @@ class TweetStats(models.Model):
             words += tweet_stat.comment_words + " "
 
         return words.strip()
+
+    def __str__(self):
+        q_and_count = "q -> {}\n count {}\n".format(self.q, self.count)
+        sentiment = "positive:negative:neutral::{},{},{}\n".format(self.positive,
+                                                                   self.negative,
+                                                                   self.neutral)
+        gender = "male:female::{},{}".format(self.male, self.female)
+        return q_and_count + sentiment + gender
 
 
 class Wordcloud(models.Model):
