@@ -18,8 +18,7 @@ class TwitterApi(object):
         auth.set_access_token(TW_ACCESS_TOKEN, TW_ACCESS_TOKEN_SECRET)
         self.api = tweepy.API(auth)
 
-    def get_and_save_tweets(self, query, max_count=200) -> int:
-        fetched_tweets = self.api.search(q=query, count=max_count)
+    def frame_tweets(self, fetched_tweets, query):
         tweets = []
 
         for tweet in fetched_tweets:
@@ -35,6 +34,10 @@ class TwitterApi(object):
             if not hasattr(tweet, 'retweeted_status'):
                 tweets.append(parsed_tweet)
 
-        generate_word_cloud_1(query, tweets)
+        return tweets
 
+    def get_and_save_tweets(self, query, max_count=200) -> int:
+        fetched_tweets = self.api.search(q=query, count=max_count)
+        tweets = self.frame_tweets(fetched_tweets, query)
+        generate_word_cloud_1(query, tweets)
         return len(tweets)
