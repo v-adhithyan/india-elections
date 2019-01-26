@@ -56,6 +56,10 @@ def put_word_cloud(q, file_path):
         Wordcloud.objects.create(q=q, file_path=file_path)
 
 
+def _generate_word_cloud_1(q, tweets_dict):
+    return generate_word_cloud_1(q, tweets_dict)
+
+
 def generate_word_cloud_1(q, tweets_dict):
     Tweet = namedtuple("Tweet", "tweet sentiment user_name")
 
