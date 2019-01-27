@@ -1,4 +1,3 @@
-import os
 import re
 import tempfile
 from collections import namedtuple
@@ -12,6 +11,8 @@ from wordcloud import WordCloud, STOPWORDS
 from core.models import TweetStats, Wordcloud
 
 _STOPWORDS = set(STOPWORDS)
+# loading gender predictor as global constant, so that training happens
+# only once.
 GENDER_PREDICTOR = IndianGenderPredictor()
 
 
@@ -112,7 +113,7 @@ def generate_word_cloud_1(q, tweets_dict):
     return temp_file.name + ".png"
 
 
-def generate_view_dict() -> dict:
+def get_candidate_and_party_dict() -> dict:
     candidate_n_party_dict = dict()
     candidate_n_party_dict['modi'] = "nda"
     candidate_n_party_dict["bjp"] = "nda"
@@ -127,6 +128,13 @@ def generate_view_dict() -> dict:
     candidate_n_party_dict["rahulgandhi"] = "upa"
     candidate_n_party_dict["soniagandhi"] = "upa"
     candidate_n_party_dict["Priyanka"] = "upa"
+    candidate_n_party_dict['priyanka'] = "upa"
+
+    return candidate_n_party_dict
+
+
+def generate_view_dict() -> dict:
+    candidate_n_party_dict = get_candidate_and_party_dict()
 
     tweets = TweetStats.objects.all()
     data = {
@@ -184,3 +192,13 @@ def generate_view_dict() -> dict:
     data["upa_post_count"] = upa_post_count
     data["nda_post_count"] = nda_post_count
     return data
+
+
+def get_timeseries_tweet_data():
+    upa = TweetStats.get_tweet_count_of_party_by_date(party='u')
+    nda = TweetStats.get_tweet_count_of_party_by_date(party='n')
+
+    return {
+        'upa': upa,
+        'nda': nda
+    }

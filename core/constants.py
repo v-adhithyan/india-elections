@@ -10,6 +10,11 @@ SENTIMENTS = (
     ('e', 'neutral'),
 )
 
+PARTIES = (
+    ('u', 'upa'),
+    ('n', 'nda'),
+)
+
 TW_CONSUMER_KEY = os.environ["TW_CONSUMER_KEY"]
 TW_CONSUMER_SECRET = os.environ["TW_CONSUMER_SECRET"]
 TW_ACCESS_TOKEN = os.environ["TW_ACCESS_TOKEN"]
