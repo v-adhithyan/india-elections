@@ -13,12 +13,14 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 
 import sentry_sdk
+from dotenv import load_dotenv
 from sentry_sdk.integrations.django import DjangoIntegration
 
-from indiaelections.constants import SENTRY_TOKEN
+
+load_dotenv(verbose=True)
 
 sentry_sdk.init(
-    dsn="https://{}@sentry.io/1362707".format(SENTRY_TOKEN),
+    dsn="https://{}@sentry.io/1362707".format(os.environ["SENTRY_TOKEN"]),
     integrations=[DjangoIntegration()]
 )
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)

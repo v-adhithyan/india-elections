@@ -1,5 +1,9 @@
 import os
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 SENTIMENTS = (
     ('p', 'positive'),
     ('n', 'negative'),

@@ -33,18 +33,13 @@ def get_tweet_sentiment(tweet) -> str:
 
 def get_word_cloud(q):
     try:
+        # While fetching tweets itself we generate word cloud
+        # so if a cloud doesnot exists, we havent fetched tweets for that q
+        # so raise error
         wordcloud = Wordcloud.objects.get(q=q)
-        if not os.path.exists(wordcloud.file_path):
-            file_path = _generate_word_cloud_1(q=q)
-            wordcloud.file_path = file_path
-            wordcloud.save()
-            return file_path
-
         return wordcloud.file_path
     except Wordcloud.DoesNotExist:
-        file_path = _generate_word_cloud_1(q=q)
-        Wordcloud.objects.create(q=q, file_path=file_path)
-        return file_path
+        raise
 
 
 def put_word_cloud(q, file_path):
@@ -122,6 +117,12 @@ def generate_view_dict() -> dict:
     candidate_n_party_dict['modi'] = "nda"
     candidate_n_party_dict["bjp"] = "nda"
     candidate_n_party_dict["#Modi2019Interview"] = "nda"
+    candidate_n_party_dict["#GoBackSadistModi"] = "nda"
+    candidate_n_party_dict["#GoBackModi"] = "nda"
+    candidate_n_party_dict["#TNWelcomesModi"] = "nda"
+    candidate_n_party_dict["#MaduraiWelcomesModi"] = "nda"
+    candidate_n_party_dict["#TNThanksModi"] = "nda"
+
     candidate_n_party_dict["congress"] = "upa"
     candidate_n_party_dict["rahulgandhi"] = "upa"
     candidate_n_party_dict["soniagandhi"] = "upa"

@@ -4,7 +4,7 @@ from django.views.generic import TemplateView
 
 # Create your views here.
 from core.twitter import utils
-
+from core.models import Wordcloud
 
 def hello_world(request):
     return HttpResponse("India 2k19 - Visualizations")
@@ -27,5 +27,7 @@ def get_word_cloud(request):
                 return HttpResponse(f.read(), content_type='image/png')
         except ValueError:
             return HttpResponse("Unknown error occured. Please try later", status=500)
+        except Wordcloud.DoesNotExist:
+            return HttpResponse("Unknown query word.", status=422)
 
     return HttpResponse("A query parameter q is required to generate word cloud")
