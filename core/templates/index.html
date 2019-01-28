@@ -49,6 +49,15 @@
             </script>
           </center>
         </div>
+        <div class="card">
+          <center>
+            <h2>Tweet series data</h2>
+            <canvas id="upa-time-chart"></canvas>
+            <script>
+              generateTimeseriesData("upa-time-chart", {{ upa_time_series }});
+            </script>
+          </center>
+        </div>
       </div>
       <div class="col-sm-6">
         <div class="card">
@@ -89,9 +98,7 @@
             <h2>Tweet series data</h2>
             <canvas id="nda-time-chart"></canvas>
             <script>
-              generateBarChart("nda-gender-chart", [{{ nda_female }},
-              {{ nda_male }}]
-              );
+              generateTimeseriesData("nda-time-chart", {{ nda_time_series }});
             </script>
           </center>
         </div>

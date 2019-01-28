@@ -55,3 +55,23 @@ function generateBarChart(elementId, data) {
 
   });
 }
+
+function generateTimeseriesData(elementId, data, label) {
+    var s1 = {
+                label: 'label',
+                borderColor: 'blue',
+                data: data
+              };
+    var ctx = document.getElementById(elementId);
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: { datasets: [s1] },
+        options: {
+            scales: {
+                xAxes: [{
+                    type: 'time'
+                }]
+            }
+        }
+    })
+}

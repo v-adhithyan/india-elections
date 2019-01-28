@@ -1,3 +1,4 @@
+import json
 import re
 import tempfile
 from collections import namedtuple
@@ -5,6 +6,7 @@ from collections import namedtuple
 import matplotlib.pyplot as plot
 import textblob
 from django.utils.encoding import smart_text
+from django.utils.safestring import mark_safe
 from guess_indian_gender import IndianGenderPredictor
 from wordcloud import WordCloud, STOPWORDS
 
@@ -191,14 +193,26 @@ def generate_view_dict() -> dict:
     data["nda_tags"] = " ".join(list(data["nda_tags"]))
     data["upa_post_count"] = upa_post_count
     data["nda_post_count"] = nda_post_count
+    data.update(get_timeseries_tweet_data())
     return data
 
 
-def get_timeseries_tweet_data():
+def convert_timedata_to_2d(data):
+    data_2d = []
+    for x, y in data.items():
+        data_2d.append({
+            'x': x,
+            'y': y
+        })
+
+    return mark_safe(json.dumps(data_2d))
+
+
+def get_timeseries_tweet_data() -> dict:
     upa = TweetStats.get_tweet_count_of_party_by_date(party='u')
     nda = TweetStats.get_tweet_count_of_party_by_date(party='n')
 
     return {
-        'upa': upa,
-        'nda': nda
+        'upa_time_series': convert_timedata_to_2d(upa),
+        'nda_time_series': convert_timedata_to_2d(nda)
     }

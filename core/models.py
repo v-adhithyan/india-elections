@@ -39,7 +39,7 @@ class TweetStats(models.Model):
 
         party_count = Counter()
         for q in queryset:
-            party_count[q['date']] += q['total_count']
+            party_count[str(q['date'])] += q['total_count']
 
         return party_count
 
