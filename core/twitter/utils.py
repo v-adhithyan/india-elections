@@ -60,8 +60,9 @@ def _generate_word_cloud_1(q, tweets_dict):
 
 def generate_word_cloud_1(q, tweets_dict):
     Tweet = namedtuple("Tweet", "tweet sentiment user_name")
-
-    tweets = (Tweet(tweet["cleaned_tweet"], tweet['tweet_sentiment'], tweet['user_name']) for tweet in tweets_dict)
+    party = tweets_dict[0]['party']
+    tweets = (Tweet(tweet["cleaned_tweet"], tweet['tweet_sentiment'],
+                    tweet['user_name']) for tweet in tweets_dict)
     comment_words = ' '
 
     pos = 0
@@ -110,7 +111,7 @@ def generate_word_cloud_1(q, tweets_dict):
 
     TweetStats.objects.create(q=q, count=len(tweets_dict), comment_words=comment_words,
                               positive=pos, negative=neg, neutral=neg,
-                              male=male, female=female)
+                              male=male, female=female, party=party)
 
     return temp_file.name + ".png"
 
