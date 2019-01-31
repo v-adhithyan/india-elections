@@ -4,6 +4,10 @@ from collections import namedtuple
 
 import pytest
 
+from core.models import TweetStats
+from core.twitter.twitter_api import TwitterApi
+from core.twitter.utils import _generate_word_cloud_1
+
 Tweet = namedtuple('Tweet', 'q text user')
 User = namedtuple('User', 'screen_name')
 
@@ -20,3 +24,14 @@ def tweets():
         tweets.append(Tweet(q=t['q'], text=t['tweet'], user=User(screen_name='test')))
 
     return tweets
+
+
+@pytest.fixture
+@pytest.mark.django_db
+def tweetstats(tweets):
+    q = 'test'
+    api = TwitterApi()
+    framed_tweets = api.frame_tweets(tweets, q)
+    _generate_word_cloud_1(q, framed_tweets)
+
+    return TweetStats.objects.filter(q=q)

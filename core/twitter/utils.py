@@ -1,16 +1,17 @@
 import json
+import random
 import re
 import tempfile
 from collections import namedtuple
 
-import matplotlib.pyplot as plot
 import textblob
 from django.utils.encoding import smart_text
 from django.utils.safestring import mark_safe
 from guess_indian_gender import IndianGenderPredictor
-from wordcloud import WordCloud, STOPWORDS
 
+import matplotlib.pyplot as plot
 from core.models import TweetStats, Wordcloud
+from wordcloud import STOPWORDS, WordCloud
 
 _STOPWORDS = set(STOPWORDS)
 # loading gender predictor as global constant, so that training happens
@@ -19,7 +20,8 @@ GENDER_PREDICTOR = IndianGenderPredictor()
 
 
 def clean_tweet(tweet):
-    tweet = ' '.join(re.sub(r"(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", smart_text(tweet)).split())
+    tweet = ' '.join(
+        re.sub(r"(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", smart_text(tweet)).split())
     tweet = tweet.replace("RT ", "").strip()
     return tweet
 
@@ -132,6 +134,7 @@ def get_candidate_and_party_dict() -> dict:
     candidate_n_party_dict["soniagandhi"] = "upa"
     candidate_n_party_dict["Priyanka"] = "upa"
     candidate_n_party_dict['priyanka'] = "upa"
+    candidate_n_party_dict['test'] = random.choice(['upa', 'nda'])  # for pytest
 
     return candidate_n_party_dict
 
