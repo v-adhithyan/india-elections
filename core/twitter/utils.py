@@ -1,22 +1,27 @@
-import os
+import json
+import random
 import re
 import tempfile
 from collections import namedtuple
 
-import matplotlib.pyplot as plot
 import textblob
 from django.utils.encoding import smart_text
+from django.utils.safestring import mark_safe
 from guess_indian_gender import IndianGenderPredictor
-from wordcloud import WordCloud, STOPWORDS
 
+import matplotlib.pyplot as plot
 from core.models import TweetStats, Wordcloud
+from wordcloud import STOPWORDS, WordCloud
 
 _STOPWORDS = set(STOPWORDS)
+# loading gender predictor as global constant, so that training happens
+# only once.
 GENDER_PREDICTOR = IndianGenderPredictor()
 
 
 def clean_tweet(tweet):
-    tweet = ' '.join(re.sub(r"(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", smart_text(tweet)).split())
+    tweet = ' '.join(
+        re.sub(r"(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", smart_text(tweet)).split())
     tweet = tweet.replace("RT ", "").strip()
     return tweet
 
@@ -33,18 +38,13 @@ def get_tweet_sentiment(tweet) -> str:
 
 def get_word_cloud(q):
     try:
+        # While fetching tweets itself we generate word cloud
+        # so if a cloud doesnot exists, we havent fetched tweets for that q
+        # so raise error
         wordcloud = Wordcloud.objects.get(q=q)
-        if not os.path.exists(wordcloud.file_path):
-            file_path = _generate_word_cloud_1(q=q)
-            wordcloud.file_path = file_path
-            wordcloud.save()
-            return file_path
-
         return wordcloud.file_path
     except Wordcloud.DoesNotExist:
-        file_path = _generate_word_cloud_1(q=q)
-        Wordcloud.objects.create(q=q, file_path=file_path)
-        return file_path
+        raise
 
 
 def put_word_cloud(q, file_path):
@@ -62,8 +62,9 @@ def _generate_word_cloud_1(q, tweets_dict):
 
 def generate_word_cloud_1(q, tweets_dict):
     Tweet = namedtuple("Tweet", "tweet sentiment user_name")
-
-    tweets = (Tweet(tweet["cleaned_tweet"], tweet['tweet_sentiment'], tweet['user_name']) for tweet in tweets_dict)
+    party = tweets_dict[0]['party']
+    tweets = (Tweet(tweet["cleaned_tweet"], tweet['tweet_sentiment'],
+                    tweet['user_name']) for tweet in tweets_dict)
     comment_words = ' '
 
     pos = 0
@@ -112,20 +113,34 @@ def generate_word_cloud_1(q, tweets_dict):
 
     TweetStats.objects.create(q=q, count=len(tweets_dict), comment_words=comment_words,
                               positive=pos, negative=neg, neutral=neg,
-                              male=male, female=female)
+                              male=male, female=female, party=party)
 
     return temp_file.name + ".png"
 
 
-def generate_view_dict() -> dict:
+def get_candidate_and_party_dict() -> dict:
     candidate_n_party_dict = dict()
     candidate_n_party_dict['modi'] = "nda"
     candidate_n_party_dict["bjp"] = "nda"
     candidate_n_party_dict["#Modi2019Interview"] = "nda"
+    candidate_n_party_dict["#GoBackSadistModi"] = "nda"
+    candidate_n_party_dict["#GoBackModi"] = "nda"
+    candidate_n_party_dict["#TNWelcomesModi"] = "nda"
+    candidate_n_party_dict["#MaduraiWelcomesModi"] = "nda"
+    candidate_n_party_dict["#TNThanksModi"] = "nda"
+
     candidate_n_party_dict["congress"] = "upa"
     candidate_n_party_dict["rahulgandhi"] = "upa"
     candidate_n_party_dict["soniagandhi"] = "upa"
     candidate_n_party_dict["Priyanka"] = "upa"
+    candidate_n_party_dict['priyanka'] = "upa"
+    candidate_n_party_dict['test'] = random.choice(['upa', 'nda'])  # for pytest
+
+    return candidate_n_party_dict
+
+
+def generate_view_dict() -> dict:
+    candidate_n_party_dict = get_candidate_and_party_dict()
 
     tweets = TweetStats.objects.all()
     data = {
@@ -182,4 +197,26 @@ def generate_view_dict() -> dict:
     data["nda_tags"] = " ".join(list(data["nda_tags"]))
     data["upa_post_count"] = upa_post_count
     data["nda_post_count"] = nda_post_count
+    data.update(get_timeseries_tweet_data())
     return data
+
+
+def convert_timedata_to_2d(data):
+    data_2d = []
+    for x, y in data.items():
+        data_2d.append({
+            'x': x,
+            'y': y
+        })
+
+    return mark_safe(json.dumps(data_2d))
+
+
+def get_timeseries_tweet_data() -> dict:
+    upa = TweetStats.get_tweet_count_of_party_by_date(party='u')
+    nda = TweetStats.get_tweet_count_of_party_by_date(party='n')
+
+    return {
+        'upa_time_series': convert_timedata_to_2d(upa),
+        'nda_time_series': convert_timedata_to_2d(nda)
+    }

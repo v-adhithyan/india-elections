@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+
 <body>
   <nav class="navbar navbar-default primary-color">
     <div class="container-fluid">
@@ -20,32 +21,33 @@
             <h1 class="upa-color">UPA</h1>
           </center>
           <ul>
-            <li>{{ upa_positive }}  Positive</li>
-            <li>{{ upa_negative }}  Negative</li>
+            <li>{{ upa_positive }} Positive</li>
+            <li>{{ upa_negative }} Negative</li>
             <li>{{ upa_neutral }} Neutral</li>
           </ul>
-          </div>
-          <div class="card">
+        </div>
+        <div class="card">
           <center>
             <h2>Tweet sentiments</h2>
             <canvas id="upa-chart"></canvas>
             <script>
-              generateDoughnutChart("upa-chart", [{{ upa_positive }}, 
-              {{ upa_negative }}, 
-              {{ upa_neutral }}]
-              );
-
+              generateDoughnutChart("upa-chart", [
+              {{ upa_positive }},
+              {{ upa_negative }},
+              {{ upa_neutral }}
+              ]);
             </script>
           </center>
-          </div>
-          <div class="card">
+        </div>
+        <div class="card">
           <center>
             <h2>Tweet counts by gender</h2>
             <canvas id="upa-gender-chart"></canvas>
             <script>
-              generateBarChart("upa-gender-chart", [{{ upa_female }},
-              {{ upa_male }}]
-              );
+              generateBarChart("upa-gender-chart", [
+              {{ upa_female }},
+              {{ upa_male }}
+              ]);
             </script>
           </center>
         </div>
@@ -56,8 +58,8 @@
             <h1 class="nda-color">NDA</h1>
           </center>
           <ul>
-            <li>{{ nda_positive }}  Positive</li>
-            <li>{{ nda_negative }}  Negative</li>
+            <li>{{ nda_positive }} Positive</li>
+            <li>{{ nda_negative }} Negative</li>
             <li>{{ nda_neutral }} Neutral</li>
           </ul>
         </div>
@@ -66,10 +68,11 @@
             <h2>Tweet sentiments</h2>
             <canvas id="nda-chart"></canvas>
             <script>
-              generateDoughnutChart("nda-chart", [{{ nda_positive }}, 
-              {{ nda_negative }}, 
-              {{ nda_neutral }}]
-              );
+              generateDoughnutChart("nda-chart", [
+              {{ nda_positive }},
+              {{ nda_negative }},
+              {{ nda_neutral }}
+              ]);
             </script>
           </center>
         </div>
@@ -78,9 +81,10 @@
             <h2>Tweet counts by gender</h2>
             <canvas id="nda-gender-chart"></canvas>
             <script>
-              generateBarChart("nda-gender-chart", [{{ nda_female }},
-              {{ nda_male }}]
-              );
+              generateBarChart("nda-gender-chart", [
+              {{ nda_female }},
+              {{ nda_male }}
+              ]);
             </script>
           </center>
         </div>
@@ -90,6 +94,16 @@
   <center>
     <h2>tweet counts by hashtag</h2>
   </center>
+  <div class="row">
+    <div class="card">
+      <h2>Tweet count comparison</h2>
+      <canvas id="tweet-count-comparison-chart"></canvas>
+      <script>
+        plotTimeseriesData("tweet-count-comparison-chart", {{ upa_time_series }},
+        {{ nda_time_series }}, "upa", "nda")
+      </script>
+    </div>
+  </div>
   <div class="row">
     <div class="col-sm-6">
       <div class="card">

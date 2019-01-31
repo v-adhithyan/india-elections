@@ -1,1 +1,1 @@
-from core.tests.fixtures import tweets
+from core.tests.fixtures import *

@@ -1,14 +1,11 @@
 from collections import OrderedDict
 
 import tweepy
-
-from core.constants import (
-    TW_ACCESS_TOKEN,
-    TW_ACCESS_TOKEN_SECRET,
-    TW_CONSUMER_KEY,
-    TW_CONSUMER_SECRET,
-)
-from core.twitter.utils import clean_tweet, get_tweet_sentiment, generate_word_cloud_1
+from core.constants import (TW_ACCESS_TOKEN, TW_ACCESS_TOKEN_SECRET,
+                            TW_CONSUMER_KEY, TW_CONSUMER_SECRET)
+from core.twitter.utils import (clean_tweet, generate_word_cloud_1,
+                                get_candidate_and_party_dict,
+                                get_tweet_sentiment)
 
 
 class TwitterApi(object):
@@ -20,6 +17,7 @@ class TwitterApi(object):
 
     def frame_tweets(self, fetched_tweets, query):
         tweets = []
+        candidate_party_dict = get_candidate_and_party_dict()
 
         for tweet in fetched_tweets:
             parsed_tweet = OrderedDict()
@@ -30,6 +28,10 @@ class TwitterApi(object):
             parsed_tweet['cleaned_tweet'] = cleaned_tweet
             parsed_tweet['tweet_sentiment'] = get_tweet_sentiment(cleaned_tweet)
             parsed_tweet['user_name'] = tweet.user.screen_name
+            try:
+                parsed_tweet['party'] = candidate_party_dict[query][0]
+            except KeyError:
+                raise
 
             if not hasattr(tweet, 'retweeted_status'):
                 tweets.append(parsed_tweet)

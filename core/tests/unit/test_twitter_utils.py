@@ -1,14 +1,15 @@
+import json
 import tempfile
+from itertools import product
 
 import mock
 import pytest
-from itertools import product
+from dateutil.parser import parse as dateparser
 
-from core.models import Wordcloud
-from core.twitter.utils import (get_tweet_sentiment,
-                                clean_tweet,
-                                get_word_cloud,
-                                generate_view_dict)
+from core.models import TweetStats
+from core.twitter.utils import (clean_tweet, convert_timedata_to_2d,
+                                generate_view_dict, get_timeseries_tweet_data,
+                                get_tweet_sentiment)
 
 
 def test_get_tweet_sentiment():
@@ -36,14 +37,11 @@ def test_get_wordcloud(tweets):
         with tempfile.NamedTemporaryFile() as f:
             mocked_filename = f.name + ".png"
             generate_word_cloud.return_value = mocked_filename
-            wordcloud = get_word_cloud(q=q)
+            with mock.patch('core.twitter.utils.get_word_cloud') as get_word_cloud:
+                get_word_cloud.return_value = mocked_filename
+                wordcloud = get_word_cloud(q=q)
 
             assert wordcloud == mocked_filename
-
-            wordcloud_from_db = Wordcloud.objects.get(q=q)
-            assert wordcloud_from_db
-            assert wordcloud_from_db.file_path == mocked_filename
-            assert wordcloud_from_db.q == q
 
 
 @pytest.mark.django_db
@@ -58,3 +56,34 @@ def test_generate_view_dict():
     for p in product(parties, keys):
         expected_key = "_".join(p)
         assert expected_key in data_keys
+
+
+@pytest.mark.django_db
+@pytest.mark.usefixtures("tweetstats")
+def test_get_timeseries_data(tweetstats):
+    timeseries_data = get_timeseries_tweet_data()
+    keys = timeseries_data.keys()
+    assert "upa_time_series" in keys
+    assert "nda_time_series" in keys
+
+
+@pytest.mark.django_db
+@pytest.mark.usefixtures("tweetstats")
+def test_convert_timedata_to_2d(tweetstats):
+    data = TweetStats.get_tweet_count_of_party_by_date(party='u')
+    if not data:
+        data = TweetStats.get_tweet_count_of_party_by_date(party='n')
+
+    twod_data = json.loads(convert_timedata_to_2d(data))
+    assert isinstance(twod_data, list)
+    assert sorted(['x', 'y']) == sorted(twod_data[0].keys())
+
+    data = twod_data[0]
+    date = data['x']
+    count = data['y']
+    try:
+        dateparser(date)
+        assert True
+    except ValueError:
+        raise
+    assert isinstance(count, int)

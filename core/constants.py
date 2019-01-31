@@ -1,9 +1,18 @@
 import os
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 SENTIMENTS = (
     ('p', 'positive'),
     ('n', 'negative'),
     ('e', 'neutral'),
+)
+
+PARTIES = (
+    ('u', 'upa'),
+    ('n', 'nda'),
 )
 
 TW_CONSUMER_KEY = os.environ["TW_CONSUMER_KEY"]

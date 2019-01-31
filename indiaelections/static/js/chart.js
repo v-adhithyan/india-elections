@@ -55,3 +55,52 @@ function generateBarChart(elementId, data) {
 
   });
 }
+
+function generateTimeseriesData(elementId, data, label) {
+  var s1 = {
+    label: 'label',
+    borderColor: 'blue',
+    data: data
+  };
+  var ctx = document.getElementById(elementId);
+  var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      datasets: [s1]
+    },
+    options: {
+      scales: {
+        xAxes: [{
+          type: 'time'
+        }]
+      }
+    }
+  })
+}
+
+function plotTimeseriesData(elementId, data1, data2, label1, label2) {
+  var s1 = {
+    label: label1,
+    borderColor: 'blue',
+    data: data1
+  };
+  var s2 = {
+    label: label2,
+    borderColor: 'red',
+    data: data2
+  };
+  var ctx = document.getElementById(elementId);
+  var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      datasets: [s1, s2]
+    },
+    options: {
+      scales: {
+        xAxes: [{
+          type: 'time'
+        }]
+      }
+    }
+  })
+}
