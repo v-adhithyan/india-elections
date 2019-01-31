@@ -27,4 +27,5 @@ urlpatterns = [
     url(r'^poc/', cache_page(600)(views.poc.as_view()), name='poc'),
     url(r'^index/', cache_page(600)(views.index), name='index'),
     url(r'^wordcloud/', views.get_word_cloud, name="get-word-cloud"),
+    url(r'^job/', views.job, name="periodic-job"),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

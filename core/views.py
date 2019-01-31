@@ -4,6 +4,7 @@ from django.views.generic import TemplateView
 
 # Create your views here.
 from core.twitter import utils
+from core.twitter.twitter_api import TwitterApi
 from core.models import Wordcloud
 
 def hello_world(request):
@@ -31,3 +32,13 @@ def get_word_cloud(request):
             return HttpResponse("Unknown query word.", status=422)
 
     return HttpResponse("A query parameter q is required to generate word cloud")
+
+
+def job(request):
+    try:
+        q = request.GET['q']
+        api = TwitterApi()
+        api.get_and_save_tweets(q)
+        return HttpResponse("success", status=200)
+    except BaseException:
+        return HttpResponse("unable to process request", status=422)
