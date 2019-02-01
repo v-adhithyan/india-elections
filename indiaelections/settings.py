@@ -38,7 +38,7 @@ try:
 except KeyError:
     DEBUG = False
 
-ALLOWED_HOSTS = ["indiaelections.pythonanywhere.com"] if not DEBUG else []
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -129,4 +129,13 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
+STATICFILES_DIRS = (
+    os.path.join(PROJECT_ROOT, "static"),
+)
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+}

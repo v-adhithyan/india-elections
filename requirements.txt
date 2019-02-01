@@ -14,3 +14,4 @@ sentry-sdk==0.6.4
 guess-indian-gender==1.0.1
 python-dotenv==0.10.1
 Faker
+djangorestframework_simplejwt
