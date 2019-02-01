@@ -27,6 +27,8 @@ if response.status_code == 200:
     access_token = response.json()['access']
     print(access_token)
 
+print(response)
+print(response.content)
 
 if access_token:
     headers = {'Authorization': "Bearer {}".format(access_token)}
