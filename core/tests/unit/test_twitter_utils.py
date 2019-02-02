@@ -1,15 +1,16 @@
 import json
 import tempfile
-from itertools import product
+from pathlib import Path
 
 import mock
 import pytest
 from dateutil.parser import parse as dateparser
+from itertools import product
 
-from core.models import TweetStats
+from core.models import TweetStats, Wordcloud
 from core.twitter.utils import (clean_tweet, convert_timedata_to_2d,
                                 generate_view_dict, get_timeseries_tweet_data,
-                                get_tweet_sentiment)
+                                get_tweet_sentiment, put_word_cloud)
 
 
 def test_get_tweet_sentiment():
@@ -87,3 +88,18 @@ def test_convert_timedata_to_2d(tweetstats):
     except ValueError:
         raise
     assert isinstance(count, int)
+
+
+@pytest.mark.django_db()
+def test_old_wordcloud_files_removal():
+    q = "test"
+    file_1 = tempfile.NamedTemporaryFile("w", delete=False)
+    Wordcloud.objects.create(q=q, file_path=file_1.name)
+
+    file_2 = tempfile.NamedTemporaryFile("w", delete=False)
+    put_word_cloud(q=q, file_path=file_2.name)
+
+    assert not Path(file_1.name).exists()
+
+    # delete new file to save space
+    Path(file_2.name).unlink()
