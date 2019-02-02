@@ -3,15 +3,16 @@ import random
 import re
 import tempfile
 from collections import namedtuple
+from pathlib import Path
 
+import matplotlib.pyplot as plot
 import textblob
 from django.utils.encoding import smart_text
 from django.utils.safestring import mark_safe
 from guess_indian_gender import IndianGenderPredictor
-
-import matplotlib.pyplot as plot
-from core.models import TweetStats, Wordcloud
 from wordcloud import STOPWORDS, WordCloud
+
+from core.models import TweetStats, Wordcloud
 
 _STOPWORDS = set(STOPWORDS)
 # loading gender predictor as global constant, so that training happens
@@ -50,6 +51,11 @@ def get_word_cloud(q):
 def put_word_cloud(q, file_path):
     try:
         wc = Wordcloud.objects.get(q=q)
+
+        # delete old file to save memory in prodution :)
+        old_file = Path(wc.file_path)
+        old_file.unlink()
+
         wc.file_path = file_path
         wc.save()
     except Wordcloud.DoesNotExist:
@@ -110,6 +116,9 @@ def generate_word_cloud_1(q, tweets_dict):
     plot.savefig(temp_file.name)
 
     put_word_cloud(q, file_path=temp_file.name + ".png")
+
+    plot.cla()
+    plot.close('all')
 
     TweetStats.objects.create(q=q, count=len(tweets_dict), comment_words=comment_words,
                               positive=pos, negative=neg, neutral=neg,
