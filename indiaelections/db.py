@@ -18,7 +18,7 @@ MYSQL_DATABASE = {
         'NAME': os.environ["DB_NAME"],
         'USER': os.environ["DB_USERNAME"],
         'PASSWORD': os.environ["DB_PASSWORD"],
-        'HOST': '',
+        'HOST': os.environ['DB_HOST'],
         'PORT': '',
     }
 }
