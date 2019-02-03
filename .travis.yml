@@ -14,6 +14,10 @@ script:
   - export TW_ACCESS_TOKEN='test'
   - export TW_ACCESS_TOKEN_SECRET='test'
   - export SENTRY_TOKEN='test'
+  - export DB_NAME=''
+  - export DB_USERNAME=''
+  - export DB_PASSWORD=''
+  - export DB_HOST=''
   - pytest
   - flake8 .
   - pytest --cov=core

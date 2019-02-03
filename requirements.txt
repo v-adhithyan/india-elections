@@ -16,3 +16,4 @@ python-dotenv==0.10.1
 Faker
 djangorestframework_simplejwt
 django-request-logging
+mysqlclient
