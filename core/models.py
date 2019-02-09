@@ -62,3 +62,15 @@ class Wordcloud(models.Model):
 
     def __unicode__(self):
         return "{} wordcloud path :: {}".format(self.q, self.file_path)
+
+
+class Alliance(models.Model):
+    q = models.CharField(max_length=100)
+    party = models.CharField(max_length=1, default='', choices=PARTIES)
+
+    @classmethod
+    def add(cls, q, party):
+        try:
+            cls.objects.get(q=q)
+        except cls.DoesNotExist:
+            cls.objects.create(q=q, party=party)
