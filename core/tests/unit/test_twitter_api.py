@@ -4,6 +4,7 @@ import pytest
 from core.twitter.twitter_api import TwitterApi
 
 
+@pytest.mark.django_db
 @pytest.mark.usefixtures('tweets')
 def test_get_and_save_tweets(tweets):
     with mock.patch(
@@ -14,6 +15,7 @@ def test_get_and_save_tweets(tweets):
         assert api.get_and_save_tweets(query="indiaelections") == len(tweets)
 
 
+@pytest.mark.django_db
 @pytest.mark.usefixtures('tweets')
 def test_frame_tweets(tweets):
     api = TwitterApi()

@@ -12,13 +12,13 @@ from django.utils.safestring import mark_safe
 from guess_indian_gender import IndianGenderPredictor
 from wordcloud import STOPWORDS, WordCloud
 
-from core.models import TweetStats, Wordcloud
+from core.models import TweetStats, Wordcloud, Alliance
 
 _STOPWORDS = set(STOPWORDS)
 # loading gender predictor as global constant, so that training happens
 # only once.
 GENDER_PREDICTOR = IndianGenderPredictor()
-
+CANDIDATE_PARTY_DICT = {}
 
 def clean_tweet(tweet):
     tweet = ' '.join(
@@ -126,8 +126,16 @@ def generate_word_cloud_1(q, tweets_dict):
 
     return temp_file.name + ".png"
 
+def _frame_candidate_party_dict():
+    global CANDIDATE_PARTY_DICT
+    CANDIDATE_PARTY_DICT = {}
+    alliances = Alliance.objects.all()
+    for a in alliances:
+        CANDIDATE_PARTY_DICT[a.q] = a.get_party_display()
+    CANDIDATE_PARTY_DICT["test"] = random.choice(['upa', 'nda'])
 
 def get_candidate_and_party_dict() -> dict:
+    """
     candidate_n_party_dict = dict()
     candidate_n_party_dict['modi'] = "nda"
     candidate_n_party_dict["bjp"] = "nda"
@@ -144,8 +152,14 @@ def get_candidate_and_party_dict() -> dict:
     candidate_n_party_dict["Priyanka"] = "upa"
     candidate_n_party_dict['priyanka'] = "upa"
     candidate_n_party_dict['test'] = random.choice(['upa', 'nda'])  # for pytest
+    """
 
-    return candidate_n_party_dict
+    if not CANDIDATE_PARTY_DICT:
+        _frame_candidate_party_dict()
+    if len(CANDIDATE_PARTY_DICT) != Alliance.objects.count():
+        _frame_candidate_party_dict()
+
+    return CANDIDATE_PARTY_DICT
 
 
 def generate_view_dict() -> dict:

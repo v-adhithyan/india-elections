@@ -31,5 +31,6 @@ urlpatterns = [
     url(r'^wordcloud/', views.get_word_cloud, name="get-word-cloud"),
     path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
-    url(r'^job/', views.TweetJob().as_view(), name="tweet-fetcher-job")
+    url(r'^job/', views.TweetJob().as_view(), name="tweet-fetcher-job"),
+    url('alliance/', views.AllianceCrud.as_view(), name='crud-alliance'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
