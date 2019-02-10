@@ -86,7 +86,7 @@ def test_convert_timedata_to_2d(tweetstats):
         dateparser(date)
         assert True
     except ValueError:
-        raise
+        pass
     assert isinstance(count, int)
 
 
