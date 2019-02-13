@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from core.models import Alliance, Wordcloud
+from core.permissions import LocalAccess
 from core.twitter import utils
 from core.twitter.twitter_api import TwitterApi
 
@@ -79,7 +80,7 @@ class AllianceCrud(APIView):
 
 
 class TweetJob(APIView):
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated, LocalAccess)
 
     def get(self, request):
         try:
@@ -88,5 +89,4 @@ class TweetJob(APIView):
             api.get_and_save_tweets(query=q)
             return HttpResponse("success", status=200)
         except KeyError:
-            raise
             return HttpResponse("param q is required", status=422)

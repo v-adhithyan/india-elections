@@ -13,7 +13,7 @@ def run():
         'rahulgandhi'
     ]
 
-    dev = os.environ.get('IE_DEBUG', False)
+    dev = os.environ.get('IE_DEBUG', True)
     host = "http://localhost:8000" if dev else "https://indiaelections.pythonanywhere.com"
 
     token_url = urljoin(host, 'api/token/')
@@ -52,4 +52,4 @@ if __name__ == "__main__":
     while True:
         run()
         print("sleeping")
-        time.sleep(60*10)
+        #time.sleep(60*30)
