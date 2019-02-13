@@ -120,7 +120,7 @@ def generate_word_cloud_1(q, tweets_dict):
     plot.cla()
     plot.close('all')
 
-    TweetStats.objects.create(q=q, count=len(tweets_dict), comment_words=comment_words,
+    TweetStats.objects.create(q=q, count=len(tweets_dict),
                               positive=pos, negative=neg, neutral=neg,
                               male=male, female=female, party=party)
 
