@@ -99,13 +99,11 @@ def generate_word_cloud_1(q, tweets_dict):
         if gender == 'female':
             female += 1
 
-    comment_words += CommentWords.get_comment_words(q=q)
-
     wordcloud = WordCloud(width=800,
                           height=800,
                           background_color='white',
                           stopwords=_STOPWORDS,
-                          min_font_size=10).generate(comment_words)
+                          min_font_size=10).generate(comment_words + CommentWords.get_comment_words(q=q))
 
     plot.figure(figsize=(8, 8), facecolor=None)
     plot.imshow(wordcloud)
