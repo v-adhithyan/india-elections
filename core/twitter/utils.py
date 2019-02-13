@@ -124,6 +124,8 @@ def generate_word_cloud_1(q, tweets_dict):
                               positive=pos, negative=neg, neutral=neg,
                               male=male, female=female, party=party)
 
+    CommentWords.objects.create(q=q, comment_words=comment_words)
+
     return temp_file.name + ".png"
 
 def _frame_candidate_party_dict():
