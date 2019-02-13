@@ -74,3 +74,8 @@ class Alliance(models.Model):
             cls.objects.get(q=q)
         except cls.DoesNotExist:
             cls.objects.create(q=q, party=party)
+
+
+class CommentWords(models.Model):
+    q = models.CharField(max_length=100)
+    comment_words = models.TextField()
