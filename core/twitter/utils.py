@@ -12,7 +12,7 @@ from django.utils.safestring import mark_safe
 from guess_indian_gender import IndianGenderPredictor
 from wordcloud import STOPWORDS, WordCloud
 
-from core.models import TweetStats, Wordcloud, Alliance
+from core.models import TweetStats, Wordcloud, Alliance, CommentWords
 
 _STOPWORDS = set(STOPWORDS)
 # loading gender predictor as global constant, so that training happens
@@ -99,7 +99,7 @@ def generate_word_cloud_1(q, tweets_dict):
         if gender == 'female':
             female += 1
 
-    comment_words += TweetStats.get_comment_words(q=q)
+    comment_words += CommentWords.get_comment_words(q=q)
 
     wordcloud = WordCloud(width=800,
                           height=800,
