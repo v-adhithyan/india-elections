@@ -178,12 +178,12 @@ def convert_sentiment_to_percentage(data):
         data["upa_positive"], data["upa_negative"], data["upa_neutral"])
     nda_positive, nda_negative, nda_neutral = calculate_percentage(
         data["nda_positive"], data["nda_negative"], data["nda_neutral"])
-    data["upa_positive"] = upa_positive
-    data["upa_negative"] = upa_negative
-    data["upa_neutral"] = upa_neutral
-    data["nda_positive"] = nda_positive
-    data["nda_negative"] = nda_negative
-    data["nda_neutral"] = nda_neutral
+    data["upa_positive"] = round(upa_positive, 2)
+    data["upa_negative"] = round(upa_negative, 2)
+    data["upa_neutral"] = round(upa_neutral, 2)
+    data["nda_positive"] = round(nda_positive, 2)
+    data["nda_negative"] = round(nda_negative, 2)
+    data["nda_neutral"] = round(nda_neutral, 2)
     return data
 
 
