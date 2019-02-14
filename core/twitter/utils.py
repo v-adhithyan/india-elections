@@ -20,6 +20,7 @@ _STOPWORDS = set(STOPWORDS)
 GENDER_PREDICTOR = IndianGenderPredictor()
 CANDIDATE_PARTY_DICT = {}
 
+
 def clean_tweet(tweet):
     tweet = ' '.join(
         re.sub(r"(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", smart_text(tweet)).split())
@@ -126,6 +127,7 @@ def generate_word_cloud_1(q, tweets_dict):
 
     return temp_file.name + ".png"
 
+
 def _frame_candidate_party_dict():
     global CANDIDATE_PARTY_DICT
     CANDIDATE_PARTY_DICT = {}
@@ -133,6 +135,7 @@ def _frame_candidate_party_dict():
     for a in alliances:
         CANDIDATE_PARTY_DICT[a.q] = a.get_party_display()
     CANDIDATE_PARTY_DICT["test"] = random.choice(['upa', 'nda'])
+
 
 def get_candidate_and_party_dict() -> dict:
     """
@@ -160,6 +163,28 @@ def get_candidate_and_party_dict() -> dict:
         _frame_candidate_party_dict()
 
     return CANDIDATE_PARTY_DICT
+
+
+def calculate_percentage(positive, negative, neutral):
+    total = positive + negative + neutral
+    try:
+        return float(positive/total)*100, float(negative/total)*100, float(neutral/total)*100
+    except ZeroDivisionError:
+        return 0, 0, 0
+
+
+def convert_sentiment_to_percentage(data):
+    upa_positive, upa_negative, upa_neutral = calculate_percentage(
+        data["upa_positive"], data["upa_negative"], data["upa_neutral"])
+    nda_positive, nda_negative, nda_neutral = calculate_percentage(
+        data["nda_positive"], data["nda_negative"], data["nda_neutral"])
+    data["upa_positive"] = upa_positive
+    data["upa_negative"] = upa_negative
+    data["upa_neutral"] = upa_neutral
+    data["nda_positive"] = nda_positive
+    data["nda_negative"] = nda_negative
+    data["nda_neutral"] = nda_neutral
+    return data
 
 
 def generate_view_dict() -> dict:
@@ -220,6 +245,8 @@ def generate_view_dict() -> dict:
     data["nda_tags"] = " ".join(list(data["nda_tags"]))
     data["upa_post_count"] = upa_post_count
     data["nda_post_count"] = nda_post_count
+
+    data = convert_sentiment_to_percentage(data)
     data.update(get_timeseries_tweet_data())
     return data
 

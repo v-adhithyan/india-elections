@@ -1,5 +1,6 @@
 import json
 import pathlib
+import random
 from collections import namedtuple
 
 import pytest
@@ -35,3 +36,31 @@ def tweetstats(tweets):
     _generate_word_cloud_1(q, framed_tweets)
 
     return TweetStats.objects.filter(q=q)
+
+
+@pytest.fixture
+def positive():
+    return random.randint(50, 100)
+
+
+@pytest.fixture
+def negative():
+    return random.randint(50, 100)
+
+
+@pytest.fixture
+def neutral():
+    return random.randint(50, 100)
+
+
+@pytest.fixture
+def sentiment_data(positive, negative, neutral):
+    data = {
+        "upa_positive": positive,
+        "upa_negative": negative,
+        "upa_neutral": neutral,
+        "nda_positive": positive,
+        "nda_negative": negative,
+        "nda_neutral": neutral
+    }
+    return data
