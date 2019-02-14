@@ -12,13 +12,14 @@ from django.utils.safestring import mark_safe
 from guess_indian_gender import IndianGenderPredictor
 from wordcloud import STOPWORDS, WordCloud
 
-from core.models import TweetStats, Wordcloud, Alliance
+from core.models import TweetStats, Wordcloud, Alliance, CommentWords
 
 _STOPWORDS = set(STOPWORDS)
 # loading gender predictor as global constant, so that training happens
 # only once.
 GENDER_PREDICTOR = IndianGenderPredictor()
 CANDIDATE_PARTY_DICT = {}
+
 
 def clean_tweet(tweet):
     tweet = ' '.join(
@@ -99,13 +100,11 @@ def generate_word_cloud_1(q, tweets_dict):
         if gender == 'female':
             female += 1
 
-    comment_words += TweetStats.get_comment_words(q=q)
-
     wordcloud = WordCloud(width=800,
                           height=800,
                           background_color='white',
                           stopwords=_STOPWORDS,
-                          min_font_size=10).generate(comment_words)
+                          min_font_size=10).generate(comment_words + CommentWords.get_comment_words(q=q))
 
     plot.figure(figsize=(8, 8), facecolor=None)
     plot.imshow(wordcloud)
@@ -120,11 +119,14 @@ def generate_word_cloud_1(q, tweets_dict):
     plot.cla()
     plot.close('all')
 
-    TweetStats.objects.create(q=q, count=len(tweets_dict), comment_words=comment_words,
+    TweetStats.objects.create(q=q, count=len(tweets_dict),
                               positive=pos, negative=neg, neutral=neg,
                               male=male, female=female, party=party)
 
+    CommentWords.objects.create(q=q, comment_words=comment_words)
+
     return temp_file.name + ".png"
+
 
 def _frame_candidate_party_dict():
     global CANDIDATE_PARTY_DICT
@@ -133,6 +135,7 @@ def _frame_candidate_party_dict():
     for a in alliances:
         CANDIDATE_PARTY_DICT[a.q] = a.get_party_display()
     CANDIDATE_PARTY_DICT["test"] = random.choice(['upa', 'nda'])
+
 
 def get_candidate_and_party_dict() -> dict:
     """
@@ -160,6 +163,28 @@ def get_candidate_and_party_dict() -> dict:
         _frame_candidate_party_dict()
 
     return CANDIDATE_PARTY_DICT
+
+
+def calculate_percentage(positive, negative, neutral):
+    total = positive + negative + neutral
+    try:
+        return float(positive/total)*100, float(negative/total)*100, float(neutral/total)*100
+    except ZeroDivisionError:
+        return 0, 0, 0
+
+
+def convert_sentiment_to_percentage(data):
+    upa_positive, upa_negative, upa_neutral = calculate_percentage(
+        data["upa_positive"], data["upa_negative"], data["upa_neutral"])
+    nda_positive, nda_negative, nda_neutral = calculate_percentage(
+        data["nda_positive"], data["nda_negative"], data["nda_neutral"])
+    data["upa_positive"] = upa_positive
+    data["upa_negative"] = upa_negative
+    data["upa_neutral"] = upa_neutral
+    data["nda_positive"] = nda_positive
+    data["nda_negative"] = nda_negative
+    data["nda_neutral"] = nda_neutral
+    return data
 
 
 def generate_view_dict() -> dict:
@@ -220,6 +245,8 @@ def generate_view_dict() -> dict:
     data["nda_tags"] = " ".join(list(data["nda_tags"]))
     data["upa_post_count"] = upa_post_count
     data["nda_post_count"] = nda_post_count
+
+    data = convert_sentiment_to_percentage(data)
     data.update(get_timeseries_tweet_data())
     return data
 

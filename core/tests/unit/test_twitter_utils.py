@@ -1,16 +1,17 @@
 import json
 import tempfile
+from itertools import product
 from pathlib import Path
 
 import mock
 import pytest
 from dateutil.parser import parse as dateparser
-from itertools import product
 
 from core.models import TweetStats, Wordcloud
 from core.twitter.utils import (clean_tweet, convert_timedata_to_2d,
                                 generate_view_dict, get_timeseries_tweet_data,
-                                get_tweet_sentiment, put_word_cloud)
+                                get_tweet_sentiment, put_word_cloud,
+                                calculate_percentage, convert_sentiment_to_percentage)
 
 
 def test_get_tweet_sentiment():
@@ -103,3 +104,23 @@ def test_old_wordcloud_files_removal():
 
     # delete new file to save space
     Path(file_2.name).unlink()
+
+
+@pytest.mark.usefixtures("positive", "negative", "neutral")
+def test_calculate_percentage(positive, negative, neutral):
+    pos = positive
+    neg = negative
+    neu = neutral
+    total = pos + neg + neu
+    positive_percentage, negative_percentage, neutral_percentage = calculate_percentage(pos, neg, neu)
+    assert positive_percentage == float(pos/total)*100
+    assert negative_percentage == float(neg/total)*100
+    assert neutral_percentage == float(neu/total)*100
+
+
+@pytest.mark.usefixtures('sentiment_data')
+def test_convert_sentiment_to_percentage(sentiment_data):
+    data = convert_sentiment_to_percentage(sentiment_data)
+    keys = sentiment_data.keys()
+    for k in keys:
+        assert isinstance(data[k], float)

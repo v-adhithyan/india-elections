@@ -10,7 +10,6 @@ from core.constants import PARTIES
 class TweetStats(models.Model):
     q = models.CharField(max_length=50)
     count = models.PositiveIntegerField()
-    comment_words = models.TextField()
     added_time = models.DateTimeField(auto_now_add=True)
     positive = models.PositiveIntegerField(default=0)
     negative = models.PositiveIntegerField(default=0)
@@ -74,3 +73,17 @@ class Alliance(models.Model):
             cls.objects.get(q=q)
         except cls.DoesNotExist:
             cls.objects.create(q=q, party=party)
+
+
+class CommentWords(models.Model):
+    q = models.CharField(max_length=100)
+    comment_words = models.TextField()
+
+    @classmethod
+    def get_comment_words(cls, q) -> str:
+        words = ""
+        commentwords = cls.objects.filter(q=q)
+        for commentword in commentwords:
+            words += commentword.comment_words + " "
+
+        return words.strip()
