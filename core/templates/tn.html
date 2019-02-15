@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% block content %}
+
+<body>
+  <nav class="navbar navbar-default primary-color">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <h1>#india-elections-2k19</h1>
+        <h2 style="text-align:right">- An analysis of tweets</h2>
+      </div>
+    </div>
+  </nav>
+  <h2>
+    <center>tweet sentiment analysis</center>
+  </h2>
+  <div class="container" style="position:relative;">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="card">
+          <center>
+            <h1 class="admk-color">admk</h1>
+          </center>
+          <ul>
+            <li>{{ admk_positive }} % Positive</li>
+            <li>{{ admk_negative }} % Negative</li>
+            <li>{{ admk_neutral }} % Neutral</li>
+          </ul>
+        </div>
+        <div class="card">
+          <center>
+            <h2>Tweet sentiments</h2>
+            <canvas id="admk-chart"></canvas>
+            <script>
+              generateDoughnutChart("admk-chart", [
+              {{ admk_positive }},
+              {{ admk_negative }},
+              {{ admk_neutral }}
+              ]);
+            </script>
+          </center>
+        </div>
+        <div class="card">
+          <center>
+            <h2>Tweet counts by gender</h2>
+            <canvas id="admk-gender-chart"></canvas>
+            <script>
+              generateBarChart("admk-gender-chart", [
+              {{ admk_female }},
+              {{ admk_male }}
+              ]);
+            </script>
+          </center>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="card">
+          <center>
+            <h1 class="dmk-color">dmk</h1>
+          </center>
+          <ul>
+            <li>{{ dmk_positive }} % Positive</li>
+            <li>{{ dmk_negative }} % Negative</li>
+            <li>{{ dmk_neutral }} % Neutral</li>
+          </ul>
+        </div>
+        <div class="card">
+          <center>
+            <h2>Tweet sentiments</h2>
+            <canvas id="dmk-chart"></canvas>
+            <script>
+              generateDoughnutChart("dmk-chart", [
+              {{ dmk_positive }},
+              {{ dmk_negative }},
+              {{ dmk_neutral }}
+              ]);
+            </script>
+          </center>
+        </div>
+        <div class="card">
+          <center>
+            <h2>Tweet counts by gender</h2>
+            <canvas id="dmk-gender-chart"></canvas>
+            <script>
+              generateBarChart("dmk-gender-chart", [
+              {{ dmk_female }},
+              {{ dmk_male }}
+              ]);
+            </script>
+          </center>
+        </div>
+      </div>
+    </div>
+  </div>
+  <center>
+    <h2>tweet counts by hashtag</h2>
+  </center>
+  <div class="row">
+    <div class="card">
+      <h2>Tweet count comparison</h2>
+      <canvas id="tweet-count-comparison-chart"></canvas>
+      <script>
+        plotTimeseriesData("tweet-count-comparison-chart", {{ admk_time_series }},
+        {{ dmk_time_series }}, "admk", "dmk")
+      </script>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="card">
+        <h2>{{ admk_tags }}</h2>
+        <h3>
+          <p class="admk-color" style="text-align:center">{{ admk_post_count }} posts</p>
+        </h3>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="card">
+        <h2>{{ dmk_tags }}</h2>
+        <h3>
+          <p class="dmk-color" style="text-align:center">{{ dmk_post_count }} posts</p>
+        </h3>
+      </div>
+    </div>
+  </div>
+</body>
+{% endblock %}

@@ -13,6 +13,8 @@ SENTIMENTS = (
 PARTIES = (
     ('u', 'upa'),
     ('n', 'nda'),
+    ('a', 'admk'),
+    ('d', 'dmk')
 )
 
 TW_CONSUMER_KEY = os.environ["TW_CONSUMER_KEY"]

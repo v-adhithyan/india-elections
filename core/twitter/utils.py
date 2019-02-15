@@ -187,6 +187,20 @@ def convert_sentiment_to_percentage(data):
     return data
 
 
+def convert_tn_sentiment_to_percentage(data):
+    dmk_positive, dmk_negative, dmk_neutral = calculate_percentage(
+        data["dmk_positive"], data["dmk_negative"], data["dmk_neutral"])
+    admk_positive, admk_negative, admk_neutral = calculate_percentage(
+        data["admk_positive"], data["admk_negative"], data["admk_neutral"])
+    data["dmk_positive"] = round(dmk_positive, 2)
+    data["dmk_negative"] = round(dmk_negative, 2)
+    data["dmk_neutral"] = round(dmk_neutral, 2)
+    data["admk_positive"] = round(admk_positive, 2)
+    data["admk_negative"] = round(admk_negative, 2)
+    data["admk_neutral"] = round(admk_neutral, 2)
+    return data
+
+
 def generate_view_dict() -> dict:
     candidate_n_party_dict = get_candidate_and_party_dict()
 
@@ -247,6 +261,70 @@ def generate_view_dict() -> dict:
     data["nda_post_count"] = nda_post_count
 
     data = convert_sentiment_to_percentage(data)
+    data.update(get_timeseries_tweet_data())
+    return data
+
+
+def generate_tn_dict() -> dict:
+    candidate_n_party_dict = get_candidate_and_party_dict()
+
+    tweets = TweetStats.objects.filter(q__in=["admk", "dmk"])
+    data = {
+        "admk_positive": 0,
+        "admk_negative": 0,
+        "admk_neutral": 0,
+        "dmk_positive": 0,
+        "dmk_negative": 0,
+        "dmk_neutral": 0,
+        "admk_tags": set(),
+        "dmk_tags": set(),
+        "admk_post_count": 0,
+        "dmk_post_count": 0,
+        "admk_male": 0,
+        "admk_female": 0,
+        "dmk_male": 0,
+        "dmk_female": 0
+    }
+
+    admk_post_count = 0
+    dmk_post_count = 0
+
+    for tweet in tweets:
+        tag = "#" + tweet.q
+        party = candidate_n_party_dict.get(tweet.q, '')
+
+        if party == "dmk":
+            dmk_tags = data["dmk_tags"]
+            dmk_tags.add(tag)
+
+            data["dmk_positive"] += tweet.positive
+            data["dmk_negative"] += tweet.negative
+            data["dmk_neutral"] += tweet.neutral
+            data["dmk_tags"] = dmk_tags
+            data["dmk_male"] += tweet.male
+            data["dmk_female"] += tweet.female
+            dmk_post_count += tweet.count
+            continue
+
+        if party == "admk":
+            admk_tags = data["admk_tags"]
+            admk_tags.add(tag)
+
+            data["admk_positive"] += tweet.positive
+            data["admk_negative"] += tweet.negative
+            data["admk_neutral"] += tweet.neutral
+            data["admk_tags"] = admk_tags
+            data["admk_male"] += tweet.male
+            data["admk_female"] += tweet.female
+            admk_post_count += tweet.count
+            continue
+
+    data["admk_tags"] = " ".join(list(data["admk_tags"]))
+    data["dmk_tags"] = " ".join(list(data["dmk_tags"]))
+    data["admk_post_count"] = admk_post_count
+    data["dmk_post_count"] = dmk_post_count
+
+    data = convert_tn_sentiment_to_percentage(data)
     data.update(get_timeseries_tweet_data())
     return data
 

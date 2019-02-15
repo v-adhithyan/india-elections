@@ -90,3 +90,8 @@ class TweetJob(APIView):
         except KeyError:
             raise
             return HttpResponse("param q is required", status=422)
+
+
+def tn(request):
+    data = utils.generate_tn_dict()
+    return render(request=request, template_name="tn.html", context=data)
