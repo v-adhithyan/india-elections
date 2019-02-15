@@ -268,7 +268,7 @@ def generate_view_dict() -> dict:
 def generate_tn_dict() -> dict:
     candidate_n_party_dict = get_candidate_and_party_dict()
 
-    tweets = TweetStats.objects.filter(q__in=["admk", "dmk"])
+    tweets = TweetStats.objects.all()
     data = {
         "admk_positive": 0,
         "admk_negative": 0,
