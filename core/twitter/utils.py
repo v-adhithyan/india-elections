@@ -325,7 +325,7 @@ def generate_tn_dict() -> dict:
     data["dmk_post_count"] = dmk_post_count
 
     data = convert_tn_sentiment_to_percentage(data)
-    data.update(get_timeseries_tweet_data())
+    data.update(get_timeseries_tweet_tn_data())
     return data
 
 
@@ -347,4 +347,14 @@ def get_timeseries_tweet_data() -> dict:
     return {
         'upa_time_series': convert_timedata_to_2d(upa),
         'nda_time_series': convert_timedata_to_2d(nda)
+    }
+
+
+def get_timeseries_tweet_tn_data() -> dict:
+    admk = TweetStats.get_tweet_count_of_party_by_date(party='a')
+    dmk = TweetStats.get_tweet_count_of_party_by_date(party='d')
+
+    return {
+        'admk_time_series': convert_timedata_to_2d(admk),
+        'dmk_time_series': convert_timedata_to_2d(dmk)
     }
