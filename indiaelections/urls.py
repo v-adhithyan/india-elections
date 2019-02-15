@@ -24,7 +24,7 @@ from rest_framework_simplejwt import views as jwt_views
 from core import views
 
 urlpatterns = [
-    url('', cache_page(600)(views.index), name="home"),
+    url(r'^$', cache_page(600)(views.index), name="home"),
     url(r'^admin/', admin.site.urls),
     # url(r'', views.hello_world),
     url(r'^poc/', cache_page(600)(views.poc.as_view()), name='poc'),
