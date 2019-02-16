@@ -14,6 +14,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js"></script>
   <script src="{% static 'js/chart.js' %}"></script>
+  <script src="{% static 'js/terms.js' %}"></script>
   <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <script>
     (adsbygoogle = window.adsbygoogle || []).push({
@@ -25,5 +26,22 @@
     India 2019
   </title>
 </head>
+<nav class="navbar navbar-default primary-color">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <h1>#india-elections-2k19</h1>
+      <h2 style="text-align:right">- An analysis of tweets</h2>
+    </div>
+  </div>
+</nav>
+<div id="terms-alert" style="display: none;">
+<div class="alert alert-info alert-dismissible">
+  <a href="#" onclick="agreeTerms();" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  <center>By accessing this site, you agree to our <strong><a style="color:black;" href="/terms-and-conditions/">terms and conditions.</a></strong></center>
+</div>
+</div>
+<script>
+  showTermsAndConditionsAlert();
+</script>
 {% block content %}{% endblock %}
 </html>

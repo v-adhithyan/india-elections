@@ -95,3 +95,6 @@ class TweetJob(APIView):
 def tn(request):
     data = utils.generate_tn_dict()
     return render(request=request, template_name="tn.html", context=data)
+
+def terms_and_conditions(request):
+    return render(request=request, template_name='terms.html')

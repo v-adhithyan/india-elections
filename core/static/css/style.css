@@ -56,3 +56,8 @@ body {
   padding-bottom: 5px;
   background-color: white;
 }
+
+.terms {
+  text-align: justify;
+  line-height: 1.6;
+}
