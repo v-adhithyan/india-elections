@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+{% load app_filters %}
 
 <body>
   <h2>
@@ -99,7 +100,7 @@
   <div class="row">
     <div class="col-sm-6">
       <div class="card">
-        <h2>{{ upa_tags }}</h2>
+        <h2>{% autoescape off %}{{ upa_tags|link_to_wordcloud }}{% endautoescape %}</h2>
         <h3>
           <p class="upa-color" style="text-align:center">{{ upa_post_count }} posts</p>
         </h3>
@@ -107,7 +108,7 @@
     </div>
     <div class="col-sm-6">
       <div class="card">
-        <h2>{{ nda_tags }}</h2>
+        <h2>{% autoescape off %}{{ nda_tags|link_to_wordcloud }}{% endautoescape %}</h2>
         <h3>
           <p class="nda-color" style="text-align:center">{{ nda_post_count }} posts</p>
         </h3>

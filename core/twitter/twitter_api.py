@@ -1,11 +1,11 @@
 from collections import OrderedDict
 
 import tweepy
+
 from core.constants import (TW_ACCESS_TOKEN, TW_ACCESS_TOKEN_SECRET,
                             TW_CONSUMER_KEY, TW_CONSUMER_SECRET)
-from core.twitter.utils import (clean_tweet, generate_word_cloud_1,
-                                get_candidate_and_party_dict,
-                                get_tweet_sentiment)
+from core.twitter.utils import (clean_tweet, get_candidate_and_party_dict,
+                                get_tweet_sentiment, generate_word_cloud_1)
 
 
 class TwitterApi(object):
@@ -38,8 +38,8 @@ class TwitterApi(object):
 
         return tweets
 
-    def get_and_save_tweets(self, query, max_count=200) -> int:
-        fetched_tweets = self.api.search(q=query, count=max_count)
+    def get_and_save_tweets(self, query, max_count=1000) -> int:
+        fetched_tweets = self.api.search(q=query, max_count=max_count)
         tweets = self.frame_tweets(fetched_tweets, query)
         generate_word_cloud_1(query, tweets)
         return len(tweets)

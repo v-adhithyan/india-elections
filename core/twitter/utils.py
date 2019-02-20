@@ -129,12 +129,12 @@ def generate_word_cloud_1(q, tweets_dict):
 
 
 def _frame_candidate_party_dict():
-    global CANDIDATE_PARTY_DICT
-    CANDIDATE_PARTY_DICT = {}
+    candidate_party_dict = {}
     alliances = Alliance.objects.all()
     for a in alliances:
-        CANDIDATE_PARTY_DICT[a.q] = a.get_party_display()
-    CANDIDATE_PARTY_DICT["test"] = random.choice(['upa', 'nda'])
+        candidate_party_dict[a.q] = a.get_party_display()
+    candidate_party_dict["test"] = random.choice(['upa', 'nda'])  # for pytest
+    return candidate_party_dict
 
 
 def get_candidate_and_party_dict() -> dict:
@@ -157,12 +157,12 @@ def get_candidate_and_party_dict() -> dict:
     candidate_n_party_dict['test'] = random.choice(['upa', 'nda'])  # for pytest
     """
 
-    if not CANDIDATE_PARTY_DICT:
+    """if not CANDIDATE_PARTY_DICT:
         _frame_candidate_party_dict()
     if len(CANDIDATE_PARTY_DICT) != Alliance.objects.count():
-        _frame_candidate_party_dict()
+        _frame_candidate_party_dict()"""
 
-    return CANDIDATE_PARTY_DICT
+    return _frame_candidate_party_dict()
 
 
 def calculate_percentage(positive, negative, neutral):

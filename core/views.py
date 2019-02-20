@@ -33,6 +33,8 @@ def get_word_cloud(request):
             return HttpResponse("Unknown error occured. Please try later", status=500)
         except Wordcloud.DoesNotExist:
             return HttpResponse("Unknown query word.", status=422)
+        except FileNotFoundError:
+            return HttpResponse("Please try again later.", status=422)
 
     return HttpResponse("A query parameter q is required to generate word cloud")
 

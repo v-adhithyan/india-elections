@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
+{% load app_filters %}
+
 
 <body>
   <h2>
@@ -99,7 +101,7 @@
   <div class="row">
     <div class="col-sm-6">
       <div class="card">
-        <h2>{{ admk_tags }}</h2>
+        <h2>{% autoescape off %}{{ admk_tags|link_to_wordcloud }}{% endautoescape %}</h2>
         <h3>
           <p class="admk-color" style="text-align:center">{{ admk_post_count }} posts</p>
         </h3>
@@ -107,7 +109,7 @@
     </div>
     <div class="col-sm-6">
       <div class="card">
-        <h2>{{ dmk_tags }}</h2>
+        <h2>{% autoescape off %}{{ dmk_tags|link_to_wordcloud }}{% endautoescape %}</h2>
         <h3>
           <p class="dmk-color" style="text-align:center">{{ dmk_post_count }} posts</p>
         </h3>
