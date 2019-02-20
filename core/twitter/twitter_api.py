@@ -39,7 +39,7 @@ class TwitterApi(object):
         return tweets
 
     def get_and_save_tweets(self, query, max_count=200) -> int:
-        fetched_tweets = self.api.search(q=query, max_count=max_count)
+        fetched_tweets = self.api.search(q=query, count=max_count)
         tweets = self.frame_tweets(fetched_tweets, query)
         generate_word_cloud_1(query, tweets)
         return len(tweets)
