@@ -56,10 +56,22 @@ if __name__ == "__main__":
         help="time interval in minutes to fetch the queries repeatedly",
         type=int,
         required=True)
+    parser.add_argument(
+        "--quit",
+        dest='quit',
+        help="hours after which the script should quit.",
+        type=int,
+        required=True)
     args = parser.parse_args()
 
+    quit = args.quit * 60 * 60
+    time_taken = 0
+    sleep_time = 60*args.interval
     while True:
         queries = args.queries.split(",")
         run(queries)
         print("sleeping")
-        time.sleep(60*args.interval)
+        time.sleep(sleep_time)
+        time_taken += sleep_time
+        if time_taken == quit:
+            break
