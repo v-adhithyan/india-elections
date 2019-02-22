@@ -4,6 +4,7 @@ import re
 import tempfile
 from collections import namedtuple
 from pathlib import Path
+import itertools
 
 import matplotlib.pyplot as plot
 import textblob
@@ -19,7 +20,23 @@ _STOPWORDS = set(STOPWORDS)
 # only once.
 GENDER_PREDICTOR = IndianGenderPredictor()
 CANDIDATE_PARTY_DICT = {}
-
+INT_KEYS = [
+    "positive",
+    "negative",
+    "neutral",
+    "post_count",
+    "male",
+    "female",
+    "tags"
+]
+SET_KEYS = [
+    "tags"
+]
+SENTIMENT_KEYS = [
+    "positive",
+    "negative",
+    "neutral"
+]
 
 def clean_tweet(tweet):
     tweet = ' '.join(
@@ -201,6 +218,20 @@ def convert_tn_sentiment_to_percentage(data):
     return data
 
 
+def sentiment_to_percentage(data, party_1, party_2):
+    p1_positive, p1_negative, p1_neutral = calculate_percentage(
+        data[party_1 + "_positive"], data[party_1 + "_negative"], data[party_1 + "_neutral"])
+    p2_positive, p2_negative, p2_neutral = calculate_percentage(
+        data[party_2 + "_positive"], data[party_2 + "_negative"], data[party_2 + "_neutral"])
+    data[party_1 + "_positive"] = round(p1_positive, 2)
+    data[party_1 + "_negative"] = round(p1_negative, 2)
+    data[party_1 + "_neutral"] = round(p1_neutral, 2)
+    data[party_2 + "_positive"] = round(p2_positive, 2)
+    data[party_2 + "_negative"] = round(p2_negative, 2)
+    data[party_2 + "_neutral"] = round(p2_neutral, 2)
+    return data
+
+
 def generate_view_dict() -> dict:
     candidate_n_party_dict = get_candidate_and_party_dict()
 
@@ -329,6 +360,61 @@ def generate_tn_dict() -> dict:
     return data
 
 
+def _frame_keys(parties, keys):
+    return list(map("_".join, itertools.product(parties, keys, repeat=1)))
+
+
+def _frame_initial_dict(keys, value) -> dict:
+    return {key: value for key in keys}
+
+
+def _add_int_data(data, party, tweet_stats):
+    for key in INT_KEYS:
+        if hasattr(tweet_stats, key):
+            data["{}_{}".format(party, key)] = getattr(tweet_stats, key)
+    return data
+
+
+def generate_view_data(party_1, party_2):
+    candidate_n_party_dict = get_candidate_and_party_dict()
+    parties = [
+        party_1,
+        party_2
+    ]
+
+    int_keys = _frame_keys(parties, INT_KEYS)
+    set_keys = _frame_keys(parties, SET_KEYS)
+
+    data = _frame_initial_dict(int_keys, 0)
+    data.update(_frame_initial_dict(set_keys, set()))
+    print(data)
+    tweets = TweetStats.objects.all()
+    for tweet in tweets:
+        tag = "#" + tweet.q
+        party = candidate_n_party_dict.get(tweet.q, '')
+        if party not in parties:
+            continue
+
+        data = _add_int_data(data, party, tweet)
+
+        tags_key = "{}_{}".format(party, "tags")
+        tags = data[tags_key]
+        tags.add(tag)
+        data[tags_key] = tags
+
+        party_post_count = "{}_{}".format(party, "post_count")
+        data[party_post_count] = data[party_post_count] + tweet.count
+
+    party1_tags = "{}_{}".format(party_1, "tags")
+    party2_tags = "{}_{}".format(party_2, "tags")
+    data[party1_tags] = " ".join(list(data[party1_tags]))
+    data[party2_tags] = " ".join(list(data[party2_tags]))
+
+    data = sentiment_to_percentage(data, party_1, party_2)
+    data.update(get_timeseries_data(party_1, party_2))
+    return data
+
+
 def convert_timedata_to_2d(data):
     data_2d = []
     for x, y in data.items():
@@ -357,4 +443,16 @@ def get_timeseries_tweet_tn_data() -> dict:
     return {
         'admk_time_series': convert_timedata_to_2d(admk),
         'dmk_time_series': convert_timedata_to_2d(dmk)
+    }
+
+
+def get_timeseries_data(party_1, party_2):
+    timeseries = "time_series"
+
+    party1_data = TweetStats.get_tweet_count_of_party_by_date(party=party_1[0])
+    party2_data = TweetStats.get_tweet_count_of_party_by_date(party=party_2[1])
+
+    return {
+        "{}_{}".format(party_1, timeseries): convert_timedata_to_2d(party1_data),
+        "{}_{}".format(party_2, timeseries): convert_timedata_to_2d(party2_data)
     }
