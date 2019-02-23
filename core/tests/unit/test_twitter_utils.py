@@ -117,7 +117,9 @@ def test_calculate_percentage(positive, negative, neutral):
 
 @pytest.mark.usefixtures('sentiment_data')
 def test_convert_sentiment_to_percentage(sentiment_data):
-    data = utils.convert_sentiment_to_percentage(sentiment_data)
     keys = sentiment_data.keys()
+    parties = list({key.split("_")[0] for key in keys})
+    data = utils.sentiment_to_percentage(sentiment_data, party_1=parties[0], party_2=parties[1])
+
     for k in keys:
         assert isinstance(data[k], float)
