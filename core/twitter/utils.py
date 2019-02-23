@@ -27,7 +27,6 @@ INT_KEYS = [
     "post_count",
     "male",
     "female",
-    "tags"
 ]
 SET_KEYS = [
     "tags"
@@ -190,34 +189,6 @@ def calculate_percentage(positive, negative, neutral):
         return 0, 0, 0
 
 
-def convert_sentiment_to_percentage(data):
-    upa_positive, upa_negative, upa_neutral = calculate_percentage(
-        data["upa_positive"], data["upa_negative"], data["upa_neutral"])
-    nda_positive, nda_negative, nda_neutral = calculate_percentage(
-        data["nda_positive"], data["nda_negative"], data["nda_neutral"])
-    data["upa_positive"] = round(upa_positive, 2)
-    data["upa_negative"] = round(upa_negative, 2)
-    data["upa_neutral"] = round(upa_neutral, 2)
-    data["nda_positive"] = round(nda_positive, 2)
-    data["nda_negative"] = round(nda_negative, 2)
-    data["nda_neutral"] = round(nda_neutral, 2)
-    return data
-
-
-def convert_tn_sentiment_to_percentage(data):
-    dmk_positive, dmk_negative, dmk_neutral = calculate_percentage(
-        data["dmk_positive"], data["dmk_negative"], data["dmk_neutral"])
-    admk_positive, admk_negative, admk_neutral = calculate_percentage(
-        data["admk_positive"], data["admk_negative"], data["admk_neutral"])
-    data["dmk_positive"] = round(dmk_positive, 2)
-    data["dmk_negative"] = round(dmk_negative, 2)
-    data["dmk_neutral"] = round(dmk_neutral, 2)
-    data["admk_positive"] = round(admk_positive, 2)
-    data["admk_negative"] = round(admk_negative, 2)
-    data["admk_neutral"] = round(admk_neutral, 2)
-    return data
-
-
 def sentiment_to_percentage(data, party_1, party_2):
     p1_positive, p1_negative, p1_neutral = calculate_percentage(
         data[party_1 + "_positive"], data[party_1 + "_negative"], data[party_1 + "_neutral"])
@@ -232,134 +203,6 @@ def sentiment_to_percentage(data, party_1, party_2):
     return data
 
 
-def generate_view_dict() -> dict:
-    candidate_n_party_dict = get_candidate_and_party_dict()
-
-    tweets = TweetStats.objects.all()
-    data = {
-        "upa_positive": 0,
-        "upa_negative": 0,
-        "upa_neutral": 0,
-        "nda_positive": 0,
-        "nda_negative": 0,
-        "nda_neutral": 0,
-        "upa_tags": set(),
-        "nda_tags": set(),
-        "upa_post_count": 0,
-        "nda_post_count": 0,
-        "upa_male": 0,
-        "upa_female": 0,
-        "nda_male": 0,
-        "nda_female": 0
-    }
-
-    upa_post_count = 0
-    nda_post_count = 0
-
-    for tweet in tweets:
-        tag = "#" + tweet.q
-        party = candidate_n_party_dict.get(tweet.q, '')
-
-        if party == "nda":
-            nda_tags = data["nda_tags"]
-            nda_tags.add(tag)
-
-            data["nda_positive"] += tweet.positive
-            data["nda_negative"] += tweet.negative
-            data["nda_neutral"] += tweet.neutral
-            data["nda_tags"] = nda_tags
-            data["nda_male"] += tweet.male
-            data["nda_female"] += tweet.female
-            nda_post_count += tweet.count
-            continue
-
-        if party == "upa":
-            upa_tags = data["upa_tags"]
-            upa_tags.add(tag)
-
-            data["upa_positive"] += tweet.positive
-            data["upa_negative"] += tweet.negative
-            data["upa_neutral"] += tweet.neutral
-            data["upa_tags"] = upa_tags
-            data["upa_male"] += tweet.male
-            data["upa_female"] += tweet.female
-            upa_post_count += tweet.count
-            continue
-
-    data["upa_tags"] = " ".join(list(data["upa_tags"]))
-    data["nda_tags"] = " ".join(list(data["nda_tags"]))
-    data["upa_post_count"] = upa_post_count
-    data["nda_post_count"] = nda_post_count
-
-    data = convert_sentiment_to_percentage(data)
-    data.update(get_timeseries_tweet_data())
-    return data
-
-
-def generate_tn_dict() -> dict:
-    candidate_n_party_dict = get_candidate_and_party_dict()
-
-    tweets = TweetStats.objects.all()
-    data = {
-        "admk_positive": 0,
-        "admk_negative": 0,
-        "admk_neutral": 0,
-        "dmk_positive": 0,
-        "dmk_negative": 0,
-        "dmk_neutral": 0,
-        "admk_tags": set(),
-        "dmk_tags": set(),
-        "admk_post_count": 0,
-        "dmk_post_count": 0,
-        "admk_male": 0,
-        "admk_female": 0,
-        "dmk_male": 0,
-        "dmk_female": 0
-    }
-
-    admk_post_count = 0
-    dmk_post_count = 0
-
-    for tweet in tweets:
-        tag = "#" + tweet.q
-        party = candidate_n_party_dict.get(tweet.q, '')
-
-        if party == "dmk":
-            dmk_tags = data["dmk_tags"]
-            dmk_tags.add(tag)
-
-            data["dmk_positive"] += tweet.positive
-            data["dmk_negative"] += tweet.negative
-            data["dmk_neutral"] += tweet.neutral
-            data["dmk_tags"] = dmk_tags
-            data["dmk_male"] += tweet.male
-            data["dmk_female"] += tweet.female
-            dmk_post_count += tweet.count
-            continue
-
-        if party == "admk":
-            admk_tags = data["admk_tags"]
-            admk_tags.add(tag)
-
-            data["admk_positive"] += tweet.positive
-            data["admk_negative"] += tweet.negative
-            data["admk_neutral"] += tweet.neutral
-            data["admk_tags"] = admk_tags
-            data["admk_male"] += tweet.male
-            data["admk_female"] += tweet.female
-            admk_post_count += tweet.count
-            continue
-
-    data["admk_tags"] = " ".join(list(data["admk_tags"]))
-    data["dmk_tags"] = " ".join(list(data["dmk_tags"]))
-    data["admk_post_count"] = admk_post_count
-    data["dmk_post_count"] = dmk_post_count
-
-    data = convert_tn_sentiment_to_percentage(data)
-    data.update(get_timeseries_tweet_tn_data())
-    return data
-
-
 def _frame_keys(parties, keys):
     return list(map("_".join, itertools.product(parties, keys, repeat=1)))
 
@@ -368,10 +211,15 @@ def _frame_initial_dict(keys, value) -> dict:
     return {key: value for key in keys}
 
 
+def _add_set_data_to_initial_dict(keys):
+    return {key: set(["#" + key.split("_")[0]]) for key in keys}
+
+
 def _add_int_data(data, party, tweet_stats):
     for key in INT_KEYS:
         if hasattr(tweet_stats, key):
-            data["{}_{}".format(party, key)] = getattr(tweet_stats, key)
+            party_key = "{}_{}".format(party, key)
+            data[party_key] = data[party_key] + getattr(tweet_stats, key)
     return data
 
 
@@ -386,7 +234,7 @@ def generate_view_data(party_1, party_2):
     set_keys = _frame_keys(parties, SET_KEYS)
 
     data = _frame_initial_dict(int_keys, 0)
-    data.update(_frame_initial_dict(set_keys, set()))
+    data.update(_add_set_data_to_initial_dict(set_keys))
     print(data)
     tweets = TweetStats.objects.all()
     for tweet in tweets:
@@ -395,7 +243,7 @@ def generate_view_data(party_1, party_2):
         if party not in parties:
             continue
 
-        data = _add_int_data(data, party, tweet)
+        data.update(_add_int_data(data, party, tweet))
 
         tags_key = "{}_{}".format(party, "tags")
         tags = data[tags_key]
@@ -426,31 +274,11 @@ def convert_timedata_to_2d(data):
     return mark_safe(json.dumps(data_2d))
 
 
-def get_timeseries_tweet_data() -> dict:
-    upa = TweetStats.get_tweet_count_of_party_by_date(party='u')
-    nda = TweetStats.get_tweet_count_of_party_by_date(party='n')
-
-    return {
-        'upa_time_series': convert_timedata_to_2d(upa),
-        'nda_time_series': convert_timedata_to_2d(nda)
-    }
-
-
-def get_timeseries_tweet_tn_data() -> dict:
-    admk = TweetStats.get_tweet_count_of_party_by_date(party='a')
-    dmk = TweetStats.get_tweet_count_of_party_by_date(party='d')
-
-    return {
-        'admk_time_series': convert_timedata_to_2d(admk),
-        'dmk_time_series': convert_timedata_to_2d(dmk)
-    }
-
-
 def get_timeseries_data(party_1, party_2):
     timeseries = "time_series"
 
     party1_data = TweetStats.get_tweet_count_of_party_by_date(party=party_1[0])
-    party2_data = TweetStats.get_tweet_count_of_party_by_date(party=party_2[1])
+    party2_data = TweetStats.get_tweet_count_of_party_by_date(party=party_2[0])
 
     return {
         "{}_{}".format(party_1, timeseries): convert_timedata_to_2d(party1_data),

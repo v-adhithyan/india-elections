@@ -19,7 +19,7 @@ class poc(TemplateView):
 
 
 def index(request):
-    data = utils.generate_view_dict()
+    data = utils.generate_view_data("upa", "nda")
     return render(request=request, template_name="index.html", context=data)
 
 
@@ -90,13 +90,13 @@ class TweetJob(APIView):
             api.get_and_save_tweets(query=q)
             return HttpResponse("success", status=200)
         except KeyError:
-            raise
             return HttpResponse("param q is required", status=422)
 
 
 def tn(request):
-    data = utils.generate_tn_dict()
+    data = utils.generate_view_data("admk", "dmk")
     return render(request=request, template_name="tn.html", context=data)
+
 
 def terms_and_conditions(request):
     return render(request=request, template_name='terms.html')
