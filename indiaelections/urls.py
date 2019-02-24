@@ -28,7 +28,7 @@ urlpatterns = [
     url(r'^terms-and-conditions', cache_page(24 * 60 * 60)(views.terms_and_conditions), name="tandc"),
     url(r'^admin/', admin.site.urls),
     # url(r'', views.hello_world),
-    url(r'^poc/', cache_page(600)(views.poc.as_view()), name='poc'),
+    url(r'^poc/', cache_page(600)(views.POC.as_view()), name='poc'),
     url(r'^india/', cache_page(600)(views.index), name='index'),
     url(r'^tn/', views.tn, name='tn'),
     url(r'^wordcloud/', cache_page(600)(views.get_word_cloud), name="get-word-cloud"),

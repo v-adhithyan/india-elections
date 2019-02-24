@@ -1,11 +1,11 @@
 from collections import OrderedDict
 
 import tweepy
-
 from core.constants import (TW_ACCESS_TOKEN, TW_ACCESS_TOKEN_SECRET,
                             TW_CONSUMER_KEY, TW_CONSUMER_SECRET)
-from core.twitter.utils import (clean_tweet, get_candidate_and_party_dict,
-                                get_tweet_sentiment, generate_word_cloud_1)
+from core.twitter.utils import (clean_tweet, generate_word_cloud_1,
+                                get_candidate_and_party_dict,
+                                get_tweet_sentiment)
 
 
 class TwitterApi(object):

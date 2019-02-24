@@ -18,7 +18,6 @@ from sentry_sdk.integrations.django import DjangoIntegration
 
 from .db import get_db_config
 
-
 load_dotenv(verbose=True)
 
 sentry_sdk.init(

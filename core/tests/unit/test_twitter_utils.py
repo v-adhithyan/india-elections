@@ -5,10 +5,9 @@ from pathlib import Path
 
 import mock
 import pytest
-from dateutil.parser import parse as dateparser
-
 from core.models import TweetStats, Wordcloud
 from core.twitter import utils
+from dateutil.parser import parse as dateparser
 
 
 def test_get_tweet_sentiment():

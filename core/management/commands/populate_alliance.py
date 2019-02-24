@@ -1,5 +1,6 @@
-from core.models import Alliance
 from django.core.management.base import BaseCommand
+
+from core.models import Alliance
 
 
 class Command(BaseCommand):

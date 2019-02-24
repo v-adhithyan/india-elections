@@ -1,6 +1,5 @@
 import mock
 import pytest
-
 from core.twitter.twitter_api import TwitterApi
 
 

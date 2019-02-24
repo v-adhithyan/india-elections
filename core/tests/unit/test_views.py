@@ -1,10 +1,10 @@
-import pytest
 from django.contrib.auth.models import User
 from django.urls import reverse
-from rest_framework.test import APIRequestFactory, force_authenticate
 
+import pytest
 from core.models import Alliance
 from core.views import AllianceCrud
+from rest_framework.test import APIRequestFactory, force_authenticate
 
 
 @pytest.mark.django_db

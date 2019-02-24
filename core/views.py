@@ -1,25 +1,25 @@
 from django.http.response import HttpResponse
 from django.shortcuts import render
 from django.views.generic import TemplateView
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-from rest_framework.views import APIView
 
 from core.models import Alliance, Wordcloud
 from core.twitter import utils
 from core.twitter.twitter_api import TwitterApi
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 
 def hello_world(request):
     return HttpResponse("India 2k19 - Visualizations")
 
 
-class poc(TemplateView):
+class POC(TemplateView):
     template_name = "poc.html"
 
 
 def index(request):
-    data = utils.generate_view_data("upa", "nda")
+    data = utils.generate_view_data("upa", "nda", remove=True)
     return render(request=request, template_name="index.html", context=data)
 
 
@@ -58,7 +58,6 @@ class AllianceCrud(APIView):
 
     def delete(self, request):
         q = request.data.get('q')
-        _ = request.data.get('party')
 
         try:
             a = Alliance.objects.get(q=q)

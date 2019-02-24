@@ -6,11 +6,12 @@ import tempfile
 from collections import namedtuple
 from pathlib import Path
 
+from django.utils.encoding import smart_text
+from django.utils.safestring import mark_safe
+
 import matplotlib.pyplot as plot
 import textblob
 from core.models import Alliance, CommentWords, TweetStats, Wordcloud
-from django.utils.encoding import smart_text
-from django.utils.safestring import mark_safe
 from guess_indian_gender import IndianGenderPredictor
 from wordcloud import STOPWORDS, WordCloud
 
@@ -195,7 +196,7 @@ def _add_int_data(data, party, tweet_stats):
     return data
 
 
-def generate_view_data(party_1, party_2):
+def generate_view_data(party_1, party_2, remove=False):
     candidate_n_party_dict = get_candidate_and_party_dict()
     parties = [
         party_1,
@@ -227,11 +228,17 @@ def generate_view_data(party_1, party_2):
 
     party1_tags = "{}_{}".format(party_1, "tags")
     party2_tags = "{}_{}".format(party_2, "tags")
+
+    if remove:
+        data[party1_tags].remove("#" + party_1)
+        data[party2_tags].remove("#" + party_2)
+
     data[party1_tags] = " ".join(list(data[party1_tags]))
     data[party2_tags] = " ".join(list(data[party2_tags]))
 
     data = sentiment_to_percentage(data, party_1, party_2)
     data.update(get_timeseries_data(party_1, party_2))
+
     return data
 
 

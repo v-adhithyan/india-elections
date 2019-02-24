@@ -1,9 +1,10 @@
 from collections import Counter
 
-from core.constants import PARTIES
 from django.db import models
 from django.db.models import Sum
 from django.db.models.functions import TruncDate
+
+from core.constants import PARTIES
 
 
 class TweetStats(models.Model):
