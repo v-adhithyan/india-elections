@@ -1,9 +1,9 @@
 #!/usr/local/bin/python3
+import argparse
 import os
+import time
 from collections import OrderedDict
 from urllib.parse import urljoin
-import time
-import argparse
 
 import requests
 
@@ -66,7 +66,7 @@ if __name__ == "__main__":
 
     quit = args.quit * 60 * 60
     time_taken = 0
-    sleep_time = 60*args.interval
+    sleep_time = 60 * args.interval
     while True:
         queries = args.queries.split(",")
         run(queries)
