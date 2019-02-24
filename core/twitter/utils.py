@@ -1,19 +1,18 @@
+import itertools
 import json
 import random
 import re
 import tempfile
 from collections import namedtuple
 from pathlib import Path
-import itertools
 
 import matplotlib.pyplot as plot
 import textblob
+from core.models import Alliance, CommentWords, TweetStats, Wordcloud
 from django.utils.encoding import smart_text
 from django.utils.safestring import mark_safe
 from guess_indian_gender import IndianGenderPredictor
 from wordcloud import STOPWORDS, WordCloud
-
-from core.models import TweetStats, Wordcloud, Alliance, CommentWords
 
 _STOPWORDS = set(STOPWORDS)
 # loading gender predictor as global constant, so that training happens
@@ -36,6 +35,7 @@ SENTIMENT_KEYS = [
     "negative",
     "neutral"
 ]
+
 
 def clean_tweet(tweet):
     tweet = ' '.join(
@@ -144,7 +144,7 @@ def generate_word_cloud_1(q, tweets_dict):
     return temp_file.name + ".png"
 
 
-def _frame_candidate_party_dict():
+def get_candidate_and_party_dict() -> dict:
     candidate_party_dict = {}
     alliances = Alliance.objects.all()
     for a in alliances:
@@ -153,38 +153,10 @@ def _frame_candidate_party_dict():
     return candidate_party_dict
 
 
-def get_candidate_and_party_dict() -> dict:
-    """
-    candidate_n_party_dict = dict()
-    candidate_n_party_dict['modi'] = "nda"
-    candidate_n_party_dict["bjp"] = "nda"
-    candidate_n_party_dict["#Modi2019Interview"] = "nda"
-    candidate_n_party_dict["#GoBackSadistModi"] = "nda"
-    candidate_n_party_dict["#GoBackModi"] = "nda"
-    candidate_n_party_dict["#TNWelcomesModi"] = "nda"
-    candidate_n_party_dict["#MaduraiWelcomesModi"] = "nda"
-    candidate_n_party_dict["#TNThanksModi"] = "nda"
-
-    candidate_n_party_dict["congress"] = "upa"
-    candidate_n_party_dict["rahulgandhi"] = "upa"
-    candidate_n_party_dict["soniagandhi"] = "upa"
-    candidate_n_party_dict["Priyanka"] = "upa"
-    candidate_n_party_dict['priyanka'] = "upa"
-    candidate_n_party_dict['test'] = random.choice(['upa', 'nda'])  # for pytest
-    """
-
-    """if not CANDIDATE_PARTY_DICT:
-        _frame_candidate_party_dict()
-    if len(CANDIDATE_PARTY_DICT) != Alliance.objects.count():
-        _frame_candidate_party_dict()"""
-
-    return _frame_candidate_party_dict()
-
-
 def calculate_percentage(positive, negative, neutral):
     total = positive + negative + neutral
     try:
-        return float(positive/total)*100, float(negative/total)*100, float(neutral/total)*100
+        return float(positive / total) * 100, float(negative / total) * 100, float(neutral / total) * 100
     except ZeroDivisionError:
         return 0, 0, 0
 

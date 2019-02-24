@@ -1,10 +1,9 @@
 from collections import Counter
 
+from core.constants import PARTIES
 from django.db import models
 from django.db.models import Sum
 from django.db.models.functions import TruncDate
-
-from core.constants import PARTIES
 
 
 class TweetStats(models.Model):
@@ -64,15 +63,8 @@ class Wordcloud(models.Model):
 
 
 class Alliance(models.Model):
-    q = models.CharField(max_length=100)
+    q = models.CharField(max_length=100, unique=True)
     party = models.CharField(max_length=1, default='', choices=PARTIES)
-
-    @classmethod
-    def add(cls, q, party):
-        try:
-            cls.objects.get(q=q)
-        except cls.DoesNotExist:
-            cls.objects.create(q=q, party=party)
 
 
 class CommentWords(models.Model):
