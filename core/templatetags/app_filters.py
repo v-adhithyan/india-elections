@@ -22,3 +22,8 @@ def link_to_wordcloud(object):
         linked_q = '<a href="{}" style="color:black;">#{}</a>'.format(url, q)
         return_data.append(format_html(mark_safe(linked_q)))
     return " ".join(return_data)
+
+
+@register.filter(name="stringify", is_safe=True)
+def stringify(object):
+    return mark_safe(str(object))

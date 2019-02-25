@@ -8,12 +8,12 @@ from pathlib import Path
 
 from django.utils.encoding import smart_text
 from django.utils.safestring import mark_safe
-
 import matplotlib.pyplot as plot
 import textblob
-from core.models import Alliance, CommentWords, TweetStats, Wordcloud
 from guess_indian_gender import IndianGenderPredictor
 from wordcloud import STOPWORDS, WordCloud
+
+from core.models import Alliance, CommentWords, TweetStats, Wordcloud
 
 _STOPWORDS = set(STOPWORDS)
 # loading gender predictor as global constant, so that training happens
@@ -239,7 +239,28 @@ def generate_view_data(party_1, party_2, remove=False):
     data = sentiment_to_percentage(data, party_1, party_2)
     data.update(get_timeseries_data(party_1, party_2))
 
-    return data
+    return replace_parties_from_data(data, party_1, party_2)
+
+
+def replace_parties_from_data(data, party_1, party_2):
+    parties = {
+        party_1: "party1",
+        party_2: "party2"
+    }
+
+    return_data = {
+        k.replace(party_1, parties[party_1]): v for k, v in data.items() if party_1 in k
+    }
+    return_data.update({
+        k.replace(party_2, parties[party_2]): v for k, v in data.items() if party_2 in k
+    })
+
+    return_data.update({
+        "party1": party_1,
+        "party2": party_2
+    })
+
+    return return_data
 
 
 def convert_timedata_to_2d(data):

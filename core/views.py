@@ -1,13 +1,13 @@
 from django.http.response import HttpResponse
 from django.shortcuts import render
 from django.views.generic import TemplateView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from core.models import Alliance, Wordcloud
 from core.twitter import utils
 from core.twitter.twitter_api import TwitterApi
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-from rest_framework.views import APIView
 
 
 def hello_world(request):
@@ -94,7 +94,7 @@ class TweetJob(APIView):
 
 def tn(request):
     data = utils.generate_view_data("admk", "dmk")
-    return render(request=request, template_name="tn.html", context=data)
+    return render(request=request, template_name="index.html", context=data)
 
 
 def terms_and_conditions(request):

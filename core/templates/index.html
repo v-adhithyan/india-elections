@@ -11,23 +11,23 @@
       <div class="col-sm-6">
         <div class="card">
           <center>
-            <h1 class="upa-color">UPA</h1>
+            <h1 class="upa-color">{{ party1 }}</h1>
           </center>
           <ul>
-            <li>{{ upa_positive }} % Positive</li>
-            <li>{{ upa_negative }} % Negative</li>
-            <li>{{ upa_neutral }} % Neutral</li>
+            <li>{{ party1_positive }} % Positive</li>
+            <li>{{ party1_negative }} % Negative</li>
+            <li>{{ party1_neutral }} % Neutral</li>
           </ul>
         </div>
         <div class="card">
           <center>
             <h2>Tweet sentiments</h2>
-            <canvas id="upa-chart"></canvas>
+            <canvas id="party1-chart"></canvas>
             <script>
-              generateDoughnutChart("upa-chart", [
-              {{ upa_positive }},
-              {{ upa_negative }},
-              {{ upa_neutral }}
+              generateDoughnutChart("party1-chart", [
+              {{ party1_positive }},
+              {{ party1_negative }},
+              {{ party1_neutral }}
               ]);
             </script>
           </center>
@@ -35,11 +35,11 @@
         <div class="card">
           <center>
             <h2>Tweet counts by gender</h2>
-            <canvas id="upa-gender-chart"></canvas>
+            <canvas id="party1-gender-chart"></canvas>
             <script>
-              generateBarChart("upa-gender-chart", [
-              {{ upa_female }},
-              {{ upa_male }}
+              generateBarChart("party1-gender-chart", [
+              {{ party1_female }},
+              {{ party1_male }}
               ]);
             </script>
           </center>
@@ -48,23 +48,23 @@
       <div class="col-sm-6">
         <div class="card">
           <center>
-            <h1 class="nda-color">NDA</h1>
+            <h1 class="nda-color">{{ party2 }}</h1>
           </center>
           <ul>
-            <li>{{ nda_positive }} % Positive</li>
-            <li>{{ nda_negative }} % Negative</li>
-            <li>{{ nda_neutral }} % Neutral</li>
+            <li>{{ party2_positive }} % Positive</li>
+            <li>{{ party2_negative }} % Negative</li>
+            <li>{{ party2_neutral }} % Neutral</li>
           </ul>
         </div>
         <div class="card">
           <center>
             <h2>Tweet sentiments</h2>
-            <canvas id="nda-chart"></canvas>
+            <canvas id="party2-chart"></canvas>
             <script>
-              generateDoughnutChart("nda-chart", [
-              {{ nda_positive }},
-              {{ nda_negative }},
-              {{ nda_neutral }}
+              generateDoughnutChart("party2-chart", [
+              {{ party2_positive }},
+              {{ party2_negative }},
+              {{ party2_neutral }}
               ]);
             </script>
           </center>
@@ -72,11 +72,11 @@
         <div class="card">
           <center>
             <h2>Tweet counts by gender</h2>
-            <canvas id="nda-gender-chart"></canvas>
+            <canvas id="party2-gender-chart"></canvas>
             <script>
-              generateBarChart("nda-gender-chart", [
-              {{ nda_female }},
-              {{ nda_male }}
+              generateBarChart("party2-gender-chart", [
+              {{ party2_female }},
+              {{ party2_male }}
               ]);
             </script>
           </center>
@@ -92,25 +92,25 @@
       <h2>Tweet count comparison</h2>
       <canvas id="tweet-count-comparison-chart"></canvas>
       <script>
-        plotTimeseriesData("tweet-count-comparison-chart", {{ upa_time_series }},
-        {{ nda_time_series }}, "upa", "nda")
+        plotTimeseriesData("tweet-count-comparison-chart", {{ party1_time_series }},
+        {{ party2_time_series }}, "{{ party1|stringify }}", "{{ party2|stringify }}")
       </script>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-6">
       <div class="card">
-        <h2>{% autoescape off %}{{ upa_tags|link_to_wordcloud }}{% endautoescape %}</h2>
+        <h2>{% autoescape off %}{{ party1_tags|link_to_wordcloud }}{% endautoescape %}</h2>
         <h3>
-          <p class="upa-color" style="text-align:center">{{ upa_post_count }} posts</p>
+          <p class="upa-color" style="text-align:center">{{ party1_post_count }} posts</p>
         </h3>
       </div>
     </div>
     <div class="col-sm-6">
       <div class="card">
-        <h2>{% autoescape off %}{{ nda_tags|link_to_wordcloud }}{% endautoescape %}</h2>
+        <h2>{% autoescape off %}{{ party2_tags|link_to_wordcloud }}{% endautoescape %}</h2>
         <h3>
-          <p class="nda-color" style="text-align:center">{{ nda_post_count }} posts</p>
+          <p class="nda-color" style="text-align:center">{{ party2_post_count }} posts</p>
         </h3>
       </div>
     </div>

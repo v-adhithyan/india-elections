@@ -19,17 +19,17 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 from django.views.decorators.cache import cache_page
+from rest_framework_simplejwt import views as jwt_views
 
 from core import views
-from rest_framework_simplejwt import views as jwt_views
 
 urlpatterns = [
     url(r'^$', cache_page(600)(views.index), name="home"),
     url(r'^terms-and-conditions', cache_page(24 * 60 * 60)(views.terms_and_conditions), name="tandc"),
     url(r'^admin/', admin.site.urls),
     # url(r'', views.hello_world),
-    url(r'^poc/', cache_page(600)(views.POC.as_view()), name='poc'),
-    url(r'^india/', cache_page(600)(views.index), name='index'),
+    # url(r'^poc/', cache_page(600)(views.POC.as_view()), name='poc'),
+    url(r'^india/', views.index, name='index'),
     url(r'^tn/', views.tn, name='tn'),
     url(r'^wordcloud/', cache_page(600)(views.get_word_cloud), name="get-word-cloud"),
     path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
