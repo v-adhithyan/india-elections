@@ -1,5 +1,5 @@
-from django.db import models
 from django.core.validators import MinValueValidator
+from django.db import models
 
 from .constants import OPINION_POLL_OPTIONS, GENDER
 

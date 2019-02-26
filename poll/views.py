@@ -4,7 +4,8 @@ from django.views.decorators.clickjacking import xframe_options_exempt
 
 from .constants import GOOGLE_RECAPTCHA_SITE_KEY
 from .forms import OpinionPollForm
-from .models import IFrameEnabledSites, Constituency
+from .models import Constituency
+from .models import IFrameEnabledSites
 from .utils import get_ip_address, verify_recaptcha
 
 

@@ -1,8 +1,3 @@
-@font-face {
-  font-family: 'CircularStd';
-  src: url('../fonts/CircularStd-Book.woff') format('woff'),
-    local('CircularStd')
-}
 
 .primary-color {
   background-color: #6f47BB;
@@ -39,7 +34,8 @@ a {
 body {
   background-color: #F1F2F5;
   color: black;
-  font-family: 'CircularStd';
+  font-family: 'Lato';
+  height: 100%;
 }
 
 .card {
@@ -55,4 +51,17 @@ body {
   padding-top: 5px;
   padding-bottom: 5px;
   background-color: white;
+}
+
+.terms {
+  text-align: justify;
+  line-height: 1.6;
+}
+
+.invalid-feedback,.error {
+   color: red;
+}
+
+.success {
+  color: green;
 }
