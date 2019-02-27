@@ -1,7 +1,6 @@
 from django.core.management.base import BaseCommand
 
-from core.models import TweetStats, CommentWords
-
+from core.models import CommentWords, TweetStats
 
 #  Actually this is a wrong way to migrate.
 #  I will be removing commentwords from Tweetstats table in next commit.

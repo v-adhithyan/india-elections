@@ -1,4 +1,4 @@
-from django.core.management.base import LabelCommand, CommandError
+from django.core.management.base import CommandError, LabelCommand
 
 from core.twitter.twitter_api import TwitterApi
 

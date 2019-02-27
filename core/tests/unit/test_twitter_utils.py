@@ -5,30 +5,26 @@ from pathlib import Path
 
 import mock
 import pytest
-from dateutil.parser import parse as dateparser
-
 from core.models import TweetStats, Wordcloud
-from core.twitter.utils import (clean_tweet, convert_timedata_to_2d,
-                                generate_view_dict, get_timeseries_tweet_data,
-                                get_tweet_sentiment, put_word_cloud,
-                                calculate_percentage, convert_sentiment_to_percentage)
+from core.twitter import utils
+from dateutil.parser import parse as dateparser
 
 
 def test_get_tweet_sentiment():
     text = "I am good."
-    assert get_tweet_sentiment(text) == "positive"
+    assert utils.get_tweet_sentiment(text) == "positive"
 
     text = "I am bad."
-    assert get_tweet_sentiment(text) == "negative"
+    assert utils.get_tweet_sentiment(text) == "negative"
 
     text = "Hello."
-    assert get_tweet_sentiment(text) == "neutral"
+    assert utils.get_tweet_sentiment(text) == "neutral"
 
 
 def test_clean_tweet():
     # Check whether the link is cleaned from text.
     text = "Here is the link https://www.google.co.in"
-    assert clean_tweet(text) == "Here is the link"
+    assert utils.clean_tweet(text) == "Here is the link"
 
 
 @pytest.mark.usefixtures("tweets")
@@ -48,7 +44,7 @@ def test_get_wordcloud(tweets):
 
 @pytest.mark.django_db
 def test_generate_view_dict():
-    data = generate_view_dict()
+    data = utils.generate_view_data("upa", "nda")
 
     assert isinstance(data, dict)
 
@@ -63,7 +59,7 @@ def test_generate_view_dict():
 @pytest.mark.django_db
 @pytest.mark.usefixtures("tweetstats")
 def test_get_timeseries_data(tweetstats):
-    timeseries_data = get_timeseries_tweet_data()
+    timeseries_data = utils.get_timeseries_data("upa", "nda")
     keys = timeseries_data.keys()
     assert "upa_time_series" in keys
     assert "nda_time_series" in keys
@@ -76,7 +72,7 @@ def test_convert_timedata_to_2d(tweetstats):
     if not data:
         data = TweetStats.get_tweet_count_of_party_by_date(party='n')
 
-    twod_data = json.loads(convert_timedata_to_2d(data))
+    twod_data = json.loads(utils.convert_timedata_to_2d(data))
     assert isinstance(twod_data, list)
     assert sorted(['x', 'y']) == sorted(twod_data[0].keys())
 
@@ -98,7 +94,7 @@ def test_old_wordcloud_files_removal():
     Wordcloud.objects.create(q=q, file_path=file_1.name)
 
     file_2 = tempfile.NamedTemporaryFile("w", delete=False)
-    put_word_cloud(q=q, file_path=file_2.name)
+    utils.put_word_cloud(q=q, file_path=file_2.name)
 
     assert not Path(file_1.name).exists()
 
@@ -112,7 +108,7 @@ def test_calculate_percentage(positive, negative, neutral):
     neg = negative
     neu = neutral
     total = pos + neg + neu
-    positive_percentage, negative_percentage, neutral_percentage = calculate_percentage(pos, neg, neu)
+    positive_percentage, negative_percentage, neutral_percentage = utils.calculate_percentage(pos, neg, neu)
     assert positive_percentage == float(pos/total)*100
     assert negative_percentage == float(neg/total)*100
     assert neutral_percentage == float(neu/total)*100
@@ -120,7 +116,9 @@ def test_calculate_percentage(positive, negative, neutral):
 
 @pytest.mark.usefixtures('sentiment_data')
 def test_convert_sentiment_to_percentage(sentiment_data):
-    data = convert_sentiment_to_percentage(sentiment_data)
     keys = sentiment_data.keys()
+    parties = list({key.split("_")[0] for key in keys})
+    data = utils.sentiment_to_percentage(sentiment_data, party_1=parties[0], party_2=parties[1])
+
     for k in keys:
         assert isinstance(data[k], float)

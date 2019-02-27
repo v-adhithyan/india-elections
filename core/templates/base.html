@@ -25,5 +25,36 @@
     India 2019
   </title>
 </head>
+<nav class="navbar navbar-default primary-color">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <!--div class="navbar-brand">
+        <h1>#india-elections-2k19</h1>
+        <h2 style="text-align:right">- An analysis of tweets</h2>
+      </div-->
+      <a class="navbar-brand active" href="/" style="color:white;">#india-elections-2k19</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a href="/india" style="color:white;">india</a></li>
+      <li><a href="/tn" style="color:white;">tamilnadu</a></li>
+    </ul>
+  </div>
+</nav>
+<div id="terms-alert" style="display: none;">
+<div class="alert alert-info alert-dismissible">
+  <a href="#" onclick="agreeTerms();" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  <center>By accessing this site, you agree to our <strong><a style="color:black;" href="/terms-and-conditions/">terms and conditions.</a></strong></center>
+</div>
+</div>
+<script>
+  showTermsAndConditionsAlert();
+</script>
 {% block content %}{% endblock %}
+<footer class="page-footer font-small blue pt-4 primary-color">
+  <br>
+    <div class="footer-copyright text-center py-3">Created with passion by
+      <a href="https://github.com/v-adhithyan" target="_blank"> Adhithyan Vijayakumar</a>
+    </div>
+  <br>
+  </footer>
 </html>

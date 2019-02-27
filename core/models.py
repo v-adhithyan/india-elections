@@ -64,15 +64,8 @@ class Wordcloud(models.Model):
 
 
 class Alliance(models.Model):
-    q = models.CharField(max_length=100)
+    q = models.CharField(max_length=100, unique=True)
     party = models.CharField(max_length=1, default='', choices=PARTIES)
-
-    @classmethod
-    def add(cls, q, party):
-        try:
-            cls.objects.get(q=q)
-        except cls.DoesNotExist:
-            cls.objects.create(q=q, party=party)
 
 
 class CommentWords(models.Model):

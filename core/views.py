@@ -14,12 +14,12 @@ def hello_world(request):
     return HttpResponse("India 2k19 - Visualizations")
 
 
-class poc(TemplateView):
+class POC(TemplateView):
     template_name = "poc.html"
 
 
 def index(request):
-    data = utils.generate_view_dict()
+    data = utils.generate_view_data("upa", "nda", remove=True)
     return render(request=request, template_name="index.html", context=data)
 
 
@@ -33,6 +33,8 @@ def get_word_cloud(request):
             return HttpResponse("Unknown error occured. Please try later", status=500)
         except Wordcloud.DoesNotExist:
             return HttpResponse("Unknown query word.", status=422)
+        except FileNotFoundError:
+            return HttpResponse("Please try again later.", status=422)
 
     return HttpResponse("A query parameter q is required to generate word cloud")
 
@@ -56,7 +58,6 @@ class AllianceCrud(APIView):
 
     def delete(self, request):
         q = request.data.get('q')
-        _ = request.data.get('party')
 
         try:
             a = Alliance.objects.get(q=q)
@@ -88,5 +89,13 @@ class TweetJob(APIView):
             api.get_and_save_tweets(query=q)
             return HttpResponse("success", status=200)
         except KeyError:
-            raise
             return HttpResponse("param q is required", status=422)
+
+
+def tn(request):
+    data = utils.generate_view_data("admk", "dmk")
+    return render(request=request, template_name="index.html", context=data)
+
+
+def terms_and_conditions(request):
+    return render(request=request, template_name='terms.html')
