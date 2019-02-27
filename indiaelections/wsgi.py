@@ -10,7 +10,15 @@ https://docs.djangoproject.com/en/1.11/howto/deployment/wsgi/
 import os
 
 from django.core.wsgi import get_wsgi_application
+from dj_static import Cling
+from dotenv import load_dotenv
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "indiaelections.settings")
 
-application = get_wsgi_application()
+load_dotenv()
+DEV_STATIC = os.environ["DEV_STATIC"]
+
+if DEV_STATIC:
+    application = Cling(get_wsgi_application())
+else:
+    application = get_wsgi_application()

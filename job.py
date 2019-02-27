@@ -1,20 +1,15 @@
 #!/usr/local/bin/python3
+import argparse
 import os
+import time
 from collections import OrderedDict
 from urllib.parse import urljoin
 
 import requests
-import time
 
 
-def run():
-    QUERIES = [
-        'modi',
-        'rahulgandhi'
-    ]
-
-    dev = os.environ.get('IE_DEBUG', False)
-    host = "http://localhost:8000" if dev else "https://indiaelections.pythonanywhere.com"
+def run(queries):
+    host = "https://www.indiaelections.xyz"
 
     token_url = urljoin(host, 'api/token/')
     job_url = urljoin(host, 'job/')
@@ -37,7 +32,7 @@ def run():
 
     if access_token:
         headers = {'Authorization': "Bearer {}".format(access_token)}
-        for q in QUERIES:
+        for q in queries:
             params = OrderedDict()
             params['q'] = q
             response = requests.get(job_url, params=params, headers=headers)
@@ -49,7 +44,34 @@ def run():
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--queries",
+        dest='queries',
+        help="comma seperated list of words to fetch and save tweets",
+        required=True)
+    parser.add_argument(
+        "--interval",
+        dest='interval',
+        help="time interval in minutes to fetch the queries repeatedly",
+        type=int,
+        required=True)
+    parser.add_argument(
+        "--quit",
+        dest='quit',
+        help="hours after which the script should quit.",
+        type=int,
+        required=True)
+    args = parser.parse_args()
+
+    quit = args.quit * 60 * 60
+    time_taken = 0
+    sleep_time = 60 * args.interval
     while True:
-        run()
+        queries = args.queries.split(",")
+        run(queries)
         print("sleeping")
-        time.sleep(60*10)
+        time.sleep(sleep_time)
+        time_taken += sleep_time
+        if time_taken == quit:
+            break

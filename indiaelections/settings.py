@@ -18,7 +18,6 @@ from sentry_sdk.integrations.django import DjangoIntegration
 
 from .db import get_db_config
 
-
 load_dotenv(verbose=True)
 
 sentry_sdk.init(
@@ -129,7 +128,6 @@ STATIC_URL = '/static/'
 
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = os.path.join(PROJECT_ROOT, "static")
-
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [

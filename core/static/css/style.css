@@ -6,7 +6,7 @@
 
 .primary-color {
   background-color: #6f47BB;
-  color: white;
+  color: #000000;
 }
 
 a {
@@ -55,4 +55,9 @@ body {
   padding-top: 5px;
   padding-bottom: 5px;
   background-color: white;
+}
+
+.terms {
+  text-align: justify;
+  line-height: 1.6;
 }

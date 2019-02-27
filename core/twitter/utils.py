@@ -1,3 +1,4 @@
+import itertools
 import json
 import random
 import re
@@ -5,20 +6,36 @@ import tempfile
 from collections import namedtuple
 from pathlib import Path
 
-import matplotlib.pyplot as plot
-import textblob
 from django.utils.encoding import smart_text
 from django.utils.safestring import mark_safe
+import matplotlib.pyplot as plot
+import textblob
 from guess_indian_gender import IndianGenderPredictor
 from wordcloud import STOPWORDS, WordCloud
 
-from core.models import TweetStats, Wordcloud, Alliance, CommentWords
+from core.models import Alliance, CommentWords, TweetStats, Wordcloud
 
 _STOPWORDS = set(STOPWORDS)
 # loading gender predictor as global constant, so that training happens
 # only once.
 GENDER_PREDICTOR = IndianGenderPredictor()
 CANDIDATE_PARTY_DICT = {}
+INT_KEYS = [
+    "positive",
+    "negative",
+    "neutral",
+    "post_count",
+    "male",
+    "female",
+]
+SET_KEYS = [
+    "tags"
+]
+SENTIMENT_KEYS = [
+    "positive",
+    "negative",
+    "neutral"
+]
 
 
 def clean_tweet(tweet):
@@ -128,127 +145,122 @@ def generate_word_cloud_1(q, tweets_dict):
     return temp_file.name + ".png"
 
 
-def _frame_candidate_party_dict():
-    global CANDIDATE_PARTY_DICT
-    CANDIDATE_PARTY_DICT = {}
+def get_candidate_and_party_dict() -> dict:
+    candidate_party_dict = {}
     alliances = Alliance.objects.all()
     for a in alliances:
-        CANDIDATE_PARTY_DICT[a.q] = a.get_party_display()
-    CANDIDATE_PARTY_DICT["test"] = random.choice(['upa', 'nda'])
-
-
-def get_candidate_and_party_dict() -> dict:
-    """
-    candidate_n_party_dict = dict()
-    candidate_n_party_dict['modi'] = "nda"
-    candidate_n_party_dict["bjp"] = "nda"
-    candidate_n_party_dict["#Modi2019Interview"] = "nda"
-    candidate_n_party_dict["#GoBackSadistModi"] = "nda"
-    candidate_n_party_dict["#GoBackModi"] = "nda"
-    candidate_n_party_dict["#TNWelcomesModi"] = "nda"
-    candidate_n_party_dict["#MaduraiWelcomesModi"] = "nda"
-    candidate_n_party_dict["#TNThanksModi"] = "nda"
-
-    candidate_n_party_dict["congress"] = "upa"
-    candidate_n_party_dict["rahulgandhi"] = "upa"
-    candidate_n_party_dict["soniagandhi"] = "upa"
-    candidate_n_party_dict["Priyanka"] = "upa"
-    candidate_n_party_dict['priyanka'] = "upa"
-    candidate_n_party_dict['test'] = random.choice(['upa', 'nda'])  # for pytest
-    """
-
-    if not CANDIDATE_PARTY_DICT:
-        _frame_candidate_party_dict()
-    if len(CANDIDATE_PARTY_DICT) != Alliance.objects.count():
-        _frame_candidate_party_dict()
-
-    return CANDIDATE_PARTY_DICT
+        candidate_party_dict[a.q] = a.get_party_display()
+    candidate_party_dict["test"] = random.choice(['upa', 'nda'])  # for pytest
+    return candidate_party_dict
 
 
 def calculate_percentage(positive, negative, neutral):
     total = positive + negative + neutral
     try:
-        return float(positive/total)*100, float(negative/total)*100, float(neutral/total)*100
+        return float(positive / total) * 100, float(negative / total) * 100, float(neutral / total) * 100
     except ZeroDivisionError:
         return 0, 0, 0
 
 
-def convert_sentiment_to_percentage(data):
-    upa_positive, upa_negative, upa_neutral = calculate_percentage(
-        data["upa_positive"], data["upa_negative"], data["upa_neutral"])
-    nda_positive, nda_negative, nda_neutral = calculate_percentage(
-        data["nda_positive"], data["nda_negative"], data["nda_neutral"])
-    data["upa_positive"] = round(upa_positive, 2)
-    data["upa_negative"] = round(upa_negative, 2)
-    data["upa_neutral"] = round(upa_neutral, 2)
-    data["nda_positive"] = round(nda_positive, 2)
-    data["nda_negative"] = round(nda_negative, 2)
-    data["nda_neutral"] = round(nda_neutral, 2)
+def sentiment_to_percentage(data, party_1, party_2):
+    p1_positive, p1_negative, p1_neutral = calculate_percentage(
+        data[party_1 + "_positive"], data[party_1 + "_negative"], data[party_1 + "_neutral"])
+    p2_positive, p2_negative, p2_neutral = calculate_percentage(
+        data[party_2 + "_positive"], data[party_2 + "_negative"], data[party_2 + "_neutral"])
+    data[party_1 + "_positive"] = round(p1_positive, 2)
+    data[party_1 + "_negative"] = round(p1_negative, 2)
+    data[party_1 + "_neutral"] = round(p1_neutral, 2)
+    data[party_2 + "_positive"] = round(p2_positive, 2)
+    data[party_2 + "_negative"] = round(p2_negative, 2)
+    data[party_2 + "_neutral"] = round(p2_neutral, 2)
     return data
 
 
-def generate_view_dict() -> dict:
+def _frame_keys(parties, keys):
+    return list(map("_".join, itertools.product(parties, keys, repeat=1)))
+
+
+def _frame_initial_dict(keys, value) -> dict:
+    return {key: value for key in keys}
+
+
+def _add_set_data_to_initial_dict(keys):
+    return {key: set(["#" + key.split("_")[0]]) for key in keys}
+
+
+def _add_int_data(data, party, tweet_stats):
+    for key in INT_KEYS:
+        if hasattr(tweet_stats, key):
+            party_key = "{}_{}".format(party, key)
+            data[party_key] = data[party_key] + getattr(tweet_stats, key)
+    return data
+
+
+def generate_view_data(party_1, party_2, remove=False):
     candidate_n_party_dict = get_candidate_and_party_dict()
+    parties = [
+        party_1,
+        party_2
+    ]
 
+    int_keys = _frame_keys(parties, INT_KEYS)
+    set_keys = _frame_keys(parties, SET_KEYS)
+
+    data = _frame_initial_dict(int_keys, 0)
+    data.update(_add_set_data_to_initial_dict(set_keys))
+    print(data)
     tweets = TweetStats.objects.all()
-    data = {
-        "upa_positive": 0,
-        "upa_negative": 0,
-        "upa_neutral": 0,
-        "nda_positive": 0,
-        "nda_negative": 0,
-        "nda_neutral": 0,
-        "upa_tags": set(),
-        "nda_tags": set(),
-        "upa_post_count": 0,
-        "nda_post_count": 0,
-        "upa_male": 0,
-        "upa_female": 0,
-        "nda_male": 0,
-        "nda_female": 0
-    }
-
-    upa_post_count = 0
-    nda_post_count = 0
-
     for tweet in tweets:
         tag = "#" + tweet.q
         party = candidate_n_party_dict.get(tweet.q, '')
-
-        if party == "nda":
-            nda_tags = data["nda_tags"]
-            nda_tags.add(tag)
-
-            data["nda_positive"] += tweet.positive
-            data["nda_negative"] += tweet.negative
-            data["nda_neutral"] += tweet.neutral
-            data["nda_tags"] = nda_tags
-            data["nda_male"] += tweet.male
-            data["nda_female"] += tweet.female
-            nda_post_count += tweet.count
+        if party not in parties:
             continue
 
-        if party == "upa":
-            upa_tags = data["upa_tags"]
-            upa_tags.add(tag)
+        data.update(_add_int_data(data, party, tweet))
 
-            data["upa_positive"] += tweet.positive
-            data["upa_negative"] += tweet.negative
-            data["upa_neutral"] += tweet.neutral
-            data["upa_tags"] = upa_tags
-            data["upa_male"] += tweet.male
-            data["upa_female"] += tweet.female
-            upa_post_count += tweet.count
-            continue
+        tags_key = "{}_{}".format(party, "tags")
+        tags = data[tags_key]
+        tags.add(tag)
+        data[tags_key] = tags
 
-    data["upa_tags"] = " ".join(list(data["upa_tags"]))
-    data["nda_tags"] = " ".join(list(data["nda_tags"]))
-    data["upa_post_count"] = upa_post_count
-    data["nda_post_count"] = nda_post_count
+        party_post_count = "{}_{}".format(party, "post_count")
+        data[party_post_count] = data[party_post_count] + tweet.count
 
-    data = convert_sentiment_to_percentage(data)
-    data.update(get_timeseries_tweet_data())
-    return data
+    party1_tags = "{}_{}".format(party_1, "tags")
+    party2_tags = "{}_{}".format(party_2, "tags")
+
+    if remove:
+        data[party1_tags].remove("#" + party_1)
+        data[party2_tags].remove("#" + party_2)
+
+    data[party1_tags] = " ".join(list(data[party1_tags]))
+    data[party2_tags] = " ".join(list(data[party2_tags]))
+
+    data = sentiment_to_percentage(data, party_1, party_2)
+    data.update(get_timeseries_data(party_1, party_2))
+
+    return replace_parties_from_data(data, party_1, party_2)
+
+
+def replace_parties_from_data(data, party_1, party_2):
+    parties = {
+        party_1: "party1",
+        party_2: "party2"
+    }
+
+    return_data = {
+        k.replace(party_1, parties[party_1]): v for k, v in data.items() if party_1 in k
+    }
+    return_data.update({
+        k.replace(party_2, parties[party_2]): v for k, v in data.items() if party_2 in k
+    })
+
+    return_data.update({
+        "party1": party_1,
+        "party2": party_2
+    })
+
+    return return_data
 
 
 def convert_timedata_to_2d(data):
@@ -262,11 +274,13 @@ def convert_timedata_to_2d(data):
     return mark_safe(json.dumps(data_2d))
 
 
-def get_timeseries_tweet_data() -> dict:
-    upa = TweetStats.get_tweet_count_of_party_by_date(party='u')
-    nda = TweetStats.get_tweet_count_of_party_by_date(party='n')
+def get_timeseries_data(party_1, party_2):
+    timeseries = "time_series"
+
+    party1_data = TweetStats.get_tweet_count_of_party_by_date(party=party_1[0])
+    party2_data = TweetStats.get_tweet_count_of_party_by_date(party=party_2[0])
 
     return {
-        'upa_time_series': convert_timedata_to_2d(upa),
-        'nda_time_series': convert_timedata_to_2d(nda)
+        "{}_{}".format(party_1, timeseries): convert_timedata_to_2d(party1_data),
+        "{}_{}".format(party_2, timeseries): convert_timedata_to_2d(party2_data)
     }

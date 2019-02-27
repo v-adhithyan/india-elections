@@ -4,7 +4,6 @@ import random
 from collections import namedtuple
 
 import pytest
-
 from core.models import TweetStats
 from core.twitter.twitter_api import TwitterApi
 from core.twitter.utils import _generate_word_cloud_1
