@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<center>
+    <h2> Opinion Poll </h2>
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    <div class="container" style="width:300px;">
+        <form method="POST" id="pollForm" data-places-url="{% url 'opinion-poll-load-places' %}">
+            <div class="row">
+                {% csrf_token %}
+                {% for error in form.non_field_errors %}
+                    <div class="form-group has-errors text-danger small">
+                        {{error}}
+                    </div>
+                {% endfor %}
+                {{ form|crispy }}
+                <div class="g-recaptcha" data-sitekey="{{ google_recaptcha_site_key }}" required></div>
+                <br/>
+                <button type="submit" class="save btn btn-default">Vote</button>
+            </div>
+        </form>
+    </div>
+</center>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script>
+    $("#id_state").change(function () {
+      var url = $("#pollForm").attr("data-places-url");
+      var stateId = $(this).val();
+
+      $.ajax({
+        url: url,
+        data: {
+          'state': stateId
+        },
+        success: function (data) {
+          $("#id_place").html(data);
+        }
+      });
+
+    });
+  </script>
+{% endblock %}

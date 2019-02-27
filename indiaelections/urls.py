@@ -17,7 +17,7 @@ from django.conf import settings
 from django.conf.urls import url
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.views.decorators.cache import cache_page
 from rest_framework_simplejwt import views as jwt_views
 
@@ -36,4 +36,5 @@ urlpatterns = [
     path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     url(r'^job/', views.TweetJob().as_view(), name="tweet-fetcher-job"),
     url('alliance/', views.AllianceCrud.as_view(), name='crud-alliance'),
+    url(r'^poll/', include('poll.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
