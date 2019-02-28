@@ -98,3 +98,4 @@ chat-service/*
 nohup.out
 *.sqlite3
 admin/
+*.tmp

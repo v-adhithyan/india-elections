@@ -49,7 +49,16 @@ def test_generate_view_dict():
     assert isinstance(data, dict)
 
     data_keys = data.keys()
-    keys = ["positive", "negative", "neutral", "male", "female", "tags", "post_count", "time_series"]
+    keys = [
+        "positive",
+        "negative",
+        "neutral",
+        "male",
+        "female",
+        "tags",
+        "post_count",
+        "time_series",
+        "sentiment_time_series"]
     for key in data_keys:
         key = key.split("_")[1:]
         key = "_".join(key)

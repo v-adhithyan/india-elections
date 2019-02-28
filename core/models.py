@@ -46,16 +46,30 @@ class TweetStats(models.Model):
     def get_sentiment_data_party_by_date(cls, party):
         queryset = cls.objects.filter(
             party=party).annotate(
-            total_count=Sum('negative'),
+            pos=Sum('positive'),
+            neg=Sum('negative'),
+            neu=Sum('neutral'),
             date=TruncDate('added_time')).values(
             'date',
-            'negative').order_by('date')
+            'pos', 'neg', 'neu').order_by('date')
 
-        party_count = Counter()
+        sentiment_timeseries = dict()
+        pos_data = Counter()
+        neg_data = Counter()
+        neu_data = Counter()
         for q in queryset:
-            party_count[str(q['date'])] += q['total_count']
+            date = str(q['date'])
+            pos_data[date] += q['pos']
+            neg_data[date] += q['neg']
+            neu_data[date] += q['neu']
 
-        return party_count
+        for date in pos_data.keys():
+            total = sum([pos_data[date], neg_data[date], neu_data[date]])
+            positive_percent = ((pos_data[date] / total) * 100)
+            positive_percent = round(positive_percent, 2)
+            sentiment_timeseries[date] = positive_percent
+
+        return sentiment_timeseries
 
     def __str__(self):
         q_and_count = "q -> {}\n count {}\n".format(self.q, self.count)
