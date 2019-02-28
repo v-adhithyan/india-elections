@@ -1,13 +1,13 @@
 import json
 import tempfile
-from itertools import product
 from pathlib import Path
 
 import mock
 import pytest
+from dateutil.parser import parse as dateparser
+
 from core.models import TweetStats, Wordcloud
 from core.twitter import utils
-from dateutil.parser import parse as dateparser
 
 
 def test_get_tweet_sentiment():
@@ -44,16 +44,17 @@ def test_get_wordcloud(tweets):
 
 @pytest.mark.django_db
 def test_generate_view_dict():
-    data = utils.generate_view_data("upa", "nda")
+    data = utils.generate_view_data(party_1="upa", party_2="nda", remove=True)
 
     assert isinstance(data, dict)
 
     data_keys = data.keys()
-    parties = ["upa", "nda"]
-    keys = ["positive", "negative", "neutral", "male", "female", "tags", "post_count"]
-    for p in product(parties, keys):
-        expected_key = "_".join(p)
-        assert expected_key in data_keys
+    keys = ["positive", "negative", "neutral", "male", "female", "tags", "post_count", "time_series"]
+    for key in data_keys:
+        key = key.split("_")[1:]
+        key = "_".join(key)
+        if key:
+            assert key in keys
 
 
 @pytest.mark.django_db

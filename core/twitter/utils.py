@@ -208,7 +208,6 @@ def generate_view_data(party_1, party_2, remove=False):
 
     data = _frame_initial_dict(int_keys, 0)
     data.update(_add_set_data_to_initial_dict(set_keys))
-    print(data)
     tweets = TweetStats.objects.all()
     for tweet in tweets:
         tag = "#" + tweet.q
