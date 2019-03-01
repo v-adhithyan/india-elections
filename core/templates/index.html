@@ -21,7 +21,7 @@
         </div>
         <div class="card">
           <center>
-            <h2>Tweet sentiments</h2>
+            <h2>tweet sentiments</h2>
             <canvas id="party1-chart"></canvas>
             <script>
               generateDoughnutChart("party1-chart", [
@@ -34,7 +34,7 @@
         </div>
         <div class="card">
           <center>
-            <h2>Tweet counts by gender</h2>
+            <h2>tweet counts by gender</h2>
             <canvas id="party1-gender-chart"></canvas>
             <script>
               generateBarChart("party1-gender-chart", [
@@ -58,7 +58,7 @@
         </div>
         <div class="card">
           <center>
-            <h2>Tweet sentiments</h2>
+            <h2>tweet sentiments</h2>
             <canvas id="party2-chart"></canvas>
             <script>
               generateDoughnutChart("party2-chart", [
@@ -71,7 +71,7 @@
         </div>
         <div class="card">
           <center>
-            <h2>Tweet counts by gender</h2>
+            <h2>tweet counts by gender</h2>
             <canvas id="party2-gender-chart"></canvas>
             <script>
               generateBarChart("party2-gender-chart", [
@@ -84,19 +84,29 @@
       </div>
     </div>
   </div>
-  <center>
-    <h2>tweet counts by hashtag</h2>
-  </center>
   <div class="row">
     <div class="card">
-      <h2>Tweet count comparison</h2>
-      <canvas id="tweet-count-comparison-chart"></canvas>
+      <h2>tweet count comparison</h2>
+      <canvas id="tweet-positive-sentiment-comparison"></canvas>
       <script>
-        plotTimeseriesData("tweet-count-comparison-chart", {{ party1_time_series }},
+        plotTimeseriesData("tweet-positive-sentiment-comparison", {{ party1_time_series }},
         {{ party2_time_series }}, "{{ party1|stringify }}", "{{ party2|stringify }}")
       </script>
     </div>
   </div>
+  <div class="row">
+    <div class="card">
+      <h2>tweet positive sentiment over time</h2>
+      <canvas id="tweet-count-comparison-chart"></canvas>
+      <script>
+        plotTimeseriesData("tweet-count-comparison-chart", {{ party1_sentiment_time_series }},
+        {{ party2_sentiment_time_series }}, "{{ party1|stringify }}", "{{ party2|stringify }}")
+      </script>
+    </div>
+  </div>
+  <center>
+    <h2>tweet counts by hashtag</h2>
+  </center>
   <div class="row">
     <div class="col-sm-6">
       <div class="card">

@@ -42,6 +42,35 @@ class TweetStats(models.Model):
 
         return party_count
 
+    @classmethod
+    def get_sentiment_data_party_by_date(cls, party):
+        queryset = cls.objects.filter(
+            party=party).annotate(
+            pos=Sum('positive'),
+            neg=Sum('negative'),
+            neu=Sum('neutral'),
+            date=TruncDate('added_time')).values(
+            'date',
+            'pos', 'neg', 'neu').order_by('date')
+
+        sentiment_timeseries = dict()
+        pos_data = Counter()
+        neg_data = Counter()
+        neu_data = Counter()
+        for q in queryset:
+            date = str(q['date'])
+            pos_data[date] += q['pos']
+            neg_data[date] += q['neg']
+            neu_data[date] += q['neu']
+
+        for date in pos_data.keys():
+            total = sum([pos_data[date], neg_data[date], neu_data[date]])
+            positive_percent = ((pos_data[date] / total) * 100)
+            positive_percent = round(positive_percent, 2)
+            sentiment_timeseries[date] = positive_percent
+
+        return sentiment_timeseries
+
     def __str__(self):
         q_and_count = "q -> {}\n count {}\n".format(self.q, self.count)
         sentiment = "positive:negative:neutral::{},{},{}\n".format(self.positive,
@@ -66,6 +95,9 @@ class Wordcloud(models.Model):
 class Alliance(models.Model):
     q = models.CharField(max_length=100, unique=True)
     party = models.CharField(max_length=1, default='', choices=PARTIES)
+
+    def __str__(self):
+        return "{} : {}".format(self.q, self.party)
 
 
 class CommentWords(models.Model):

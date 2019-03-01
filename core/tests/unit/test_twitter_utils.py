@@ -1,13 +1,14 @@
 import json
 import tempfile
-from itertools import product
 from pathlib import Path
 
 import mock
 import pytest
+from dateutil.parser import parse as dateparser
+
 from core.models import TweetStats, Wordcloud
 from core.twitter import utils
-from dateutil.parser import parse as dateparser
+from core.twitter.utils import TIMESERIES, SENTIMENT_TIMESERIES
 
 
 def test_get_tweet_sentiment():
@@ -44,25 +45,40 @@ def test_get_wordcloud(tweets):
 
 @pytest.mark.django_db
 def test_generate_view_dict():
-    data = utils.generate_view_data("upa", "nda")
+    data = utils.generate_view_data(party_1="upa", party_2="nda", remove=True)
 
     assert isinstance(data, dict)
 
     data_keys = data.keys()
-    parties = ["upa", "nda"]
-    keys = ["positive", "negative", "neutral", "male", "female", "tags", "post_count"]
-    for p in product(parties, keys):
-        expected_key = "_".join(p)
-        assert expected_key in data_keys
+    keys = [
+        "positive",
+        "negative",
+        "neutral",
+        "male",
+        "female",
+        "tags",
+        "post_count",
+        "time_series",
+        "sentiment_time_series"]
+    for key in data_keys:
+        key = key.split("_")[1:]
+        key = "_".join(key)
+        if key:
+            assert key in keys
 
 
 @pytest.mark.django_db
 @pytest.mark.usefixtures("tweetstats")
 def test_get_timeseries_data(tweetstats):
-    timeseries_data = utils.get_timeseries_data("upa", "nda")
+    timeseries_data = utils.get_timeseries_data(TIMESERIES, "upa", "nda")
     keys = timeseries_data.keys()
     assert "upa_time_series" in keys
     assert "nda_time_series" in keys
+
+    sentiment_timeseries = utils.get_timeseries_data(SENTIMENT_TIMESERIES, "upa", "nda")
+    keys = sentiment_timeseries.keys()
+    assert "upa_sentiment_time_series" in keys
+    assert "nda_sentiment_time_series" in keys
 
 
 @pytest.mark.django_db

@@ -104,3 +104,31 @@ function plotTimeseriesData(elementId, data1, data2, label1, label2) {
     }
   })
 }
+
+function plotTimeseriesDataStackedBar(elementId, data1, data2, label1, label2) {
+  var s1 = {
+    label: label1,
+    borderColor: 'blue',
+    data: data1
+  };
+  var s2 = {
+    label: label2,
+    borderColor: 'red',
+    data: data2
+  };
+  var ctx = document.getElementById(elementId);
+  var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: data1.concat(data2),
+    options: {
+      scales: {
+        xAxes: [{
+          stacked: true
+        }],
+        yAxes: [{
+          stacked: true
+        }],
+      }
+    }
+  })
+}
