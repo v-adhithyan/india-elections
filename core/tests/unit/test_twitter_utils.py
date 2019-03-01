@@ -8,6 +8,7 @@ from dateutil.parser import parse as dateparser
 
 from core.models import TweetStats, Wordcloud
 from core.twitter import utils
+from core.twitter.utils import TIMESERIES, SENTIMENT_TIMESERIES
 
 
 def test_get_tweet_sentiment():
@@ -69,10 +70,15 @@ def test_generate_view_dict():
 @pytest.mark.django_db
 @pytest.mark.usefixtures("tweetstats")
 def test_get_timeseries_data(tweetstats):
-    timeseries_data = utils.get_timeseries_data("upa", "nda")
+    timeseries_data = utils.get_timeseries_data(TIMESERIES, "upa", "nda")
     keys = timeseries_data.keys()
     assert "upa_time_series" in keys
     assert "nda_time_series" in keys
+
+    sentiment_timeseries = utils.get_timeseries_data(SENTIMENT_TIMESERIES, "upa", "nda")
+    keys = sentiment_timeseries.keys()
+    assert "upa_sentiment_time_series" in keys
+    assert "nda_sentiment_time_series" in keys
 
 
 @pytest.mark.django_db

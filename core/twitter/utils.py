@@ -6,10 +6,10 @@ import tempfile
 from collections import namedtuple
 from pathlib import Path
 
-from django.utils.encoding import smart_text
-from django.utils.safestring import mark_safe
 import matplotlib.pyplot as plot
 import textblob
+from django.utils.encoding import smart_text
+from django.utils.safestring import mark_safe
 from guess_indian_gender import IndianGenderPredictor
 from wordcloud import STOPWORDS, WordCloud
 
@@ -37,6 +37,13 @@ SENTIMENT_KEYS = [
     "neutral"
 ]
 
+TIMESERIES = "time_series"
+SENTIMENT_TIMESERIES = "sentiment_time_series"
+
+TIMESERIES_DICT = {
+    TIMESERIES: TweetStats.get_tweet_count_of_party_by_date,
+    SENTIMENT_TIMESERIES: TweetStats.get_sentiment_data_party_by_date
+}
 
 def clean_tweet(tweet):
     tweet = ' '.join(
@@ -236,8 +243,8 @@ def generate_view_data(party_1, party_2, remove=False):
     data[party2_tags] = " ".join(list(data[party2_tags]))
 
     data = sentiment_to_percentage(data, party_1, party_2)
-    data.update(get_timeseries_data(party_1, party_2))
-    data.update(get_timeseries_sentiment_data(party_1, party_2))
+    data.update(get_timeseries_data(TIMESERIES, party_1, party_2))
+    data.update(get_timeseries_data(SENTIMENT_TIMESERIES, party_1, party_2))
 
     return replace_parties_from_data(data, party_1, party_2)
 
@@ -274,25 +281,12 @@ def convert_timedata_to_2d(data):
     return mark_safe(json.dumps(data_2d))
 
 
-def get_timeseries_data(party_1, party_2):
-    timeseries = "time_series"
-
-    party1_data = TweetStats.get_tweet_count_of_party_by_date(party=party_1[0])
-    party2_data = TweetStats.get_tweet_count_of_party_by_date(party=party_2[0])
-
-    return {
-        "{}_{}".format(party_1, timeseries): convert_timedata_to_2d(party1_data),
-        "{}_{}".format(party_2, timeseries): convert_timedata_to_2d(party2_data)
-    }
-
-
-def get_timeseries_sentiment_data(party_1, party_2):
-    timeseries = "sentiment_time_series"
-
-    party1_data = TweetStats.get_sentiment_data_party_by_date(party=party_1[0])
-    party2_data = TweetStats.get_sentiment_data_party_by_date(party=party_2[0])
+def get_timeseries_data(key, party_1, party_2):
+    get_timeseries_data = TIMESERIES_DICT[key]
+    party1_data = get_timeseries_data(party=party_1[0])
+    party2_data = get_timeseries_data(party=party_2[0])
 
     return {
-        "{}_{}".format(party_1, timeseries): convert_timedata_to_2d(party1_data),
-        "{}_{}".format(party_2, timeseries): convert_timedata_to_2d(party2_data)
+        "{}_{}".format(party_1, key): convert_timedata_to_2d(party1_data),
+        "{}_{}".format(party_2, key): convert_timedata_to_2d(party2_data)
     }
