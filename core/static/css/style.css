@@ -40,7 +40,14 @@ body {
 .card {
   border: 1px solid;
   border-color: white;
-  margin-top: 10px;
+
+  background-color: white;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+}
+
+.card-menu, .card {
+ margin-top: 10px;
   margin-bottom: 10px;
   margin-left: 10px;
   margin-right: 10px;
@@ -48,9 +55,17 @@ body {
   padding-right: 5px;
   padding-top: 5px;
   padding-bottom: 5px;
-  background-color: white;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-  transition: 0.3s;
+}
+
+.card-menu {
+  text-align: center;
+}
+
+.card-menu-item {
+display: inline-block;
+background-color:#D8F2FB;
+height: 30px;
+width: 50px;
 }
 
 .card1 {
@@ -86,4 +101,8 @@ body {
 
 a.active {
   border-bottom: 3px solid #1a4efa
+}
+
+.card-menu-item.active {
+  border-bottom: 3px solid #1a4efa;
 }
