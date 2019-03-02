@@ -38,7 +38,7 @@ function changeData(p, change, revert) {
     for(var i=0; i<splitTags.length; i++) {
         var link = "/wordcloud/?q=" + splitTags[i];
         var href = "<a href='" + link + "' style='color:#4D5A85;'>#" + splitTags[i] + "</a><br>"
-        splitTags += href;
+        tagHTML += href;
     }
     tagDiv.innerHTML = tagHTML;
     var postCount = document.getElementById("u-pc");
