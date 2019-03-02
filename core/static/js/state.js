@@ -42,6 +42,6 @@ function changeData(p, change, revert) {
     }
     tagDiv.innerHTML = tagHTML;
     var postCount = document.getElementById("u-pc");
-    postCount.innerHTML = count + " posts";
+    postCount.innerHTML = (gender[0] + gender[1]).toString() + " posts";
     amBarChart("u-tw-count", gender[0], gender[1]);
 }
