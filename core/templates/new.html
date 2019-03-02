@@ -5,7 +5,7 @@
 <body style="color:#4D5A85">
   <div class="card">
       We are trying to predict the upcoming 2019 Indian parliment election. This is a realtime analysis of tweets. Data is updated every 10 mins for India page and every 30 mins for Tamilnadu.
-
+    Data updation time period - everyday 10 AM - 7 PM (IST).
   </div>
   <h2 class="primary-color">
     <center>Tweet stats</center>
@@ -44,7 +44,7 @@
         <div class="card">
           <h3>Tweet count comparison</h3>
           <div class="u-tw-count-comparison" style="height:400px;">
-            <script>amAreaChart("u-tw-count-comparison", {{ new_time_series }}, "{{ party1 }}", "{{ party2 }}");</script>
+            <script>amTrendLine("u-tw-count-comparison", {{ new_time_series }}, "{{ party1 }}", "{{ party2 }}");</script>
           </div>
         </div>
       </div>
@@ -52,7 +52,7 @@
         <div class="card">
           <h3>Tweet positive sentiment over time</h3>
           <div class="u-sentiment-comparison" style="height:400px;">
-            <script>amAreaChart("u-sentiment-comparison", {{ new_sentiment_time_series }}, "{{ party1 }}", "{{ party2 }}");</script>
+            <script>amTrendLine("u-sentiment-comparison", {{ new_sentiment_time_series }}, "{{ party1 }}", "{{ party2 }}");</script>
           </div>
         </div>
       </div>

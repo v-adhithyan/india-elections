@@ -309,7 +309,6 @@ chart.dateFormatter.inputDateFormat = "yyyy-MM-dd";
 var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
 var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 valueAxis.title.text = "Count";
-valueAxis.calculateTotals = true;
 
 // Create series
 var series = chart.series.push(new am4charts.LineSeries());
@@ -325,15 +324,7 @@ series.tooltip.background.strokeWidth = 3;
 series.fillOpacity = 0.5;
 series.stacked = true;
 
-// Drop-shaped tooltips
-/*
-series.tooltip.background.cornerRadius = 20;
-series.tooltip.background.strokeOpacity = 0;
-series.tooltip.pointerOrientation = "vertical";
-series.tooltip.label.minWidth = 40;
-series.tooltip.label.minHeight = 40;
-series.tooltip.label.textAlign = "middle";
-series.tooltip.label.textValign = "middle";*/
+
 
 var series2 = chart.series.push(new am4charts.LineSeries());
 series2.dataFields.valueY = party_2;
@@ -359,13 +350,21 @@ series2.tooltip.label.textAlign = "middle";
 series2.tooltip.label.textValign = "middle";*/
 
 // Make bullets grow on hover
-var bullet = series.bullets.push(new am4charts.CircleBullet());
+/*var bullet = series.bullets.push(new am4charts.CircleBullet());
 bullet.circle.strokeWidth = 2;
 bullet.circle.radius = 4;
 bullet.circle.fill = am4core.color("#fff");
 
 var bullethover = bullet.states.create("hover");
 bullethover.properties.scale = 1.3;
+
+var bullet2 = series2.bullets.push(new am4charts.CircleBullet());
+bullet2.circle.strokeWidth = 2;
+bullet2.circle.radius = 4;
+bullet2.circle.fill = am4core.color("#fff");
+
+var bullethover2 = bullet2.states.create("hover");
+bullethover2.properties.scale = 1.3;*/
 
 // Make a panning cursor
 chart.cursor = new am4charts.XYCursor();
@@ -392,4 +391,159 @@ series.legendSettings.labelText = party_1;
 series2.legendSettings.labelText = party_2;
 
 chart.legend = new am4charts.Legend();
+}
+
+function amStackedColumnChart(elementId, data, party_1, party_2) {
+am4core.useTheme(am4themes_animated);
+// Themes end
+
+// Create chart instance
+var chart = am4core.create(elementId, am4charts.XYChart);
+
+
+// Add data
+chart.data = data;
+chart.dateFormatter.inputDateFormat = "yyyy-MM-dd";
+
+// Create axes
+var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+categoryAxis.dataFields.category = "date";
+categoryAxis.renderer.grid.template.location = 0;
+
+
+var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+valueAxis.renderer.inside = true;
+valueAxis.renderer.labels.template.disabled = true;
+valueAxis.min = 0;
+
+// Create series
+function createSeries(field, name) {
+
+  // Set up series
+  var series = chart.series.push(new am4charts.ColumnSeries());
+  series.name = name;
+  series.dataFields.valueY = field;
+  series.dataFields.categoryX = "date";
+  series.sequencedInterpolation = true;
+
+  // Make it stacked
+  series.stacked = true;
+
+  // Configure columns
+  series.columns.template.width = am4core.percent(60);
+  series.columns.template.tooltipText = "[bold]{name}[/]\n[font-size:14px]{categoryX}: {valueY}";
+
+  // Add label
+  var labelBullet = series.bullets.push(new am4charts.LabelBullet());
+  labelBullet.label.text = "{valueY}";
+  labelBullet.locationY = 0.5;
+
+  return series;
+}
+
+createSeries(party_1, party_1);
+createSeries(party_2, party_2);
+
+
+// Legend
+chart.legend = new am4charts.Legend();
+}
+
+function amTrendLine(elementId, data, party_1, party_2) {
+am4core.useTheme(am4themes_animated);
+// Themes end
+
+// Create chart instance
+var chart = am4core.create(elementId, am4charts.XYChart);
+
+// Enable chart cursor
+chart.cursor = new am4charts.XYCursor();
+chart.cursor.lineX.disabled = true;
+chart.cursor.lineY.disabled = true;
+
+// Enable scrollbar
+chart.scrollbarX = new am4core.Scrollbar();
+
+// Add data
+chart.data = data;
+
+// Create axes
+var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+dateAxis.dataFields.category = "Date";
+dateAxis.renderer.grid.template.location = 0.5;
+dateAxis.dateFormatter.inputDateFormat = "yyyy-MM-dd";
+dateAxis.renderer.minGridDistance = 40;
+dateAxis.tooltipDateFormat = "MMM dd, yyyy";
+dateAxis.dateFormats.setKey("day", "dd");
+
+var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
+// Create series
+var series = chart.series.push(new am4charts.LineSeries());
+series.tooltipText = "{date}\n[bold font-size: 17px]value: {valueY}[/]";
+series.dataFields.valueY = party_1;
+series.dataFields.dateX = "date";
+series.strokeDasharray = 3;
+series.strokeWidth = 2
+series.strokeOpacity = 0.3;
+series.strokeDasharray = "3,3"
+
+var bullet = series.bullets.push(new am4charts.CircleBullet());
+bullet.strokeWidth = 2;
+bullet.stroke = am4core.color("#fff");
+bullet.setStateOnChildren = true;
+bullet.propertyFields.fillOpacity = "opacity";
+bullet.propertyFields.strokeOpacity = "opacity";
+
+var hoverState = bullet.states.create("hover");
+hoverState.properties.scale = 1.7;
+
+var series2 = chart.series.push(new am4charts.LineSeries());
+series2.tooltipText = "{date}\n[bold font-size: 17px]value: {valueY}[/]";
+series2.dataFields.valueY = party_2;
+series2.dataFields.dateX = "date";
+series2.strokeDasharray = 3;
+series2.strokeWidth = 2
+series2.strokeOpacity = 0.3;
+series2.strokeDasharray = "3,3"
+
+var bullet2 = series2.bullets.push(new am4charts.CircleBullet());
+bullet2.strokeWidth = 2;
+bullet2.stroke = am4core.color("#fff");
+bullet2.setStateOnChildren = true;
+bullet2.propertyFields.fillOpacity = "opacity";
+bullet2.propertyFields.strokeOpacity = "opacity";
+
+var hoverState = bullet2.states.create("hover");
+hoverState.properties.scale = 1.7;
+
+/*function createTrendLine(data, key) {
+  var trend = chart.series.push(new am4charts.LineSeries());
+  trend.dataFields.valueY = key;
+  trend.dataFields.dateX = "date";
+  trend.strokeWidth = 2
+  trend.stroke = trend.fill = am4core.color("#c00");
+  trend.data = data;
+
+  var bullet = trend.bullets.push(new am4charts.CircleBullet());
+  bullet.tooltipText = "{date}\n[bold font-size: 17px]value: {valueY}[/]";
+  bullet.strokeWidth = 2;
+  bullet.stroke = am4core.color("#fff")
+  bullet.circle.fill = trend.stroke;
+
+  var hoverState = bullet.states.create("hover");
+  hoverState.properties.scale = 1.7;
+
+  return trend;
+};
+
+td = [data[0], data[data.length - 1]]
+createTrendLine(td, party_1);
+createTrendLine(td, party_2);*/
+
+
+// Initial zoom once chart is ready
+/*lastTrend.events.once("datavalidated", function(){
+  series.xAxis.zoomToDates(new Date(2012, 0, 2), new Date(2012, 0, 13));
+});*/
 }
