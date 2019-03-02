@@ -132,3 +132,264 @@ function plotTimeseriesDataStackedBar(elementId, data1, data2, label1, label2) {
     }
   })
 }
+
+function amBarChart(divId, mc, fc) {
+am4core.useTheme(am4themes_animated);
+// Themes end
+
+// Create chart instance
+var chart = am4core.create(divId, am4charts.XYChart);
+chart.scrollbarX = new am4core.Scrollbar();
+
+// Add data
+chart.data = [{
+  "gender": "Male",
+  "count": mc
+}, {
+  "gender": "Female",
+  "count": fc
+}];
+
+prepareParetoData();
+
+function prepareParetoData(){
+    var total = 0;
+
+    for(var i = 0; i < chart.data.length; i++){
+        var value = chart.data[i].visits;
+        total += value;
+    }
+
+    var sum = 0;
+    for(var i = 0; i < chart.data.length; i++){
+        var value = chart.data[i].visits;
+        sum += value;
+        chart.data[i].pareto = sum / total * 100;
+    }
+}
+
+// Create axes
+var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+categoryAxis.dataFields.category = "gender";
+categoryAxis.renderer.grid.template.location = 0;
+categoryAxis.renderer.minGridDistance = 60;
+categoryAxis.tooltip.disabled = true;
+
+var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+valueAxis.renderer.minWidth = 50;
+valueAxis.min = 0;
+valueAxis.cursorTooltipEnabled = false;
+
+// Create series
+var series = chart.series.push(new am4charts.ColumnSeries());
+series.sequencedInterpolation = true;
+series.dataFields.valueY = "count";
+series.dataFields.categoryX = "gender";
+series.tooltipText = "[{categoryX}: bold]{valueY}[/]";
+series.columns.template.strokeWidth = 0;
+series.columns.template.width = am4core.percent(20);
+series.tooltip.pointerOrientation = "vertical";
+
+series.columns.template.column.cornerRadiusTopLeft = 10;
+series.columns.template.column.cornerRadiusTopRight = 10;
+series.columns.template.column.fillOpacity = 0.8;
+
+// on hover, make corner radiuses bigger
+var hoverState = series.columns.template.column.states.create("hover");
+hoverState.properties.cornerRadiusTopLeft = 0;
+hoverState.properties.cornerRadiusTopRight = 0;
+hoverState.properties.fillOpacity = 1;
+
+series.columns.template.adapter.add("fill", (fill, target)=>{
+  return chart.colors.getIndex(target.dataItem.index);
+})
+
+/*
+var paretoValueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+paretoValueAxis.renderer.opposite = true;
+paretoValueAxis.min = 0;
+paretoValueAxis.max = 100;
+paretoValueAxis.strictMinMax = true;
+paretoValueAxis.renderer.grid.template.disabled = true;
+paretoValueAxis.numberFormatter = new am4core.NumberFormatter();
+paretoValueAxis.numberFormatter.numberFormat = "#'%'"
+paretoValueAxis.cursorTooltipEnabled = false;
+
+var paretoSeries = chart.series.push(new am4charts.LineSeries())
+paretoSeries.dataFields.valueY = "pareto";
+paretoSeries.dataFields.categoryX = "country";
+paretoSeries.yAxis = paretoValueAxis;
+paretoSeries.tooltipText = "pareto: {valueY.formatNumber('#.0')}%[/]";
+paretoSeries.bullets.push(new am4charts.CircleBullet());
+paretoSeries.strokeWidth = 2;
+paretoSeries.stroke = new am4core.InterfaceColorSet().getFor("alternativeBackground");
+paretoSeries.strokeOpacity = 0.5;*/
+
+// Cursor
+chart.cursor = new am4charts.XYCursor();
+chart.cursor.behavior = "panX";
+}
+
+
+function amPieChart(divId, pos, neg, neu) {
+am4core.useTheme(am4themes_material);
+am4core.useTheme(am4themes_animated);
+// Themes end
+
+// Create chart instance
+var chart = am4core.create(divId, am4charts.PieChart);
+
+// Add and configure Series
+var pieSeries = chart.series.push(new am4charts.PieSeries());
+pieSeries.dataFields.value = "percentage";
+pieSeries.dataFields.category = "sentiment";
+
+// Let's cut a hole in our Pie chart the size of 30% the radius
+chart.innerRadius = am4core.percent(30);
+
+// Put a thick white border around each Slice
+pieSeries.slices.template.stroke = am4core.color("#fff");
+pieSeries.slices.template.strokeWidth = 2;
+pieSeries.slices.template.strokeOpacity = 1;
+pieSeries.slices.template
+  // change the cursor on hover to make it apparent the object can be interacted with
+  .cursorOverStyle = [
+    {
+      "property": "cursor",
+      "value": "pointer"
+    }
+  ];
+
+pieSeries.alignLabels = false;
+pieSeries.labels.template.bent = true;
+pieSeries.labels.template.radius = 3;
+pieSeries.labels.template.padding(0,0,0,0);
+
+pieSeries.ticks.template.disabled = true;
+
+// Create a base filter effect (as if it's not there) for the hover to return to
+var shadow = pieSeries.slices.template.filters.push(new am4core.DropShadowFilter);
+shadow.opacity = 0;
+
+// Create hover state
+var hoverState = pieSeries.slices.template.states.getKey("hover"); // normally we have to create the hover state, in this case it already exists
+
+// Slightly shift the shadow and make it more prominent on hover
+var hoverShadow = hoverState.filters.push(new am4core.DropShadowFilter);
+hoverShadow.opacity = 0.7;
+hoverShadow.blur = 5;
+
+// Add a legend
+chart.legend = new am4charts.Legend();
+
+chart.data = [{
+  "sentiment": "Positive",
+  "percentage": pos
+},{
+  "sentiment": "Negative",
+  "percentage": neg
+}, {
+  "sentiment": "Neutral",
+  "percentage": neu
+}];
+}
+
+function amAreaChart(elementId, data, party_1, party_2){
+// Themes begin
+am4core.useTheme(am4themes_animated);
+// Themes end
+
+var chart = am4core.create(elementId, am4charts.XYChart);
+
+chart.data = data;
+// Set input format for the dates
+chart.dateFormatter.inputDateFormat = "yyyy-MM-dd";
+
+// Create axes
+var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+valueAxis.title.text = "Count";
+valueAxis.calculateTotals = true;
+
+// Create series
+var series = chart.series.push(new am4charts.LineSeries());
+series.dataFields.valueY = party_1;
+series.dataFields.dateX = "date";
+series.tooltipText = party_1
+series.strokeWidth = 2;
+series.minBulletDistance = 15;
+series.tooltip.getFillFromObject = false;
+series.tooltip.background.fill = am4core.color("#000");
+series.tooltip.getStrokeFromObject = true;
+series.tooltip.background.strokeWidth = 3;
+series.fillOpacity = 0.5;
+series.stacked = true;
+
+// Drop-shaped tooltips
+/*
+series.tooltip.background.cornerRadius = 20;
+series.tooltip.background.strokeOpacity = 0;
+series.tooltip.pointerOrientation = "vertical";
+series.tooltip.label.minWidth = 40;
+series.tooltip.label.minHeight = 40;
+series.tooltip.label.textAlign = "middle";
+series.tooltip.label.textValign = "middle";*/
+
+var series2 = chart.series.push(new am4charts.LineSeries());
+series2.dataFields.valueY = party_2;
+series2.dataFields.dateX = "date";
+series2.tooltipText = party_2
+series2.strokeWidth = 2;
+series2.minBulletDistance = 15;
+series2.tooltip.getFillFromObject = false;
+series2.tooltip.background.fill = am4core.color("#000");
+series2.tooltip.getStrokeFromObject = true;
+series2.tooltip.background.strokeWidth = 3;
+series2.fillOpacity = 0.5;
+series2.stacked = true;
+
+// Drop-shaped tooltips
+/*
+series2.tooltip.background.cornerRadius = 20;
+series2.tooltip.background.strokeOpacity = 0;
+series2.tooltip.pointerOrientation = "vertical";
+series2.tooltip.label.minWidth = 40;
+series2.tooltip.label.minHeight = 40;
+series2.tooltip.label.textAlign = "middle";
+series2.tooltip.label.textValign = "middle";*/
+
+// Make bullets grow on hover
+var bullet = series.bullets.push(new am4charts.CircleBullet());
+bullet.circle.strokeWidth = 2;
+bullet.circle.radius = 4;
+bullet.circle.fill = am4core.color("#fff");
+
+var bullethover = bullet.states.create("hover");
+bullethover.properties.scale = 1.3;
+
+// Make a panning cursor
+chart.cursor = new am4charts.XYCursor();
+chart.cursor.behavior = "panXY";
+chart.cursor.xAxis = dateAxis;
+chart.cursor.snapToSeries = series;
+
+// Create vertical scrollbar and place it before the value axis
+/*
+chart.scrollbarY = new am4core.Scrollbar();
+chart.scrollbarY.parent = chart.leftAxesContainer;
+chart.scrollbarY.toBack();
+
+// Create a horizontal scrollbar with previe and place it underneath the date axis
+chart.scrollbarX = new am4charts.XYChartScrollbar();
+chart.scrollbarX.series.push(series);
+chart.scrollbarX.parent = chart.bottomAxesContainer;
+
+chart.events.on("ready", function () {
+  dateAxis.zoom({start:0.79, end:1});
+});*/
+
+series.legendSettings.labelText = party_1;
+series2.legendSettings.labelText = party_2;
+
+chart.legend = new am4charts.Legend();
+}

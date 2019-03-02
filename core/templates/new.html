@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+{% load app_filters %}
+
+<body style="color:#4D5A85">
+  <div class="card">
+      We are trying to predict the upcoming 2019 Indian parliment election. This is a realtime analysis of tweets. Data is updated every 10 mins for India page and every 30 mins for Tamilnadu.
+
+  </div>
+  <h2 class="primary-color">
+    <center>Tweet stats</center>
+  </h2>
+  <!--div class="container"-->
+      <div class="row">
+          <div class="col-sm-4">
+            <div class="card">
+                <h3>Tweet sentiments</h3>
+                <div class="u-tw-sentiment" style="height:300px;"></div>
+                <script>amPieChart("u-tw-sentiment", {{ party1_positive }}, {{ party1_negative }}, {{ party1_neutral }})</script>
+            </div>
+          </div>
+          <div class="col-sm-4">
+          <div class="card">
+              <h3>Tweet counts by hashtag</h3> <br> <br>
+                <div class="u-tw-tag" style="height:260px;">
+                {% autoescape off %}{{ party1_tags|link_to_wordcloud }}{% endautoescape %}
+                <br>
+                <div style="border-bottom:1px solid black;"></div>
+                <br>
+                <p style="text-align:right">{{ party1_post_count }} posts</p>
+                  </div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+          <div class="card">
+              <h3>Tweet count by gender</h3>
+               <div class="u-tw-count" style="height:300px;"></div>
+              <script>amBarChart("u-tw-count", {{ party1_male }}, {{ party1_female }})</script>
+            </div>
+        </div>
+      </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="card">
+          <h3>Tweet count comparison</h3>
+          <div class="u-tw-count-comparison" style="height:400px;">
+            <script>amAreaChart("u-tw-count-comparison", {{ new_time_series }}, "{{ party1 }}", "{{ party2 }}");</script>
+          </div>
+        </div>
+      </div>
+       <div class="col-sm-6">
+        <div class="card">
+          <h3>Tweet positive sentiment over time</h3>
+          <div class="u-sentiment-comparison" style="height:400px;">
+            <script>amAreaChart("u-sentiment-comparison", {{ new_sentiment_time_series }}, "{{ party1 }}", "{{ party2 }}");</script>
+          </div>
+        </div>
+      </div>
+    </div>
+</body>
+{% endblock %}

@@ -138,7 +138,7 @@ def generate_word_cloud_1(q, tweets_dict):
     temp_file = tempfile.NamedTemporaryFile(delete=False)
     plot.savefig(temp_file.name)
 
-    put_word_cloud(q, file_path=temp_file.name + ".png")
+    # put_word_cloud(q, file_path=temp_file.name + ".png")
 
     plot.cla()
     plot.close('all')
@@ -267,6 +267,9 @@ def replace_parties_from_data(data, party_1, party_2):
         "party2": party_2
     })
 
+    return_data.update(get_new_timeseries_data(TIMESERIES, party_1, party_2))
+    return_data.update(get_new_timeseries_data(SENTIMENT_TIMESERIES, party_1, party_2))
+
     return return_data
 
 
@@ -281,12 +284,41 @@ def convert_timedata_to_2d(data):
     return mark_safe(json.dumps(data_2d))
 
 
+def convert_timedata_to_2d_new(data1, data2, party1, party2):
+    data_2d = []
+
+    for k in data1.keys():
+        p1_val = data1.get(k)
+        p2_val = data2.get(k)
+
+        if p1_val is None or p2_val is None:
+            continue
+
+        data_2d.append({
+            'date': k,
+            party1: p1_val,
+            party2: p2_val
+        })
+
+    return mark_safe(json.dumps(data_2d))
+
+
 def get_timeseries_data(key, party_1, party_2):
-    get_timeseries_data = TIMESERIES_DICT[key]
-    party1_data = get_timeseries_data(party=party_1[0])
-    party2_data = get_timeseries_data(party=party_2[0])
+    get_timeseries = TIMESERIES_DICT[key]
+    party1_data = get_timeseries(party=party_1[0])
+    party2_data = get_timeseries(party=party_2[0])
 
     return {
         "{}_{}".format(party_1, key): convert_timedata_to_2d(party1_data),
         "{}_{}".format(party_2, key): convert_timedata_to_2d(party2_data)
+    }
+
+
+def get_new_timeseries_data(key, party_1, party_2):
+    get_timeseries = TIMESERIES_DICT[key]
+    party1_data = get_timeseries(party=party_1[0])
+    party2_data = get_timeseries(party=party_2[0])
+
+    return {
+        "new_" + key: convert_timedata_to_2d_new(party1_data, party2_data, party_1, party_2)
     }

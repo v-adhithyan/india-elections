@@ -58,3 +58,8 @@ def tn(request):
 
 def terms_and_conditions(request):
     return render(request=request, template_name='terms.html')
+
+
+def new_ui_proto(request):
+    data = utils.generate_view_data("admk", "dmk")
+    return render(request=request, template_name="new.html", context=data)
