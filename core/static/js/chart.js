@@ -547,3 +547,52 @@ createTrendLine(td, party_2);*/
   series.xAxis.zoomToDates(new Date(2012, 0, 2), new Date(2012, 0, 13));
 });*/
 }
+
+function amUpDownChart(elementId, data, party_1, party_2) {
+am4core.useTheme(am4themes_animated);
+// Themes end
+
+var chart = am4core.create(elementId, am4charts.XYChart);
+chart.paddingRight = 20;
+
+
+
+chart.data = data;
+
+var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+dateAxis.renderer.grid.template.location = 0;
+dateAxis.renderer.axisFills.template.disabled = true;
+dateAxis.renderer.ticks.template.disabled = true;
+
+function plotData(value) {
+var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+valueAxis.tooltip.disabled = true;
+valueAxis.renderer.minWidth = 35;
+valueAxis.renderer.axisFills.template.disabled = true;
+valueAxis.renderer.ticks.template.disabled = true;
+
+var series = chart.series.push(new am4charts.LineSeries());
+series.dataFields.dateX = "date";
+series.dataFields.valueY = value;
+series.strokeWidth = 2;
+series.tooltipText = "value: {valueY}, day change: {valueY.previousChange}";
+
+// set stroke property field
+series.propertyFields.stroke = "color";
+}
+
+plotData(party_1)
+plotData(party_2)
+chart.cursor = new am4charts.XYCursor();
+
+var scrollbarX = new am4core.Scrollbar();
+chart.scrollbarX = scrollbarX;
+chart.legend = new am4charts.Legend();
+
+chart.events.on("ready", function(ev) {
+  dateAxis.zoomToDates(
+    data[0].date,
+    data[data.length - 1].date
+  );
+});
+}
