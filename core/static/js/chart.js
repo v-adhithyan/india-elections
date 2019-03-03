@@ -228,6 +228,14 @@ paretoSeries.strokeOpacity = 0.5;*/
 // Cursor
 chart.cursor = new am4charts.XYCursor();
 chart.cursor.behavior = "panX";
+
+var blue = "#0000FF";
+var pink = "#FFC0CB";
+var colorSet = new am4core.ColorSet();
+colorSet.list = [blue, pink].map(function(color) {
+  return new am4core.color(color);
+});
+series.fill = colorSet;
 }
 
 
@@ -292,6 +300,16 @@ chart.data = [{
   "sentiment": "Neutral",
   "percentage": neu
 }];
+
+var colorSet = new am4core.ColorSet();
+var green = "#228B22";
+var red = "#FF0000";
+var orange = "#FF7F50";
+colorSet.list = [green, red, orange].map(function(color) {
+  return new am4core.color(color);
+});
+pieSeries.colors = colorSet;
+
 }
 
 function amAreaChart(elementId, data, party_1, party_2){
@@ -570,6 +588,7 @@ valueAxis.tooltip.disabled = true;
 valueAxis.renderer.minWidth = 35;
 valueAxis.renderer.axisFills.template.disabled = true;
 valueAxis.renderer.ticks.template.disabled = true;
+//valueAxis.fill = color;
 
 var series = chart.series.push(new am4charts.LineSeries());
 series.dataFields.dateX = "date";

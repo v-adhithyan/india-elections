@@ -19,7 +19,7 @@ class POC(TemplateView):
 
 def index(request):
     data = utils.generate_view_data("upa", "nda", remove=True)
-    return render(request=request, template_name="index.html", context=data)
+    return render(request=request, template_name="new.html", context=data)
 
 
 def get_word_cloud(request):
@@ -53,7 +53,7 @@ class TweetJob(APIView):
 
 def tn(request):
     data = utils.generate_view_data("admk", "dmk")
-    return render(request=request, template_name="index.html", context=data)
+    return render(request=request, template_name="new.html", context=data)
 
 
 def terms_and_conditions(request):
