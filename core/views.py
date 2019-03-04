@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
+from django.urls import reverse
 
 from core.models import Wordcloud
 from core.twitter import utils
@@ -63,3 +64,10 @@ def terms_and_conditions(request):
 def new_ui_proto(request):
     data = utils.generate_view_data("admk", "dmk")
     return render(request=request, template_name="new.html", context=data)
+
+
+def whatsup_with_tweets(request):
+    q = request.GET.get('q')
+    wordcloud_url = reverse("get-word-cloud") + "?q={}".format(q)
+    data = {"title": q, "img_href": wordcloud_url}
+    return render(request=request, template_name='wc.html', context=data)

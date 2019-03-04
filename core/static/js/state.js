@@ -41,7 +41,7 @@ function changeData(p, change, revert) {
     var splitTags = tags.split(" ");
     for(var i=0; i<splitTags.length; i++) {
         console.log(splitTags[i]);
-        var link = "/wordcloud/?q=" + splitTags[i].replace("#", "");
+        var link = "/view/?q=" + splitTags[i].replace("#", "");
                 console.log(link);
 
         var href = "<a href='" + link + "' style='color:#4D5A85;'>" + splitTags[i] + "</a><br>"
