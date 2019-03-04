@@ -14,6 +14,8 @@ from guess_indian_gender import IndianGenderPredictor
 from wordcloud import STOPWORDS, WordCloud
 
 from core.models import Alliance, CommentWords, TweetStats, Wordcloud
+from core.constants import PARTIES_COLOR
+
 
 _STOPWORDS = set(STOPWORDS)
 # loading gender predictor as global constant, so that training happens
@@ -269,6 +271,11 @@ def replace_parties_from_data(data, party_1, party_2):
 
     return_data.update(get_new_timeseries_data(TIMESERIES, party_1, party_2))
     return_data.update(get_new_timeseries_data(SENTIMENT_TIMESERIES, party_1, party_2))
+
+    return_data.update({
+        "party1_color": PARTIES_COLOR[party_1],
+        "party2_color": PARTIES_COLOR[party_2]
+    })
 
     return return_data
 

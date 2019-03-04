@@ -582,7 +582,7 @@ dateAxis.renderer.grid.template.location = 0;
 dateAxis.renderer.axisFills.template.disabled = true;
 dateAxis.renderer.ticks.template.disabled = true;
 
-function plotData(value) {
+function plotData(value, color) {
 var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 valueAxis.tooltip.disabled = true;
 valueAxis.renderer.minWidth = 35;
@@ -593,20 +593,23 @@ valueAxis.renderer.ticks.template.disabled = true;
 var series = chart.series.push(new am4charts.LineSeries());
 series.dataFields.dateX = "date";
 series.dataFields.valueY = value;
+series.stroke = color;
 series.strokeWidth = 2;
 series.tooltipText = "value: {valueY}, day change: {valueY.previousChange}";
 
 // set stroke property field
 series.propertyFields.stroke = "color";
+series.legendSettings.labelText = value;
 }
 
-plotData(party_1)
-plotData(party_2)
+plotData(party_1, party1_color);
+plotData(party_2, party2_color);
 chart.cursor = new am4charts.XYCursor();
 
 var scrollbarX = new am4core.Scrollbar();
 chart.scrollbarX = scrollbarX;
-chart.legend = new am4charts.Legend();
+var legend = new am4charts.Legend();
+chart.legend = legend;
 
 chart.events.on("ready", function(ev) {
   dateAxis.zoomToDates(
