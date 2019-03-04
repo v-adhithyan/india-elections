@@ -36,12 +36,15 @@ function changeData(p, change, revert) {
     var tagHTML = "";
     var splitTags = tags.split(" ");
     for(var i=0; i<splitTags.length; i++) {
-        var link = "/wordcloud/?q=" + splitTags[i];
-        var href = "<a href='" + link + "' style='color:#4D5A85;'>#" + splitTags[i] + "</a><br>"
+        var link = "/wordcloud/?q=" + splitTags[i].replace("#", "");
+        var href = "<a href='" + link + "' style='color:#4D5A85;'>" + splitTags[i] + "</a><br>"
         tagHTML += href;
     }
     tagDiv.innerHTML = tagHTML;
     var postCount = document.getElementById("u-pc");
     postCount.innerHTML = (gender[0] + gender[1]).toString() + " posts";
     amBarChart("u-tw-count", gender[0], gender[1]);
+}
+
+function hrefActive(current, future){
 }
