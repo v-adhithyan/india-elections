@@ -59,7 +59,9 @@ def test_generate_view_dict():
         "tags",
         "post_count",
         "time_series",
-        "sentiment_time_series"]
+        "sentiment_time_series",
+        "color"
+    ]
     for key in data_keys:
         key = key.split("_")[1:]
         key = "_".join(key)

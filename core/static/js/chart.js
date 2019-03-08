@@ -204,26 +204,6 @@ series.columns.template.adapter.add("fill", (fill, target)=>{
   return chart.colors.getIndex(target.dataItem.index);
 })
 
-/*
-var paretoValueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-paretoValueAxis.renderer.opposite = true;
-paretoValueAxis.min = 0;
-paretoValueAxis.max = 100;
-paretoValueAxis.strictMinMax = true;
-paretoValueAxis.renderer.grid.template.disabled = true;
-paretoValueAxis.numberFormatter = new am4core.NumberFormatter();
-paretoValueAxis.numberFormatter.numberFormat = "#'%'"
-paretoValueAxis.cursorTooltipEnabled = false;
-
-var paretoSeries = chart.series.push(new am4charts.LineSeries())
-paretoSeries.dataFields.valueY = "pareto";
-paretoSeries.dataFields.categoryX = "country";
-paretoSeries.yAxis = paretoValueAxis;
-paretoSeries.tooltipText = "pareto: {valueY.formatNumber('#.0')}%[/]";
-paretoSeries.bullets.push(new am4charts.CircleBullet());
-paretoSeries.strokeWidth = 2;
-paretoSeries.stroke = new am4core.InterfaceColorSet().getFor("alternativeBackground");
-paretoSeries.strokeOpacity = 0.5;*/
 
 // Cursor
 chart.cursor = new am4charts.XYCursor();
@@ -357,53 +337,11 @@ series2.tooltip.background.strokeWidth = 3;
 series2.fillOpacity = 0.5;
 series2.stacked = true;
 
-// Drop-shaped tooltips
-/*
-series2.tooltip.background.cornerRadius = 20;
-series2.tooltip.background.strokeOpacity = 0;
-series2.tooltip.pointerOrientation = "vertical";
-series2.tooltip.label.minWidth = 40;
-series2.tooltip.label.minHeight = 40;
-series2.tooltip.label.textAlign = "middle";
-series2.tooltip.label.textValign = "middle";*/
-
-// Make bullets grow on hover
-/*var bullet = series.bullets.push(new am4charts.CircleBullet());
-bullet.circle.strokeWidth = 2;
-bullet.circle.radius = 4;
-bullet.circle.fill = am4core.color("#fff");
-
-var bullethover = bullet.states.create("hover");
-bullethover.properties.scale = 1.3;
-
-var bullet2 = series2.bullets.push(new am4charts.CircleBullet());
-bullet2.circle.strokeWidth = 2;
-bullet2.circle.radius = 4;
-bullet2.circle.fill = am4core.color("#fff");
-
-var bullethover2 = bullet2.states.create("hover");
-bullethover2.properties.scale = 1.3;*/
-
-// Make a panning cursor
 chart.cursor = new am4charts.XYCursor();
 chart.cursor.behavior = "panXY";
 chart.cursor.xAxis = dateAxis;
 chart.cursor.snapToSeries = series;
 
-// Create vertical scrollbar and place it before the value axis
-/*
-chart.scrollbarY = new am4core.Scrollbar();
-chart.scrollbarY.parent = chart.leftAxesContainer;
-chart.scrollbarY.toBack();
-
-// Create a horizontal scrollbar with previe and place it underneath the date axis
-chart.scrollbarX = new am4charts.XYChartScrollbar();
-chart.scrollbarX.series.push(series);
-chart.scrollbarX.parent = chart.bottomAxesContainer;
-
-chart.events.on("ready", function () {
-  dateAxis.zoom({start:0.79, end:1});
-});*/
 
 series.legendSettings.labelText = party_1;
 series2.legendSettings.labelText = party_2;
@@ -535,35 +473,6 @@ bullet2.propertyFields.strokeOpacity = "opacity";
 var hoverState = bullet2.states.create("hover");
 hoverState.properties.scale = 1.7;
 
-/*function createTrendLine(data, key) {
-  var trend = chart.series.push(new am4charts.LineSeries());
-  trend.dataFields.valueY = key;
-  trend.dataFields.dateX = "date";
-  trend.strokeWidth = 2
-  trend.stroke = trend.fill = am4core.color("#c00");
-  trend.data = data;
-
-  var bullet = trend.bullets.push(new am4charts.CircleBullet());
-  bullet.tooltipText = "{date}\n[bold font-size: 17px]value: {valueY}[/]";
-  bullet.strokeWidth = 2;
-  bullet.stroke = am4core.color("#fff")
-  bullet.circle.fill = trend.stroke;
-
-  var hoverState = bullet.states.create("hover");
-  hoverState.properties.scale = 1.7;
-
-  return trend;
-};
-
-td = [data[0], data[data.length - 1]]
-createTrendLine(td, party_1);
-createTrendLine(td, party_2);*/
-
-
-// Initial zoom once chart is ready
-/*lastTrend.events.once("datavalidated", function(){
-  series.xAxis.zoomToDates(new Date(2012, 0, 2), new Date(2012, 0, 13));
-});*/
 }
 
 function amUpDownChart(elementId, data, party_1, party_2) {
