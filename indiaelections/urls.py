@@ -36,4 +36,6 @@ urlpatterns = [
     path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     url(r'^job/', views.TweetJob().as_view(), name="tweet-fetcher-job"),
     url(r'^poll/', include('poll.urls')),
+    url(r'^new/', views.new_ui_proto, name="new-ui"),
+    url(r'^view/', views.whatsup_with_tweets, name="view-wordcloud")
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

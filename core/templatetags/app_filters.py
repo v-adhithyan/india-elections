@@ -19,7 +19,7 @@ def link_to_wordcloud(object):
     for q in object.split():
         q = q[1:]  # ignore # at index 0
         url = reverse('get-word-cloud') + "?{}={}".format("q", q)
-        linked_q = '<a href="{}" style="color:black;">#{}</a>'.format(url, q)
+        linked_q = '<a href="{}" style="color:#4D5A85;">#{}</a><br>'.format(url, q)
         return_data.append(format_html(mark_safe(linked_q)))
     return " ".join(return_data)
 

@@ -3,7 +3,7 @@
 <html>
 
 <head>
-  <link href="https://fonts.googleapis.com/css?family=Lato|Varela+Round|Muli|Karla|Oxygen" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet">
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1" name="viewport">
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
@@ -13,8 +13,13 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js"></script>
   <script src="{% static 'js/chart.js' %}"></script>
   <script src="{% static 'js/terms.js' %}"></script>
+  <script src="{% static 'js/state.js' %}"></script>
   <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <script src="https://www.amcharts.com/lib/4/core.js"></script>
+  <script src="https://www.amcharts.com/lib/4/charts.js"></script>
+  <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+  <script src="https://www.amcharts.com/lib/4/themes/material.js"></script>
   <script>
     (adsbygoogle = window.adsbygoogle || []).push({
       google_ad_client: "ca-pub-2875001446128502",
@@ -27,21 +32,20 @@
     India 2019
   </title>
 </head>
-<nav class="navbar navbar-default primary-color">
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color:white;">
   <div class="container-fluid">
     <div class="navbar-header">
-      <!--div class="navbar-brand">
-        <h1>#india-elections-2k19</h1>
-        <h2 style="text-align:right">- An analysis of tweets</h2>
-      </div-->
-      <a class="navbar-brand active" href="/" style="color:white;">#india-elections-2k19</a>
+      <a class="navbar-brand" style="color:#1a94ef" href="/" style="color:white;">#india-elections-2k19</a>
     </div>
-    <ul class="nav navbar-nav">
-      <li><a href="/india" style="color:white;">india</a></li>
-      <li><a href="/tn" style="color:white;">tamilnadu</a></li>
+
+    <ul class="nav navbar-nav navbar-right">
+      <li><a onclick="hrefActive();" href="/india" style="color:black;">India</a></li>
+      <li><a onclick="hrefActive();" href="/tn" style="color:black;">Tamilnadu</a></li>
     </ul>
-  </div>
+ </div>
 </nav>
+
 <div id="terms-alert" style="display: none;">
 <div class="alert alert-info alert-dismissible">
   <a href="#" onclick="agreeTerms();" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -60,4 +64,5 @@
     </div>
   <br>
   </footer>
+</body>
 </html>

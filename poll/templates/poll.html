@@ -3,6 +3,7 @@
 {% block content %}
 
 <center>
+    <div class="card" style="width:500px;">
     <h2> Opinion Poll </h2>
         {% if messages %}
             <ul class="messages">
@@ -23,10 +24,11 @@
                 {{ form|crispy }}
                 <div class="g-recaptcha" data-sitekey="{{ google_recaptcha_site_key }}" required></div>
                 <br/>
-                <button type="submit" class="save btn btn-default">Vote</button>
+                <button type="submit" style="background-color:#1A94EF;color:white;"class="save btn btn-default">Vote</button>
             </div>
         </form>
     </div>
+        </div>
 </center>
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>

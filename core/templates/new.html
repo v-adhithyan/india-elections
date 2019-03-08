@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block content %}
+{% load app_filters %}
+
+<body style="color:#4D5A85">
+    <script>
+        setState(
+            {{ party1_positive }},
+            {{ party1_negative }},
+            {{ party1_neutral }},
+            {{ party2_positive }},
+            {{ party2_negative }},
+            {{ party2_neutral }},
+            "{{ party1_tags }}",
+            "{{ party2_tags }}",
+            [{{ party1_male }},
+            {{ party1_female }},],
+            [{{ party2_male }},
+            {{ party2_female }}],
+            {{ party1_post_count }},
+            {{ party2_post_count }},
+            "{{ party1 }}",
+            "{{ party2 }}",
+            "{{ party1_color }}",
+            "{{ party2_color }}"
+        )
+
+    </script>
+  <div class="card">
+      We are trying to predict the upcoming 2019 Indian parliment election. This is a realtime analysis of tweets. Data is updated every 10 mins for India page and every 30 mins for Tamilnadu.
+    Data updation time period - everyday 10 AM - 7 PM (IST).
+      <br>
+      <center><i><b><a style="color:#4D5A85" href="/poll/opinion-poll">Click here to cast your vote in opinion poll.</a></b></i></center></div>
+  </div>
+  <h2 class="primary-color">
+    <center>Tweet stats</center>
+  </h2>
+  <!--div class="container"-->
+  <div class="card-menu">
+      <div id="menu-1" class="card-menu-item active"><a href="#" style="color:#4D5A85" onclick="changeData('{{ party1 }}', 'menu-1', 'menu-2');">{{ party1 }}</a></div>   <div  id="menu-2" class=""><a href="#" style="color:#4D5A85" class="" onclick="changeData('{{ party2 }}', 'menu-2', 'menu-1');">{{ party2 }}</a></div>
+  </div>
+      <div class="row">
+          <div class="col-sm-4">
+            <div class="card">
+                <h3>Tweet sentiments</h3>
+                <div class="u-tw-sentiment" style="height:340px;"></div>
+                <script>amPieChart("u-tw-sentiment", {{ party1_positive }}, {{ party1_negative }}, {{ party1_neutral }})</script>
+            </div>
+          </div>
+          <div class="col-sm-4">
+          <div class="card">
+              <h3>Tweet counts by hashtag</h3> <br> <br>
+                <div id="u-tag-content" class="u-tw-tag" style="height:260px;">
+                {% autoescape off %}{{ party1_tags|link_to_wordcloud }}{% endautoescape %}
+                <br>
+                </div>
+                <div style="border-bottom:1px solid black;"></div>
+                <br>
+                <div id="u-pc" style="text-align:right">{{ party1_post_count }} posts</div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+          <div class="card">
+              <h3>Tweet count by gender</h3>
+               <div class="u-tw-count" style="height:340px;"></div>
+              <script>amBarChart("u-tw-count", {{ party1_male }}, {{ party1_female }})</script>
+            </div>
+        </div>
+      </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="card">
+          <h3>Tweet count comparison</h3>
+          <div class="u-tw-count-comparison" style="height:400px;">
+            <script>amUpDownChart("u-tw-count-comparison", {{ new_time_series }}, "{{ party1 }}", "{{ party2 }}");</script>
+          </div>
+        </div>
+      </div>
+       <div class="col-sm-6">
+        <div class="card">
+          <h3>Tweet positive sentiment over time</h3>
+          <div class="u-sentiment-comparison" style="height:400px;">
+            <script>amUpDownChart("u-sentiment-comparison", {{ new_sentiment_time_series }}, "{{ party1 }}", "{{ party2 }}");</script>
+          </div>
+        </div>
+      </div>
+    </div>
+</body>
+{% endblock %}
