@@ -27,15 +27,48 @@
 
     </script>
   <div class="card">
-      We are trying to predict the upcoming 2019 Indian parliment election. This is a realtime analysis of tweets. Data is updated every 10 mins for India page and every 30 mins for Tamilnadu.
+      We are trying to predict the upcoming 2019 Indian parliment election. This is a near realtime analysis of tweets. Data is updated every 10 mins for India page and every 30 mins for Tamilnadu.
     Data updation time period - everyday 10 AM - 7 PM (IST).
       <br>
+      Sentiment analysis is being used to predict the results. Tweets related to parties are obtained periodically
+      and performed sentiment analysis. After performing sentiment analysis, tweets are tagged positive, negative and neutral.<br>
+      <ul>
+          <li><b>Positive</b> refers to tweets that contain positive information/view about the party. They are likely to vote for the party they tweet about.</li>
+          <li><b>Negative</b> refers to tweets that contain negative information/view about the party. They are likely to not vote for the party they tweet about.</li>
+          <li><b>Neutral</b> They are not biased towards any party and do not have any positive or negative view about the party.</li>
+      </ul>
+
+      <b>Since positive tweeters are likely to cast vote for the party they tweeted about, we predict win percentage based on positive tweet percentage.</b>
+      <b>If you want to know what people are tweeting, you can see a gist of tweets by clicking on hashtags in the middle card below.
+      Only the tweets related to mentioned hashtags are collected and analyzed.</b>
       <center><i><b><a style="color:#4D5A85" href="/poll/opinion-poll">Click here to cast your vote in opinion poll.</a></b></i></center></div>
   </div>
   <h2 class="primary-color">
     <center>Tweet stats</center>
   </h2>
   <!--div class="container"-->
+    <center>
+        <div class="card">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Party/Alliance</th>
+                        <th>Probable win count</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ party1 }}</td>
+                        <td>{{ party1_seats }} / {{ total_seats }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ party2 }}</td>
+                        <td>{{ party2_seats }} / {{ total_seats }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </center>
   <div class="card-menu">
       <div id="menu-1" class="card-menu-item active"><a href="#" style="color:#4D5A85" onclick="changeData('{{ party1 }}', 'menu-1', 'menu-2');">{{ party1 }}</a></div>   <div  id="menu-2" class=""><a href="#" style="color:#4D5A85" class="" onclick="changeData('{{ party2 }}', 'menu-2', 'menu-1');">{{ party2 }}</a></div>
   </div>
