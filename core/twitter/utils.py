@@ -14,8 +14,7 @@ from guess_indian_gender import IndianGenderPredictor
 from wordcloud import STOPWORDS, WordCloud
 
 from core.models import Alliance, CommentWords, TweetStats, Wordcloud
-from core.constants import PARTIES_COLOR
-
+from core.constants import PARTIES_COLOR, TOTAL_LOKSABHA_SEATS_INDIA, TOTAL_LOKSABHA_SEATS_TN
 
 _STOPWORDS = set(STOPWORDS)
 # loading gender predictor as global constant, so that training happens
@@ -277,8 +276,20 @@ def replace_parties_from_data(data, party_1, party_2):
         "party2_color": PARTIES_COLOR[party_2]
     })
 
-    return return_data
+    return update_winning_seats(return_data, parties)
 
+
+def update_winning_seats(data, parties):
+    if "upa" in parties and "nda" in parties:
+        seats = TOTAL_LOKSABHA_SEATS_INDIA
+    else:  # should be tn since we dont have any other parties
+        seats = TOTAL_LOKSABHA_SEATS_TN
+
+    data["party1_seats"] = int((data["party1_positive"] / 100) * seats)
+    data["party2_seats"] = int((data["party2_positive"] / 100) * seats)
+    data["total_seats"] = seats
+
+    return data
 
 def convert_timedata_to_2d(data):
     data_2d = []
