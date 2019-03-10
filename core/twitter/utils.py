@@ -14,7 +14,9 @@ from guess_indian_gender import IndianGenderPredictor
 from wordcloud import STOPWORDS, WordCloud
 
 from core.models import Alliance, CommentWords, TweetStats, Wordcloud
-from core.constants import PARTIES_COLOR, TOTAL_LOKSABHA_SEATS_INDIA, TOTAL_LOKSABHA_SEATS_TN
+from core.constants import (PARTIES_COLOR, TOTAL_LOKSABHA_SEATS_INDIA, TOTAL_LOKSABHA_SEATS_TN,
+                            ALL_TIME,
+                            TIMERANGE_DICT)
 
 _STOPWORDS = set(STOPWORDS)
 # loading gender predictor as global constant, so that training happens
@@ -78,9 +80,12 @@ def put_word_cloud(q, file_path):
     try:
         wc = Wordcloud.objects.get(q=q)
 
-        # delete old file to save memory in prodution :)
-        old_file = Path(wc.file_path)
-        old_file.unlink()
+        try:
+            # delete old file to save memory in prodution :)
+            old_file = Path(wc.file_path)
+            old_file.unlink()
+        except Exception:
+            pass
 
         wc.file_path = file_path
         wc.save()
@@ -204,7 +209,7 @@ def _add_int_data(data, party, tweet_stats):
     return data
 
 
-def generate_view_data(party_1, party_2, remove=False):
+def generate_view_data(party_1, party_2, remove=False, timerange=ALL_TIME):
     candidate_n_party_dict = get_candidate_and_party_dict()
     parties = [
         party_1,
@@ -216,7 +221,12 @@ def generate_view_data(party_1, party_2, remove=False):
 
     data = _frame_initial_dict(int_keys, 0)
     data.update(_add_set_data_to_initial_dict(set_keys))
-    tweets = TweetStats.objects.all()
+    _parties = [party_1[0], party_2[0]]
+    if TIMERANGE_DICT.get(timerange, None) is None:
+        tweets = TweetStats.objects.filter(party__in=_parties)
+    else:
+        tweets = TweetStats.filter_by_date_range(parties=_parties, range=TIMERANGE_DICT[timerange])
+
     for tweet in tweets:
         tag = "#" + tweet.q
         party = candidate_n_party_dict.get(tweet.q, '')
@@ -244,13 +254,13 @@ def generate_view_data(party_1, party_2, remove=False):
     data[party2_tags] = " ".join(list(data[party2_tags]))
 
     data = sentiment_to_percentage(data, party_1, party_2)
-    data.update(get_timeseries_data(TIMESERIES, party_1, party_2))
-    data.update(get_timeseries_data(SENTIMENT_TIMESERIES, party_1, party_2))
+    # data.update(get_timeseries_data(TIMESERIES, party_1, party_2, queryset=tweets))
+    # data.update(get_timeseries_data(SENTIMENT_TIMESERIES, party_1, party_2, queryset=tweets))
 
-    return replace_parties_from_data(data, party_1, party_2)
+    return replace_parties_from_data(data, party_1, party_2, queryset=tweets)
 
 
-def replace_parties_from_data(data, party_1, party_2):
+def replace_parties_from_data(data, party_1, party_2, queryset=None):
     parties = {
         party_1: "party1",
         party_2: "party2"
@@ -268,8 +278,8 @@ def replace_parties_from_data(data, party_1, party_2):
         "party2": party_2
     })
 
-    return_data.update(get_new_timeseries_data(TIMESERIES, party_1, party_2))
-    return_data.update(get_new_timeseries_data(SENTIMENT_TIMESERIES, party_1, party_2))
+    return_data.update(get_new_timeseries_data(TIMESERIES, party_1, party_2, queryset=queryset))
+    return_data.update(get_new_timeseries_data(SENTIMENT_TIMESERIES, party_1, party_2, queryset=queryset))
 
     return_data.update({
         "party1_color": PARTIES_COLOR[party_1],
@@ -332,10 +342,17 @@ def get_timeseries_data(key, party_1, party_2):
     }
 
 
-def get_new_timeseries_data(key, party_1, party_2):
+def get_new_timeseries_data(key, party_1, party_2, queryset=None):
     get_timeseries = TIMESERIES_DICT[key]
-    party1_data = get_timeseries(party=party_1[0])
-    party2_data = get_timeseries(party=party_2[0])
+
+    p1_queryset = None
+    p2_queryset = None
+    if queryset:
+        p1_queryset = queryset.filter(party=party_1[0])
+        p2_queryset = queryset.filter(party=party_2[0])
+
+    party1_data = get_timeseries(party=party_1[0], queryset=p1_queryset)
+    party2_data = get_timeseries(party=party_2[0], queryset=p2_queryset)
 
     return {
         "new_" + key: convert_timedata_to_2d_new(party1_data, party2_data, party_1, party_2)

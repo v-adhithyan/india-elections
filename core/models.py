@@ -5,6 +5,7 @@ from django.db.models import Sum
 from django.db.models.functions import TruncDate
 
 from core.constants import PARTIES
+from core.twitter.helpers import lower_bound, upper_bound
 
 
 class TweetStats(models.Model):
@@ -28,40 +29,75 @@ class TweetStats(models.Model):
         return words.strip()
 
     @classmethod
-    def get_tweet_count_of_party_by_date(cls, party):
-        queryset = cls.objects.filter(
-            party=party).annotate(
-            total_count=Sum('count'),
-            date=TruncDate('added_time')).values(
-            'date',
-            'total_count').order_by('date')
+    def filter_by_date_range(cls, range, parties):
+        yesterday = True if range == -1 else False
+        return TweetStats.objects.filter(
+            party__in=parties, added_time__range=(
+                lower_bound(range), upper_bound(
+                    yesterday=yesterday)))
+
+    @classmethod
+    def get_tweet_count_of_party_by_date(cls, party, queryset=None):
+        if not queryset:
+            queryset = cls.objects.filter(
+                party=party).annotate(
+                total_count=Sum('count'),
+                date=TruncDate('added_time')).values(
+                'date',
+                'total_count').order_by('date')
+        else:
+            queryset = queryset.annotate(
+                total_count=Sum('count'),
+                date=TruncDate('added_time')).values(
+                'date',
+                'total_count').order_by('date')
 
         party_count = Counter()
         for q in queryset:
+            if hasattr(q, "date") and hasattr(q, "total_count"):
+                date = getattr(q, "date")
+                total_count = getattr(q, "total_count")
+                party_count[str(date)] += total_count
+                continue
             party_count[str(q['date'])] += q['total_count']
 
         return party_count
 
     @classmethod
-    def get_sentiment_data_party_by_date(cls, party):
-        queryset = cls.objects.filter(
-            party=party).annotate(
-            pos=Sum('positive'),
-            neg=Sum('negative'),
-            neu=Sum('neutral'),
-            date=TruncDate('added_time')).values(
-            'date',
-            'pos', 'neg', 'neu').order_by('date')
+    def get_sentiment_data_party_by_date(cls, party, queryset=None):
+        if not queryset:
+            queryset = cls.objects.filter(
+                party=party).annotate(
+                pos=Sum('positive'),
+                neg=Sum('negative'),
+                neu=Sum('neutral'),
+                date=TruncDate('added_time')).values(
+                'date',
+                'pos', 'neg', 'neu').order_by('date')
+        else:
+            queryset = queryset.annotate(
+                pos=Sum('positive'),
+                neg=Sum('negative'),
+                neu=Sum('neutral'),
+                date=TruncDate('added_time')).values(
+                'date',
+                'pos', 'neg', 'neu').order_by('date')
 
         sentiment_timeseries = dict()
         pos_data = Counter()
         neg_data = Counter()
         neu_data = Counter()
         for q in queryset:
-            date = str(q['date'])
-            pos_data[date] += q['pos']
-            neg_data[date] += q['neg']
-            neu_data[date] += q['neu']
+            if hasattr(q, "date"):
+                date = str(getattr(q, "date"))
+                pos_data[date] += getattr(q, "pos")
+                neg_data[date] += getattr(q, "neg")
+                neu_data[date] += getattr(q, "neu")
+            else:
+                date = str(q['date'])
+                pos_data[date] += q['pos']
+                neg_data[date] += q['neg']
+                neu_data[date] += q['neu']
 
         for date in pos_data.keys():
             total = sum([pos_data[date], neg_data[date], neu_data[date]])
