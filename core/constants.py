@@ -42,6 +42,13 @@ YESTERDAY = "yesterday"
 THIS_WEEK = "week"
 ALL_TIME = "all"
 
+TIMERANGE_DISPLAY = {
+    TODAY: TODAY.title(),
+    YESTERDAY: YESTERDAY.title(),
+    THIS_WEEK: "This " + THIS_WEEK,
+    ALL_TIME: "All time"
+}
+
 TIMERANGE_DICT = {
     TODAY: 0,
     YESTERDAY: -1,

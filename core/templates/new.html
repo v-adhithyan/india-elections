@@ -3,7 +3,7 @@
 {% load app_filters %}
 
 <body style="color:#4D5A85">
-    <script>
+<script>
         setState(
             {{ party1_positive }},
             {{ party1_negative }},
@@ -25,98 +25,125 @@
             "{{ party2_color }}"
         )
 
-    </script>
-  <div class="card">
-      We are trying to predict the upcoming 2019 Indian parliment election. This is a near realtime analysis of tweets. Data is updated every 10 mins for India page and every 30 mins for Tamilnadu.
-    Data updation time period - everyday 10 AM - 7 PM (IST).
-      <br>
-      Sentiment analysis is being used to predict the results. Tweets related to parties are obtained periodically
-      and performed sentiment analysis. After performing sentiment analysis, tweets are tagged positive, negative and neutral.<br>
-      <ul>
-          <li><b>Positive</b> refers to tweets that contain positive information/view about the party. They are likely to vote for the party they tweet about.</li>
-          <li><b>Negative</b> refers to tweets that contain negative information/view about the party. They are likely to not vote for the party they tweet about.</li>
-          <li><b>Neutral</b> They are not biased towards any party and do not have any positive or negative view about the party.</li>
-      </ul>
 
-      <b>Since positive tweeters are likely to cast vote for the party they tweeted about, we predict win percentage based on positive tweet percentage.</b>
-      <b>If you want to know what people are tweeting, you can see a gist of tweets by clicking on hashtags in the middle card below.
-      Only the tweets related to mentioned hashtags are collected and analyzed.</b>
-      <center><i><b><a style="color:#4D5A85" href="/poll/opinion-poll">Click here to cast your vote in opinion poll.</a></b></i></center></div>
-  </div>
-  <h2 class="primary-color">
+</script>
+<div class="card">
+    We are trying to predict the upcoming 2019 Indian parliment election. This is a near realtime analysis of tweets.
+    Data is updated every 10 mins for India page and every 30 mins for Tamilnadu.
+    Data updation time period - everyday 10 AM - 7 PM (IST).
+    <br>
+    Sentiment analysis is being used to predict the results. Tweets related to parties are obtained periodically
+    and performed sentiment analysis. After performing sentiment analysis, tweets are tagged positive, negative and
+    neutral.<br>
+    <ul>
+        <li><b>Positive</b> refers to tweets that contain positive information/view about the party. They are likely to
+            vote for the party they tweet about.
+        </li>
+        <li><b>Negative</b> refers to tweets that contain negative information/view about the party. They are likely to
+            not vote for the party they tweet about.
+        </li>
+        <li><b>Neutral</b> They are not biased towards any party and do not have any positive or negative view about the
+            party.
+        </li>
+    </ul>
+
+    <b>Since positive tweeters are likely to cast vote for the party they tweet about, we predict win count based on
+        positive tweet percentage.</b>
+    <b>If you want to know what people are tweeting, you can see a gist of tweets by clicking on hashtags in the middle
+        card below.
+        Only the tweets related to mentioned hashtags are collected and analyzed.</b>
+    <center><i><b><a style="color:#4D5A85" href="/poll/opinion-poll">Click here to cast your vote in opinion
+        poll.</a></b></i></center>
+</div>
+<h2 class="primary-color">
     <center>Tweet stats</center>
-  </h2>
-  <!--div class="container"-->
-    <center>
-        <div class="card">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Party/Alliance</th>
-                        <th>Probable win count</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>{{ party1 }}</td>
-                        <td>{{ party1_seats }} / {{ total_seats }}</td>
-                    </tr>
-                    <tr>
-                        <td>{{ party2 }}</td>
-                        <td>{{ party2_seats }} / {{ total_seats }}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </center>
-  <div class="card-menu">
+</h2>
+<div class="container">
+    <div class="dropdown pull-right">
+        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">{{ range }}
+            <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+            <li><a href="?range=today">Today</a></li>
+            <li><a href="?range=yesterday">Yesterday</a></li>
+            <li><a href="?range=week">This week</a></li>
+            <li><a href="?range=all">All time</a></li>
+        </ul>
+    </div>
+</div>
+<center>
+    <div class="card">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Party/Alliance</th>
+                <th>Win count prediction</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{{ party1 }}</td>
+                <td>{{ party1_seats }} / {{ total_seats }}</td>
+            </tr>
+            <tr>
+                <td>{{ party2 }}</td>
+                <td>{{ party2_seats }} / {{ total_seats }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</center>
+<div class="card-menu">
       <div id="menu-1" class="card-menu-item active"><a href="#" style="color:#4D5A85" onclick="changeData('{{ party1 }}', 'menu-1', 'menu-2');">{{ party1 }}</a></div>   <div  id="menu-2" class=""><a href="#" style="color:#4D5A85" class="" onclick="changeData('{{ party2 }}', 'menu-2', 'menu-1');">{{ party2 }}</a></div>
-  </div>
-      <div class="row">
-          <div class="col-sm-4">
-            <div class="card">
-                <h3>Tweet sentiments</h3>
-                <div class="u-tw-sentiment" style="height:340px;"></div>
-                <script>amPieChart("u-tw-sentiment", {{ party1_positive }}, {{ party1_negative }}, {{ party1_neutral }})</script>
-            </div>
-          </div>
-          <div class="col-sm-4">
-          <div class="card">
-              <h3>Tweet counts by hashtag</h3> <br> <br>
-                <div id="u-tag-content" class="u-tw-tag" style="height:260px;">
+</div>
+<div class="row">
+    <div class="col-sm-4">
+        <div class="card">
+            <h3>Tweet sentiments</h3>
+            <div class="u-tw-sentiment" style="height:340px;"></div>
+            <script>amPieChart("u-tw-sentiment", {{ party1_positive }}, {{ party1_negative }}, {{ party1_neutral }})
+            </script>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card">
+            <h3>Tweet counts by hashtag</h3> <br> <br>
+            <div id="u-tag-content" class="u-tw-tag" style="height:260px;">
                 {% autoescape off %}{{ party1_tags|link_to_wordcloud }}{% endautoescape %}
                 <br>
-                </div>
-                <div style="border-bottom:1px solid black;"></div>
-                <br>
-                <div id="u-pc" style="text-align:right">{{ party1_post_count }} posts</div>
             </div>
-          </div>
-          <div class="col-sm-4">
-          <div class="card">
-              <h3>Tweet count by gender</h3>
-               <div class="u-tw-count" style="height:340px;"></div>
-              <script>amBarChart("u-tw-count", {{ party1_male }}, {{ party1_female }})</script>
-            </div>
+            <div style="border-bottom:1px solid black;"></div>
+            <br>
+            <div id="u-pc" style="text-align:right">{{ party1_post_count }} posts</div>
         </div>
-      </div>
-    <div class="row">
-      <div class="col-sm-6">
-        <div class="card">
-          <h3>Tweet count comparison</h3>
-          <div class="u-tw-count-comparison" style="height:400px;">
-            <script>amUpDownChart("u-tw-count-comparison", {{ new_time_series }}, "{{ party1 }}", "{{ party2 }}");</script>
-          </div>
-        </div>
-      </div>
-       <div class="col-sm-6">
-        <div class="card">
-          <h3>Tweet positive sentiment over time</h3>
-          <div class="u-sentiment-comparison" style="height:400px;">
-            <script>amUpDownChart("u-sentiment-comparison", {{ new_sentiment_time_series }}, "{{ party1 }}", "{{ party2 }}");</script>
-          </div>
-        </div>
-      </div>
     </div>
+    <div class="col-sm-4">
+        <div class="card">
+            <h3>Tweet count by gender</h3>
+            <div class="u-tw-count" style="height:340px;"></div>
+            <script>amBarChart("u-tw-count", {{ party1_male }}, {{ party1_female }})</script>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        <div class="card">
+            <h3>Tweet count comparison</h3>
+            <div class="u-tw-count-comparison" style="height:400px;">
+                <script>amUpDownChart("u-tw-count-comparison", {{ new_time_series }}, "{{ party1 }}", "{{ party2 }}");
+                </script>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="card">
+            <h3>Tweet positive sentiment over time</h3>
+            <div class="u-sentiment-comparison" style="height:400px;">
+                <script>
+                    amUpDownChart("u-sentiment-comparison", {{ new_sentiment_time_series }}, "{{ party1 }}", "{{ party2 }}");
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 {% endblock %}
