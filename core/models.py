@@ -107,6 +107,24 @@ class TweetStats(models.Model):
 
         return sentiment_timeseries
 
+    @classmethod
+    def get_all_time_sentiment_difference(cls, party, alias, data):
+        s_data = cls.objects.filter(party=party).aggregate(Sum('positive'))
+        total = sum(s_data.values())
+        positive_percentage = round((s_data['positive__sum'] / total) * 100, 2) - float(data[alias + "_positive"])
+        positive_percentage = round(positive_percentage, 2)
+        inference = "Win percentage {} by {} %"
+        if positive_percentage > 0:
+            performance = inference.format("up", positive_percentage)
+        elif positive_percentage < 0:
+            performance = inference.format("down", abs(positive_percentage))
+        else:
+            performance = "No change."
+
+        return {
+            alias + "_" + "wincount_performance": performance
+        }
+
     def __str__(self):
         q_and_count = "q -> {}\n count {}\n".format(self.q, self.count)
         sentiment = "positive:negative:neutral::{},{},{}\n".format(self.positive,

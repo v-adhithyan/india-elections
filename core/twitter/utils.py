@@ -286,6 +286,9 @@ def replace_parties_from_data(data, party_1, party_2, queryset=None):
         "party2_color": PARTIES_COLOR[party_2]
     })
 
+    return_data.update(TweetStats.get_all_time_sentiment_difference(party=party_1[0], alias="party1", data=return_data))
+    return_data.update(TweetStats.get_all_time_sentiment_difference(party=party_2[0], alias="party2", data=return_data))
+
     return update_winning_seats(return_data, parties)
 
 
