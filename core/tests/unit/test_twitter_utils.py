@@ -61,7 +61,8 @@ def test_generate_view_dict():
         "time_series",
         "sentiment_time_series",
         "color",
-        "seats"
+        "seats",
+        "wincount_performance"
     ]
     for key in data_keys:
         key = key.split("_")[1:]
