@@ -3,6 +3,7 @@ from django.shortcuts import render, render_to_response
 from django.template import RequestContext
 from django.urls import reverse
 from django.views.generic import TemplateView
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 
@@ -20,6 +21,7 @@ class POC(TemplateView):
     template_name = "poc.html"
 
 
+@csrf_exempt
 def index(request):
     # default range to all time if range is invalid or not in query params
     range = request.GET.get('range', ALL_TIME)
@@ -61,6 +63,7 @@ class TweetJob(APIView):
             return HttpResponse("param q is required", status=422)
 
 
+@csrf_exempt
 def tn(request):
     range = request.GET.get('range', ALL_TIME)
 
@@ -81,6 +84,7 @@ def new_ui_proto(request):
     return render(request=request, template_name="new.html", context=data)
 
 
+@csrf_exempt
 def whatsup_with_tweets(request):
     q = request.GET.get('q')
     wordcloud_url = reverse("get-word-cloud") + "?q={}".format(q)
@@ -88,12 +92,14 @@ def whatsup_with_tweets(request):
     return render(request=request, template_name='wc.html', context=data)
 
 
+@csrf_exempt
 def handler404(request, *args, **kwargs):
     response = render_to_response("404.html", {}, context_instance=RequestContext(request))
     response.status_code = 404
     return response
 
 
+@csrf_exempt
 def handler500(request, *args, **kwargs):
     response = render_to_response("500.html", {}, context_instance=RequestContext(request))
     response.status_code = 500

@@ -23,19 +23,22 @@ from rest_framework_simplejwt import views as jwt_views
 
 from core import views
 
+TEN_MINUTES = 60 * 10
+THIRTY_MINUTES = 60 * 30
+FOREVER = 24 * 60 * 60 * 30
+
 urlpatterns = [
-    url(r'^$', cache_page(600)(views.index), name="home"),
-    url(r'^terms-and-conditions', cache_page(24 * 60 * 60)(views.terms_and_conditions), name="tandc"),
+    url(r'^$', cache_page(TEN_MINUTES)(views.index), name="home"),
+    url(r'^terms-and-conditions', cache_page(FOREVER)(views.terms_and_conditions), name="tandc"),
     url(r'^admin/', admin.site.urls),
     # url(r'', views.hello_world),
     # url(r'^poc/', cache_page(600)(views.POC.as_view()), name='poc'),
-    url(r'^india/', views.index, name='index'),
-    url(r'^tn/', views.tn, name='tn'),
+    url(r'^india/', cache_page(TEN_MINUTES)(views.index), name='index'),
+    url(r'^tn/', cache_page(THIRTY_MINUTES)(views.tn), name='tn'),
     url(r'^wordcloud/', cache_page(600)(views.get_word_cloud), name="get-word-cloud"),
     path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     url(r'^job/', views.TweetJob().as_view(), name="tweet-fetcher-job"),
     url(r'^poll/', include('poll.urls')),
-    url(r'^new/', views.new_ui_proto, name="new-ui"),
-    url(r'^view/', views.whatsup_with_tweets, name="view-wordcloud")
+    url(r'^view/', cache_page(TEN_MINUTES)(views.whatsup_with_tweets), name="view-wordcloud")
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

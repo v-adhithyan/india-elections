@@ -23,7 +23,7 @@ def opinion_poll(request):
                 voter = form.save(commit=False)
                 voter.ip_address = get_ip_address(request)
                 voter.save()
-                messages.success(request, 'Your opinion was saved. Check back later to know the results.')
+                messages.success(request, 'Your opinion was saved. Results will be published on May 3rd week.')
             except Exception:
                 messages.error(request, "Unable to save your opinion. Please try again after some time.")
 
