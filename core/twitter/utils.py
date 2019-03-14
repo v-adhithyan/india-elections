@@ -97,6 +97,28 @@ def _generate_word_cloud_1(q, tweets_dict):
     return generate_word_cloud_1(q, tweets_dict)
 
 
+def create_wordcloud(comment_words, q):
+    wordcloud = WordCloud(width=800,
+                          height=800,
+                          background_color='white',
+                          stopwords=_STOPWORDS,
+                          min_font_size=10).generate(comment_words + CommentWords.get_comment_words(q=q))
+
+    plot.figure(figsize=(8, 8), facecolor=None)
+    plot.imshow(wordcloud)
+    plot.axis("off")
+    plot.tight_layout(pad=0)
+
+    temp_file = tempfile.NamedTemporaryFile(delete=False)
+    plot.savefig(temp_file.name + ".png")
+
+    put_word_cloud(q, file_path=temp_file.name + ".png")
+
+    plot.cla()
+    plot.close('all')
+
+    return temp_file
+
 def generate_word_cloud_1(q, tweets_dict):
     Tweet = namedtuple("Tweet", "tweet sentiment user_name")
     party = tweets_dict[0]['party']
@@ -130,25 +152,7 @@ def generate_word_cloud_1(q, tweets_dict):
         if gender == 'female':
             female += 1
 
-    wordcloud = WordCloud(width=800,
-                          height=800,
-                          background_color='white',
-                          stopwords=_STOPWORDS,
-                          min_font_size=10).generate(comment_words + CommentWords.get_comment_words(q=q))
-
-    plot.figure(figsize=(8, 8), facecolor=None)
-    plot.imshow(wordcloud)
-    plot.axis("off")
-    plot.tight_layout(pad=0)
-
-    temp_file = tempfile.NamedTemporaryFile(delete=False)
-    plot.savefig(temp_file.name)
-
-    # put_word_cloud(q, file_path=temp_file.name + ".png")
-
-    plot.cla()
-    plot.close('all')
-
+    temp_file = create_wordcloud(comment_words, q)
     TweetStats.objects.create(q=q, count=len(tweets_dict),
                               positive=pos, negative=neg, neutral=neg,
                               male=male, female=female, party=party)

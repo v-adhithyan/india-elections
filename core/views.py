@@ -104,3 +104,10 @@ def handler500(request, *args, **kwargs):
     response = render_to_response("500.html", {}, context_instance=RequestContext(request))
     response.status_code = 500
     return response
+
+
+@csrf_exempt
+def handler422(request, *args, **kwargs):
+    response = render_to_response("422.html", {}, context_instance=RequestContext(request))
+    response.status_code = 422
+    return response
