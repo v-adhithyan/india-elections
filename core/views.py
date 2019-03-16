@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 from core.models import Wordcloud
 from core.twitter import utils
 from core.twitter.twitter_api import TwitterApi
-from .constants import ALL_TIME, TIMERANGE_DICT, TIMERANGE_DISPLAY
+from core.constants import ALL_TIME, TIMERANGE_DICT, TIMERANGE_DISPLAY
 
 
 def hello_world(request):
@@ -70,6 +70,7 @@ def tn(request):
     if range not in TIMERANGE_DICT.keys():
         range = ALL_TIME
 
+    data = utils.generate_view_data("admk", "dmk", timerange=range)
     data = utils.generate_view_data("admk", "dmk", timerange=range)
     data.update({"range": TIMERANGE_DISPLAY.get(range, ALL_TIME)})
     return render(request=request, template_name="new.html", context=data)

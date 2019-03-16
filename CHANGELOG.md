@@ -25,7 +25,7 @@ with the count to generate wordcloud.
 - Added timeseries plot to show each day tweet count for both upa and nda.
 
 
-## 02.01.2019
+## 02.02.2019
 - Production memory leak in matplot which is used to generate word cloud. 500 error. Matplot keeps
 references to all plots generated until it is explicitly closed. I forgot to close
 the handle. So today raised a pr to close the matplot reference after writing the image.

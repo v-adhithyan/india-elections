@@ -17,6 +17,7 @@ from core.models import Alliance, CommentWords, TweetStats, Wordcloud
 from core.constants import (PARTIES_COLOR, TOTAL_LOKSABHA_SEATS_INDIA, TOTAL_LOKSABHA_SEATS_TN,
                             ALL_TIME,
                             TIMERANGE_DICT)
+from core.decorators import profile_endpoint
 
 _STOPWORDS = set(STOPWORDS)
 # loading gender predictor as global constant, so that training happens
@@ -213,6 +214,7 @@ def _add_int_data(data, party, tweet_stats):
     return data
 
 
+@profile_endpoint
 def generate_view_data(party_1, party_2, remove=False, timerange=ALL_TIME):
     candidate_n_party_dict = get_candidate_and_party_dict()
     parties = [

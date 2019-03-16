@@ -51,5 +51,13 @@
   - [Ayyappan Thirunavukarasu](https://github.com/ayps)
   - [Adhithyan Vijayakumar](https://github.com/v-adhithyan)
 
+
+## Todo
+
+- [ ] Use pre-commit library for pre-commit hooks
+- [ ] Write more unit tests/ fix failing tests
+- [ ] Add contributing and Pull request template
+- [ ] Refactor code, use wily, rope, improve maintainabilty
+
 ## License
  - MIT
