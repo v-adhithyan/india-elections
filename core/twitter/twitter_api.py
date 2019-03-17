@@ -8,6 +8,8 @@ from core.twitter.utils import (clean_tweet, generate_word_cloud_1,
                                 get_candidate_and_party_dict,
                                 get_tweet_sentiment)
 
+IN_CODE = 23424848
+
 
 class TwitterApi(object):
 
@@ -44,3 +46,24 @@ class TwitterApi(object):
         tweets = self.frame_tweets(fetched_tweets, query)
         generate_word_cloud_1(query, tweets)
         return len(tweets)
+
+    def get_country_code(country="india"):
+        # Running this function will get country code
+        # by default it will return india code
+        country = country.lower()
+        twitter = TwitterApi()
+        available_countries = twitter.api.trends_available()
+        country = list(filter(lambda c: c['name'].lower() == country, available_countries))
+        return country[0]["woeid"]
+
+    def get_trends(country_code=IN_CODE):
+        twitter = TwitterApi()
+        available_trends = twitter.api.trends_place(id=country_code)
+
+        if isinstance(available_trends, list) and len(available_trends) > 0:
+            trends = available_trends[0]
+            if "trends" in trends:
+                trends = trends["trends"]
+                return [t["name"] for t in trends]
+
+        return None
