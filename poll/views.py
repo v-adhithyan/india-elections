@@ -1,6 +1,8 @@
 from django.contrib import messages
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.clickjacking import xframe_options_exempt
+from django.views.decorators.csrf import csrf_exempt
+
 
 from .constants import GOOGLE_RECAPTCHA_SITE_KEY
 from .forms import OpinionPollForm
@@ -8,7 +10,7 @@ from .models import Constituency
 from .models import IFrameEnabledSites
 from .utils import get_ip_address, verify_recaptcha
 
-
+@csrf_exempt
 @xframe_options_exempt
 def opinion_poll(request):
     get_object_or_404(IFrameEnabledSites, domain=request.META["HTTP_HOST"], enabled=True)
@@ -34,7 +36,7 @@ def opinion_poll(request):
             'form': form,
             'google_recaptcha_site_key': GOOGLE_RECAPTCHA_SITE_KEY})
 
-
+@csrf_exempt
 def load_constituencies(request):
     state_id = request.GET.get('state')
     constituencies = Constituency.objects.filter(state_union_id=state_id).order_by('name')
