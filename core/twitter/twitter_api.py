@@ -63,7 +63,6 @@ class TwitterApi(object):
         if isinstance(available_trends, list) and len(available_trends) > 0:
             trends = available_trends[0]
             if "trends" in trends:
-                trends = trends["trends"]
-                return [t["name"] for t in trends]
+                return [t["name"] for t in trends["trends"]]
 
         return None
