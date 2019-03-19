@@ -75,7 +75,7 @@ def tn(request):
     data.update({"range": TIMERANGE_DISPLAY.get(range, ALL_TIME)})
     return render(request=request, template_name="new.html", context=data)
 
-
+@csrf_exempt
 def terms_and_conditions(request):
     return render(request=request, template_name='terms.html')
 

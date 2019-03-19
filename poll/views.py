@@ -35,7 +35,7 @@ def opinion_poll(request):
             'form': form,
             'google_recaptcha_site_key': GOOGLE_RECAPTCHA_SITE_KEY})
 
-
+@csrf_exempt
 def load_constituencies(request):
     state_id = request.GET.get('state')
     constituencies = Constituency.objects.filter(state_union_id=state_id).order_by('name')
