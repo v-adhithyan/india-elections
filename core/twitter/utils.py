@@ -49,6 +49,7 @@ TIMESERIES_DICT = {
     SENTIMENT_TIMESERIES: TweetStats.get_sentiment_data_party_by_date
 }
 
+
 def clean_tweet(tweet):
     tweet = ' '.join(
         re.sub(r"(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", smart_text(tweet)).split())

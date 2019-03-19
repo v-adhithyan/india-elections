@@ -1,14 +1,15 @@
 from django.contrib import messages
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.views.decorators.clickjacking import xframe_options_exempt
+from django.views.decorators.csrf import csrf_exempt
 
 from .constants import GOOGLE_RECAPTCHA_SITE_KEY
 from .forms import OpinionPollForm
-from .models import Constituency
-from .models import IFrameEnabledSites
+from .models import Constituency, IFrameEnabledSites
 from .utils import get_ip_address, verify_recaptcha
 
 
+@csrf_exempt
 @xframe_options_exempt
 def opinion_poll(request):
     get_object_or_404(IFrameEnabledSites, domain=request.META["HTTP_HOST"], enabled=True)
