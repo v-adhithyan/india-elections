@@ -64,3 +64,6 @@ class TwitterApi(object):
                 return [t["name"] for t in trends["trends"]]
 
         return []
+
+    def update_status(self, status):
+        self.api.update_status(status=status)
