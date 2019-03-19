@@ -10,10 +10,10 @@ national_parties = party_tuple(party1="BJP", party2="Congress", place="India's",
 tn_parties = party_tuple(party1="Admk", party2="Dmk", place="Tamilnadu's", alliance1='admk', alliance2='dmk')
 
 
-def tweet_prediction(parties, remove=False):
-    data = generate_view_data(parties.alliance1, parties.alliance2, remove=remove, timerange=TODAY)
+def tweet_prediction(parties, remove=False, timerange=TODAY):
+    data = generate_view_data(parties.alliance1, parties.alliance2, remove=remove, timerange=timerange)
     template = TweetTemplate(party1=parties.party1, party2=parties.party2, party1_count=data['party1_seats'],
-                             party2_count=data['party2_seats'], place=parties.place)
+                             party2_count=data['party2_seats'], place=parties.place, timerange=timerange)
 
     api = TwitterApi()
     api.update_status(status=template.get_tweet())
