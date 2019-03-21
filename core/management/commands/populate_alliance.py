@@ -15,8 +15,5 @@ class Command(BaseCommand):
             'admk': 'admk',
             'dmk': 'dmk'
         }
-        bulk_data = []
-        for q, party in data.items():
-            bulk_data.append(Alliance(q=q, party=party[0]))
-
+        bulk_data = [Alliance(q=q, party=party[0]) for q, party in data.items()]
         Alliance.objects.bulk_create(bulk_data)
