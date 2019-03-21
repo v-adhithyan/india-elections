@@ -34,6 +34,7 @@
     DEV_STATIC='1'
     ```
   - Migrate the app ```python manage.py migrate```
+  - Bootstrap the server with some data ```python manage.py setup_dev_env```
   - Start server ```python manage.py runserver```
   - Open browser and go to localhost:8000/ - You will see India elections 2k19 - visulizations
 
