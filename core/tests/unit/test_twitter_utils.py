@@ -44,7 +44,9 @@ def test_get_wordcloud(tweets):
 
 
 @pytest.mark.django_db
-def test_generate_view_dict():
+@mock.patch('core.models.TweetStats.get_all_time_sentiment_difference')
+def test_generate_view_dict(mock_all_time_sentiment):
+    mock_all_time_sentiment.return_value = {"_wincount_performance": "No change."}
     data = utils.generate_view_data(party_1="upa", party_2="nda", remove=True)
 
     assert isinstance(data, dict)
@@ -67,7 +69,7 @@ def test_generate_view_dict():
     for key in data_keys:
         key = key.split("_")[1:]
         key = "_".join(key)
-        if key:
+        if key and key != "taken_in_seconds":
             assert key in keys
 
 

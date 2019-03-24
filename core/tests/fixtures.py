@@ -3,8 +3,12 @@ import pathlib
 import random
 from collections import namedtuple
 
+import mock
 import pytest
+
+from core.constants import YESTERDAY
 from core.models import TweetStats
+from core.twitter.bot.templates import TweetTemplate
 from core.twitter.twitter_api import TwitterApi
 from core.twitter.utils import _generate_word_cloud_1
 
@@ -63,3 +67,78 @@ def sentiment_data(positive, negative, neutral):
         "nda_neutral": neutral
     }
     return data
+
+
+@pytest.fixture
+def twitter_trends():
+    return ['#KKRvSRH',
+            '#RememberMeWhenYouVote',
+            'David Warner',
+            '#CashTheGame',
+            'Sapna',
+            '#KKRHaiTaiyaar',
+            'Dinesh Karthik',
+            'Prasidh Krishna',
+            'Bairstow',
+            'Shaan New Track',
+            'Piyush Chawla',
+            'Bhuvneshwar Kumar',
+            '21 MP',
+            'Match 2',
+            'Eden Gardens',
+            'Kolkata Knight Riders',
+            'Travel Cash Fest',
+            'Pakistin',
+            'Andre Russell',
+            'Williamson',
+            'Ram Madhav',
+            'Mulayam Singh Yadav',
+            '#ProtinexWithPrithvi',
+            '#OrangeArmy',
+            '#kejriwalhateshindu',
+            '#RadhaRavi',
+            '#SRHvsKKR',
+            '#21ru21Sankha',
+            '#SundayMotivation',
+            '#TuMeraRabHai',
+            '#SundayThoughts',
+            '#WorldTBDay',
+            '#TeamModi',
+            '#CricbuzzLIVE',
+            '#MIvDC',
+            '#PatiPatniAurWoh',
+            '#Warner',
+            '#MainBhiChowkidarAtCP',
+            '#ChowkidarDebate',
+            '#KorboLorboJeetbo',
+            '#ChowkidarSeMahilaKoBachao',
+            '#GreenplyPlywood',
+            '#EndTB',
+            '#Taanaji',
+            '#StopForcedConversions',
+            '#RiseWithUs',
+            '#StopDestroyingStartUps',
+            '#WorldTuberculosisDay']
+
+
+@pytest.fixture
+def tweet_template():
+    return TweetTemplate(
+        party1="admk",
+        party1_count=20,
+        party2="dmk",
+        party2_count=20,
+        place="Tamilnadu",
+        timerange=YESTERDAY)
+
+
+@pytest.fixture
+@mock.patch('core.image.helpers.generate_tweet_image')
+@mock.patch('core.twitter.bot.TweetTemplate')
+@mock.patch('core.twitter.utils.generate_view_data')
+@mock.patch('tweepy.API.update_with_media')
+def mock_tweet_prediction(twitter_api, generate_view_data, mock_tweet_template, generate_tweet_image, tweet_template):
+    twitter_api.return_value = []
+    generate_view_data.return_value = dict()
+    mock_tweet_template.return_value = tweet_template
+    generate_tweet_image.return_value = None
