@@ -38,6 +38,6 @@ class TweetTemplate:
                 current_tweet_hashtag += hashtag + " "
             else:
                 _hashtags.append(current_tweet_hashtag.strip().lstrip().rstrip())
-                current_tweet_hashtag = hashtag
+                current_tweet_hashtag = hashtag + " "
 
         return tweettemplate(text=text, link=link, hashtags=_hashtags)
