@@ -29,7 +29,7 @@ class TweetTemplate:
             .substitute(party1=self.party1.upper(), party1_count=self.party1_count, party2=self.party2.upper(),
                         party2_count=self.party2_count, place=self.place, timerange=self.timerange)
 
-        link = "https://www.indiaelections.xyz/poll/opinion-poll/ "
+        link = "Link ----> https://www.indiaelections.xyz/poll/opinion-poll/ \n \n \n"
 
         current_tweet_hashtag = ""
         _hashtags = []
