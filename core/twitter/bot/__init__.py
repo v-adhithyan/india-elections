@@ -29,14 +29,14 @@ def tweet_prediction(parties, remove=False, timerange=TODAY):
         twitter.api.update_with_media(str(TWEET_IMAGE), status=status)
 
 
-def tweet_prediction_for_india():
-    tweet_prediction(national_parties, remove=True)
+def tweet_prediction_for_india(timerange=TODAY):
+    tweet_prediction(national_parties, remove=True, timerange=timerange)
 
 
-def tweet_prediction_for_tamilnadu():
-    tweet_prediction(tn_parties)
+def tweet_prediction_for_tamilnadu(timerange=TODAY):
+    tweet_prediction(tn_parties, timerange=timerange)
 
 
-def tweet_all():
-    tweet_prediction_for_india()
-    tweet_prediction_for_tamilnadu()
+def tweet_all(timerange=TODAY):
+    tweet_prediction_for_india(timerange=timerange)
+    tweet_prediction_for_tamilnadu(timerange=timerange)

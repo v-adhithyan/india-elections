@@ -38,7 +38,7 @@ urlpatterns = [
     url(r'^wordcloud/', cache_page(600)(views.get_word_cloud), name="get-word-cloud"),
     path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
-    url(r'^job/', views.TweetJob().as_view(), name="tweet-fetcher-job"),
     url(r'^poll/', include('poll.urls')),
+    url(r'^job/', include('core.job.urls')),
     url(r'^view/', cache_page(TEN_MINUTES)(views.whatsup_with_tweets), name="view-wordcloud")
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

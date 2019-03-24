@@ -32,6 +32,7 @@
     MEMCACHE_USERNAME='memcache username'
     MEMCACHE_PASSWORD='memcache password'
     DEV_STATIC='1'
+    PC_HOST='localhost'
     ```
   - Migrate the app ```python manage.py migrate```
   - Bootstrap the server with some data ```python manage.py setup_dev_env```
