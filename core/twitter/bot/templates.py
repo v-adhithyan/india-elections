@@ -21,11 +21,12 @@ class TweetTemplate:
         hashtags = filter(lambda hashtag: hashtag.startswith("#"), TwitterApi().get_trends())
 
         text = Template("""
-            As per $timerange 's prediction :\n$party1 will win $party1_count seats and\n
-            $party2 will win $party2_count seats.\n
-            Not satisfied with the prediction ???. Take part in the opinion poll and change $place fate.
-            \n Opinion poll link in tweet.\n Voice your opinion now.""")\
-            .substitute(party1=self.party1, party1_count=self.party1_count, party2=self.party2,
+            As per $timerange 's prediction, in the upcoming loksabha election 2019:\n
+            - $party1 may win $party1_count seats and\n
+            - $party2 may win $party2_count seats.\n
+            Not satisfied with the prediction ???. Take part in the opinion poll and change $place fate.\n
+            Opinion poll link in tweet. Voice your opinion now.""")\
+            .substitute(party1=self.party1.upper(), party1_count=self.party1_count, party2=self.party2.upper(),
                         party2_count=self.party2_count, place=self.place, timerange=self.timerange)
 
         link = "https://www.indiaelections.xyz/poll/opinion-poll/ "

@@ -1,11 +1,11 @@
 from collections import namedtuple
 
 from core.constants import TODAY
+from core.image.constants import TWEET_IMAGE
+from core.image.helpers import generate_tweet_image
 from core.twitter.bot.templates import TweetTemplate
 from core.twitter.twitter_api import TwitterApi
 from core.twitter.utils import generate_view_data
-from core.image.constants import TWEET_IMAGE
-from core.image.helpers import generate_tweet_image
 
 party_tuple = namedtuple("party_tuple", "party1 party2 place alliance1 alliance2")
 national_parties = party_tuple(party1="BJP", party2="Congress", place="India's", alliance1='nda', alliance2='upa')
