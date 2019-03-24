@@ -1,8 +1,12 @@
+from collections import namedtuple
 from dataclasses import dataclass
 from string import Template
 
 from core.twitter.twitter_api import TwitterApi
 
+tweettemplate = namedtuple("tweettemplate", "text link hashtags")
+
+TWEET_LENGTH = 280
 
 @dataclass
 class TweetTemplate:
@@ -14,12 +18,25 @@ class TweetTemplate:
     timerange: str
 
     def get_tweet(self):
-        hashtags = TwitterApi().get_trends()
+        hashtags = filter(lambda hashtag: hashtag.startswith("#"), TwitterApi().get_trends())
 
-        return Template(
-            """As per $timerange 's prediction $party1 will win $party1_count seats and $party2 will win $party2_count seats.
+        text = Template("""
+            As per $timerange 's prediction :\n$party1 will win $party1_count seats and\n
+            $party2 will win $party2_count seats.\n
             Not satisfied with the prediction ???. Take part in the opinion poll and change $place fate.
-            https://www.indiaelections.xyz/poll/opinion-poll/
-            #bjp #inccongress #congress #india #admk #dmk $hashtags""").substitute(
-            party1=self.party1, party1_count=self.party1_count, party2=self.party2, party2_count=self.party2_count,
-            place=self.place, hashtags=" ".join(hashtags), timerange=self.timerange)
+            \n Opinion poll link in tweet.\n Voice your opinion now.""")\
+            .substitute(party1=self.party1, party1_count=self.party1_count, party2=self.party2,
+                        party2_count=self.party2_count, place=self.place, timerange=self.timerange)
+
+        link = "https://www.indiaelections.xyz/poll/opinion-poll/ "
+
+        current_tweet_hashtag = ""
+        _hashtags = []
+        for hashtag in hashtags:
+            if len(link + current_tweet_hashtag + hashtag + " ") < TWEET_LENGTH:
+                current_tweet_hashtag += hashtag + " "
+            else:
+                _hashtags.append(current_tweet_hashtag.strip().lstrip().rstrip())
+                current_tweet_hashtag = hashtag
+
+        return tweettemplate(text=text, link=link, hashtags=_hashtags)
