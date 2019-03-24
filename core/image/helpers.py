@@ -4,8 +4,8 @@ from django.utils.encoding import force_bytes
 from core.image.constants import FONT_PATH, BACKGROUND_IMAGE_PATH
 
 WHITE_COLOR = (0, 0, 0)
-START_X = 60
-START_Y = 200
+START_X = 50
+START_Y = 100
 START_COORDINATES = (START_X, START_Y)
 
 

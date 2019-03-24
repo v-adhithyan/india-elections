@@ -26,7 +26,6 @@ def tweet_prediction(parties, remove=False, timerange=TODAY):
 
     for hashtag in tweet.hashtags:
         status = tweet.link + hashtag
-        print(status)
         twitter.api.update_with_media(str(TWEET_IMAGE), status=status)
 
 
