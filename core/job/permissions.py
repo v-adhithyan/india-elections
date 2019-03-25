@@ -1,7 +1,7 @@
 from rest_framework.permissions import BasePermission
 
 
-LOCALHOST = '127.0.0.1'
+LOCALHOST = ['127.0.0.1', '54.221.194.108']
 
 
 class JobAccess(BasePermission):
@@ -12,4 +12,4 @@ class JobAccess(BasePermission):
         if not ip_address:
             ip_address = request.META.get('REMOTE_ADDR')
 
-        return ip_address == LOCALHOST
+        return ip_address in LOCALHOST
