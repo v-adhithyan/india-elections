@@ -50,19 +50,6 @@ def get_word_cloud(request):
     return HttpResponse("A query parameter q is required to generate word cloud")
 
 
-class TweetJob(APIView):
-    permission_classes = (IsAuthenticated, )
-
-    def get(self, request):
-        try:
-            q = request.GET['q']
-            api = TwitterApi()
-            api.get_and_save_tweets(query=q)
-            return HttpResponse("success", status=200)
-        except KeyError:
-            return HttpResponse("param q is required", status=422)
-
-
 @csrf_exempt
 def tn(request):
     range = request.GET.get('range', ALL_TIME)

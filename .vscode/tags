@@ -1,0 +1,470 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+0001_initial.py	../core/migrations/0001_initial.py	1;"	kind:file	line:1
+0001_initial.py	../poll/migrations/0001_initial.py	1;"	kind:file	line:1
+0002_auto_20190114_0136.py	../core/migrations/0002_auto_20190114_0136.py	1;"	kind:file	line:1
+0002_auto_20190226_0226.py	../poll/migrations/0002_auto_20190226_0226.py	1;"	kind:file	line:1
+0003_auto_20190122_0222.py	../core/migrations/0003_auto_20190122_0222.py	1;"	kind:file	line:1
+0003_auto_20190226_1230.py	../poll/migrations/0003_auto_20190226_1230.py	1;"	kind:file	line:1
+0004_auto_20190227_0232.py	../poll/migrations/0004_auto_20190227_0232.py	1;"	kind:file	line:1
+0004_tweetstats_party.py	../core/migrations/0004_tweetstats_party.py	1;"	kind:file	line:1
+0005_alliance.py	../core/migrations/0005_alliance.py	1;"	kind:file	line:1
+0006_commentwords.py	../core/migrations/0006_commentwords.py	1;"	kind:file	line:1
+0007_remove_tweetstats_comment_words.py	../core/migrations/0007_remove_tweetstats_comment_words.py	1;"	kind:file	line:1
+0008_auto_20190220_0259.py	../core/migrations/0008_auto_20190220_0259.py	1;"	kind:file	line:1
+0009_auto_20190226_0148.py	../core/migrations/0009_auto_20190226_0148.py	1;"	kind:file	line:1
+ALLOWED_HOSTS	../indiaelections/settings.py	/^ALLOWED_HOSTS = ["*"]$/;"	kind:variable	line:42
+ALL_TIME	../core/constants.py	/^ALL_TIME = "all"$/;"	kind:variable	line:43
+AUTH_PASSWORD_VALIDATORS	../indiaelections/settings.py	/^AUTH_PASSWORD_VALIDATORS = [$/;"	kind:variable	line:98
+Alliance	../core/models.py	/^class Alliance(models.Model):$/;"	kind:class	line:149
+BACKGROUND_IMAGE_PATH	../core/image/constants.py	/^BACKGROUND_IMAGE_PATH = Path(DATA_DIR \/ "tweet-background.png")$/;"	kind:variable	line:6
+BASE_DIR	../indiaelections/db.py	/^BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))$/;"	kind:variable	line:8
+BASE_DIR	../indiaelections/settings.py	/^BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))$/;"	kind:variable	line:28
+CANDIDATE_PARTY_DICT	../core/twitter/utils.py	/^CANDIDATE_PARTY_DICT = {}$/;"	kind:variable	line:26
+CRISPY_TEMPLATE_PACK	../indiaelections/settings.py	/^CRISPY_TEMPLATE_PACK = 'bootstrap4'$/;"	kind:variable	line:157
+Command	../core/management/commands/clear_tmp.py	/^class Command(BaseCommand):$/;"	kind:class	line:9
+Command	../core/management/commands/fetch_and_save_tweets.py	/^class Command(LabelCommand):$/;"	kind:class	line:6
+Command	../core/management/commands/migrate_commentwords.py	/^class Command(BaseCommand):$/;"	kind:class	line:16
+Command	../core/management/commands/populate_alliance.py	/^class Command(BaseCommand):$/;"	kind:class	line:6
+Command	../core/management/commands/setup_dev_env.py	/^class Command(BaseCommand):$/;"	kind:class	line:7
+Command	../core/management/commands/textblob_download_corpora.py	/^class Command(BaseCommand):$/;"	kind:class	line:6
+Command	../poll/management/commands/scrape_loksabha_constituencies.py	/^class Command(BaseCommand):$/;"	kind:class	line:51
+CommentWords	../core/models.py	/^class CommentWords(models.Model):$/;"	kind:class	line:157
+Constituency	../poll/models.py	/^class Constituency(models.Model):$/;"	kind:class	line:22
+CoreConfig	../core/apps.py	/^class CoreConfig(AppConfig):$/;"	kind:class	line:4
+DATABASES	../indiaelections/settings.py	/^DATABASES = get_db_config()$/;"	kind:variable	line:93
+DATA_DIR	../poll/management/commands/scrape_loksabha_constituencies.py	/^DATA_DIR = Path(PROJECT_ROOT).parents[0] \/ "data"$/;"	kind:variable	line:13
+DEBUG	../indiaelections/settings.py	/^    DEBUG = False$/;"	kind:variable	line:40
+DEBUG	../indiaelections/settings.py	/^    DEBUG = bool(os.environ["IE_DEBUG"])$/;"	kind:variable	line:38
+DEV_STATIC	../indiaelections/wsgi.py	/^DEV_STATIC = os.environ["DEV_STATIC"]$/;"	kind:variable	line:19
+FONT_PATH	../core/image/constants.py	/^FONT_PATH = os.path.join(DATA_DIR, "lato.ttf")$/;"	kind:variable	line:7
+FOREVER	../indiaelections/urls.py	/^FOREVER = 24 * 60 * 60 * 30$/;"	kind:variable	line:28
+GENDER	../poll/constants.py	/^GENDER = ($/;"	kind:variable	line:14
+GENDER_PREDICTOR	../core/twitter/utils.py	/^GENDER_PREDICTOR = IndianGenderPredictor()$/;"	kind:variable	line:25
+GOOGLE_RECAPTCHA_SITE_KEY	../poll/constants.py	/^GOOGLE_RECAPTCHA_SITE_KEY = os.environ.get("RECAPTCHA_SITE_KEY", "")$/;"	kind:variable	line:19
+GOOGLE_RECAPTCHA_VERIFY_URL	../poll/constants.py	/^GOOGLE_RECAPTCHA_VERIFY_URL = "https:\/\/www.google.com\/recaptcha\/api\/siteverify"$/;"	kind:variable	line:20
+GREEN	../core/constants.py	/^GREEN = "#006400"$/;"	kind:variable	line:22
+IFrameEnabledSites	../poll/models.py	/^class IFrameEnabledSites(models.Model):$/;"	kind:class	line:7
+INDIA	../core/twitter/twitter_api.py	/^INDIA = 23424848$/;"	kind:variable	line:11
+INSTALLED_APPS	../indiaelections/settings.py	/^INSTALLED_APPS = [$/;"	kind:variable	line:46
+INT_KEYS	../core/twitter/utils.py	/^INT_KEYS = [$/;"	kind:variable	line:27
+LANGUAGE_CODE	../indiaelections/settings.py	/^LANGUAGE_CODE = 'en-us'$/;"	kind:variable	line:116
+LOGGING	../indiaelections/settings.py	/^LOGGING = {$/;"	kind:variable	line:140
+MIDDLEWARE	../indiaelections/settings.py	/^MIDDLEWARE = [$/;"	kind:variable	line:59
+MYSQL	../indiaelections/db.py	/^MYSQL = int(os.getenv("MYSQL", True))$/;"	kind:variable	line:13
+MYSQL_DATABASE	../indiaelections/db.py	/^MYSQL_DATABASE = {$/;"	kind:variable	line:15
+Meta	../poll/forms.py	/^    class Meta:$/;"	kind:class	line:8
+Migration	../core/migrations/0001_initial.py	/^class Migration(migrations.Migration):$/;"	kind:class	line:6
+Migration	../core/migrations/0002_auto_20190114_0136.py	/^class Migration(migrations.Migration):$/;"	kind:class	line:6
+Migration	../core/migrations/0003_auto_20190122_0222.py	/^class Migration(migrations.Migration):$/;"	kind:class	line:6
+Migration	../core/migrations/0004_tweetstats_party.py	/^class Migration(migrations.Migration):$/;"	kind:class	line:6
+Migration	../core/migrations/0005_alliance.py	/^class Migration(migrations.Migration):$/;"	kind:class	line:6
+Migration	../core/migrations/0006_commentwords.py	/^class Migration(migrations.Migration):$/;"	kind:class	line:6
+Migration	../core/migrations/0007_remove_tweetstats_comment_words.py	/^class Migration(migrations.Migration):$/;"	kind:class	line:6
+Migration	../core/migrations/0008_auto_20190220_0259.py	/^class Migration(migrations.Migration):$/;"	kind:class	line:4
+Migration	../core/migrations/0009_auto_20190226_0148.py	/^class Migration(migrations.Migration):$/;"	kind:class	line:6
+Migration	../poll/migrations/0001_initial.py	/^class Migration(migrations.Migration):$/;"	kind:class	line:7
+Migration	../poll/migrations/0002_auto_20190226_0226.py	/^class Migration(migrations.Migration):$/;"	kind:class	line:6
+Migration	../poll/migrations/0003_auto_20190226_1230.py	/^class Migration(migrations.Migration):$/;"	kind:class	line:31
+Migration	../poll/migrations/0004_auto_20190227_0232.py	/^class Migration(migrations.Migration):$/;"	kind:class	line:7
+OPINION_POLL_OPTIONS	../poll/constants.py	/^OPINION_POLL_OPTIONS = ($/;"	kind:variable	line:7
+OpinionPoll	../poll/models.py	/^class OpinionPoll(models.Model):$/;"	kind:class	line:30
+OpinionPollForm	../poll/forms.py	/^class OpinionPollForm(forms.ModelForm):$/;"	kind:class	line:6
+PARTIES	../core/constants.py	/^PARTIES = ($/;"	kind:variable	line:13
+PARTIES_COLOR	../core/constants.py	/^PARTIES_COLOR = {$/;"	kind:variable	line:25
+POC	../core/views.py	/^class POC(TemplateView):$/;"	kind:class	line:20
+PROJECT_ROOT	../indiaelections/settings.py	/^PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))$/;"	kind:variable	line:131
+PollConfig	../poll/apps.py	/^class PollConfig(AppConfig):$/;"	kind:class	line:4
+RED	../core/constants.py	/^RED = "#ff0000"$/;"	kind:variable	line:23
+REST_FRAMEWORK	../indiaelections/settings.py	/^REST_FRAMEWORK = {$/;"	kind:variable	line:134
+ROOT_URLCONF	../indiaelections/settings.py	/^ROOT_URLCONF = 'indiaelections.urls'$/;"	kind:variable	line:70
+SAFFRON	../core/constants.py	/^SAFFRON = "#F97D09"$/;"	kind:variable	line:21
+SECRET_KEY	../indiaelections/settings.py	/^SECRET_KEY = 'y3vo#u624v3c7(%luo&@-*=@oj30bn9+fwmsytkfyc22tx%)xc'$/;"	kind:variable	line:34
+SENTIMENTS	../core/constants.py	/^SENTIMENTS = ($/;"	kind:variable	line:7
+SENTIMENT_KEYS	../core/twitter/utils.py	/^SENTIMENT_KEYS = [$/;"	kind:variable	line:38
+SENTIMENT_TIMESERIES	../core/twitter/utils.py	/^SENTIMENT_TIMESERIES = "sentiment_time_series"$/;"	kind:variable	line:45
+SET_KEYS	../core/twitter/utils.py	/^SET_KEYS = [$/;"	kind:variable	line:35
+SKY_BLUE	../core/constants.py	/^SKY_BLUE = "#87ceeb"$/;"	kind:variable	line:20
+SQLITE_DATABASE	../indiaelections/db.py	/^SQLITE_DATABASE = {$/;"	kind:variable	line:26
+START_COORDINATES	../core/image/helpers.py	/^START_COORDINATES = (START_X, START_Y)$/;"	kind:variable	line:9
+START_X	../core/image/helpers.py	/^START_X = 50$/;"	kind:variable	line:7
+START_Y	../core/image/helpers.py	/^START_Y = 100$/;"	kind:variable	line:8
+STATES	../poll/management/commands/scrape_loksabha_constituencies.py	/^STATES = 29$/;"	kind:variable	line:14
+STATES_AND_UNION_TERRITORIES	../poll/management/commands/scrape_loksabha_constituencies.py	/^STATES_AND_UNION_TERRITORIES = STATES + UNION_TERRITORIES$/;"	kind:variable	line:16
+STATIC_ROOT	../indiaelections/settings.py	/^STATIC_ROOT = os.path.join(PROJECT_ROOT, "static")$/;"	kind:variable	line:132
+STATIC_URL	../indiaelections/settings.py	/^STATIC_URL = '\/static\/'$/;"	kind:variable	line:129
+StateUnion	../poll/models.py	/^class StateUnion(models.Model):$/;"	kind:class	line:15
+TEMPLATES	../indiaelections/settings.py	/^TEMPLATES = [$/;"	kind:variable	line:72
+TEN_MINUTES	../indiaelections/urls.py	/^TEN_MINUTES = 60 * 10$/;"	kind:variable	line:26
+THIRTY_MINUTES	../indiaelections/urls.py	/^THIRTY_MINUTES = 60 * 30$/;"	kind:variable	line:27
+THIS_WEEK	../core/constants.py	/^THIS_WEEK = "week"$/;"	kind:variable	line:42
+TIMERANGE_DICT	../core/constants.py	/^TIMERANGE_DICT = {$/;"	kind:variable	line:52
+TIMERANGE_DISPLAY	../core/constants.py	/^TIMERANGE_DISPLAY = {$/;"	kind:variable	line:45
+TIMESERIES	../core/twitter/utils.py	/^TIMESERIES = "time_series"$/;"	kind:variable	line:44
+TIMESERIES_DICT	../core/twitter/utils.py	/^TIMESERIES_DICT = {$/;"	kind:variable	line:47
+TIME_ZONE	../indiaelections/settings.py	/^TIME_ZONE = 'UTC'$/;"	kind:variable	line:118
+TODAY	../core/constants.py	/^TODAY = "today"$/;"	kind:variable	line:40
+TOTAL_LOKSABHA_SEATS_INDIA	../core/constants.py	/^TOTAL_LOKSABHA_SEATS_INDIA = 543$/;"	kind:variable	line:37
+TOTAL_LOKSABHA_SEATS_TN	../core/constants.py	/^TOTAL_LOKSABHA_SEATS_TN = 39$/;"	kind:variable	line:38
+TWEET_IMAGE	../core/image/constants.py	/^TWEET_IMAGE = Path(os.path.join("\/tmp", "tweet.png"))$/;"	kind:variable	line:8
+TWEET_LENGTH	../core/twitter/bot/templates.py	/^TWEET_LENGTH = 280$/;"	kind:variable	line:9
+TW_ACCESS_TOKEN	../core/constants.py	/^TW_ACCESS_TOKEN = os.environ["TW_ACCESS_TOKEN"]$/;"	kind:variable	line:34
+TW_ACCESS_TOKEN_SECRET	../core/constants.py	/^TW_ACCESS_TOKEN_SECRET = os.environ["TW_ACCESS_TOKEN_SECRET"]$/;"	kind:variable	line:35
+TW_CONSUMER_KEY	../core/constants.py	/^TW_CONSUMER_KEY = os.environ["TW_CONSUMER_KEY"]$/;"	kind:variable	line:32
+TW_CONSUMER_SECRET	../core/constants.py	/^TW_CONSUMER_SECRET = os.environ["TW_CONSUMER_SECRET"]$/;"	kind:variable	line:33
+TimeRangeSerializer	../core/serializers.py	/^class TimeRangeSerializer(serializers.Serializer):$/;"	kind:class	line:6
+Tweet	../core/tests/fixtures.py	/^Tweet = namedtuple('Tweet', 'q text user')$/;"	kind:variable	line:15
+TweetJob	../core/views.py	/^class TweetJob(APIView):$/;"	kind:class	line:53
+TweetStats	../core/models.py	/^class TweetStats(models.Model):$/;"	kind:class	line:11
+TweetTemplate	../core/twitter/bot/templates.py	/^class TweetTemplate:$/;"	kind:class	line:12
+TwitterApi	../core/twitter/twitter_api.py	/^class TwitterApi(object):$/;"	kind:class	line:14
+UNION_TERRITORIES	../poll/management/commands/scrape_loksabha_constituencies.py	/^UNION_TERRITORIES = 7$/;"	kind:variable	line:15
+USE_I18N	../indiaelections/settings.py	/^USE_I18N = True$/;"	kind:variable	line:120
+USE_L10N	../indiaelections/settings.py	/^USE_L10N = True$/;"	kind:variable	line:122
+USE_TZ	../indiaelections/settings.py	/^USE_TZ = True$/;"	kind:variable	line:124
+User	../core/tests/fixtures.py	/^User = namedtuple('User', 'screen_name')$/;"	kind:variable	line:16
+WHITE_COLOR	../core/image/helpers.py	/^WHITE_COLOR = (0, 0, 0)$/;"	kind:variable	line:6
+WIKIPEDIA_LOKSABHA_CONSTITUENCIES_LIST_URL	../poll/management/commands/scrape_loksabha_constituencies.py	/^WIKIPEDIA_LOKSABHA_CONSTITUENCIES_LIST_URL = "https:\/\/en.wikipedia.org\/wiki\/List_of_constituencies_of_the_Lok_Sabha"$/;"	kind:variable	line:12
+WSGI_APPLICATION	../indiaelections/settings.py	/^WSGI_APPLICATION = 'indiaelections.wsgi.application'$/;"	kind:variable	line:88
+Wordcloud	../core/models.py	/^class Wordcloud(models.Model):$/;"	kind:class	line:138
+YESTERDAY	../core/constants.py	/^YESTERDAY = "yesterday"$/;"	kind:variable	line:41
+_STOPWORDS	../core/twitter/utils.py	/^_STOPWORDS = set(STOPWORDS)$/;"	kind:variable	line:22
+__init__	../core/twitter/twitter_api.py	/^    def __init__(self):$/;"	kind:member	line:16
+__init__	../poll/forms.py	/^    def __init__(self, *args, **kwargs):$/;"	kind:member	line:12
+__init__.py	../core/__init__.py	1;"	kind:file	line:1
+__init__.py	../core/migrations/__init__.py	1;"	kind:file	line:1
+__init__.py	../core/templatetags/__init__.py	1;"	kind:file	line:1
+__init__.py	../core/tests/__init__.py	1;"	kind:file	line:1
+__init__.py	../core/tests/unit/__init__.py	1;"	kind:file	line:1
+__init__.py	../core/twitter/bot/__init__.py	1;"	kind:file	line:1
+__init__.py	../indiaelections/__init__.py	1;"	kind:file	line:1
+__init__.py	../poll/__init__.py	1;"	kind:file	line:1
+__init__.py	../poll/migrations/__init__.py	1;"	kind:file	line:1
+__str__	../core/models.py	/^    def __str__(self):$/;"	kind:member	line:128
+__str__	../core/models.py	/^    def __str__(self):$/;"	kind:member	line:142
+__str__	../core/models.py	/^    def __str__(self):$/;"	kind:member	line:153
+__str__	../poll/models.py	/^    def __str__(self):$/;"	kind:member	line:11
+__str__	../poll/models.py	/^    def __str__(self):$/;"	kind:member	line:18
+__str__	../poll/models.py	/^    def __str__(self):$/;"	kind:member	line:26
+__unicode__	../core/models.py	/^    def __unicode__(self):$/;"	kind:member	line:145
+_add_int_data	../core/twitter/utils.py	/^def _add_int_data(data, party, tweet_stats):$/;"	kind:function	line:210
+_add_set_data_to_initial_dict	../core/twitter/utils.py	/^def _add_set_data_to_initial_dict(keys):$/;"	kind:function	line:206
+_frame_initial_dict	../core/twitter/utils.py	/^def _frame_initial_dict(keys, value) -> dict:$/;"	kind:function	line:202
+_frame_keys	../core/twitter/utils.py	/^def _frame_keys(parties, keys):$/;"	kind:function	line:198
+_generate_word_cloud_1	../core/twitter/utils.py	/^def _generate_word_cloud_1(q, tweets_dict):$/;"	kind:function	line:98
+add_arguments	../poll/management/commands/scrape_loksabha_constituencies.py	/^    def add_arguments(self, parser):$/;"	kind:member	line:54
+added_time	../core/models.py	/^    added_time = models.DateTimeField(auto_now_add=True)$/;"	kind:variable	line:14
+added_time	../poll/models.py	/^    added_time = models.DateTimeField(auto_now_add=True)$/;"	kind:variable	line:38
+admin.py	../core/admin.py	1;"	kind:file	line:1
+admin.py	../poll/admin.py	1;"	kind:file	line:1
+age	../poll/models.py	/^    age = models.PositiveSmallIntegerField(blank=False, validators=[MinValueValidator(18)])$/;"	kind:variable	line:33
+app_filters.py	../core/templatetags/app_filters.py	1;"	kind:file	line:1
+application	../indiaelections/wsgi.py	/^    application = Cling(get_wsgi_application())$/;"	kind:variable	line:22
+application	../indiaelections/wsgi.py	/^    application = get_wsgi_application()$/;"	kind:variable	line:24
+apps.py	../core/apps.py	1;"	kind:file	line:1
+apps.py	../poll/apps.py	1;"	kind:file	line:1
+args	../job.py	/^    args = parser.parse_args()$/;"	kind:variable	line:65
+args	../job1.py	/^    args = parser.parse_args()$/;"	kind:variable	line:65
+calculate_percentage	../core/twitter/utils.py	/^def calculate_percentage(positive, negative, neutral):$/;"	kind:function	line:176
+choices	../poll/models.py	/^    choices = models.CharField(max_length=1, choices=OPINION_POLL_OPTIONS, blank=False, null=False)$/;"	kind:variable	line:32
+clean_tweet	../core/twitter/utils.py	/^def clean_tweet(tweet):$/;"	kind:function	line:53
+clear_tmp.py	../core/management/commands/clear_tmp.py	1;"	kind:file	line:1
+comment_words	../core/models.py	/^    comment_words = models.TextField()$/;"	kind:variable	line:159
+conftest.py	../core/tests/conftest.py	1;"	kind:file	line:1
+constants.py	../core/constants.py	1;"	kind:file	line:1
+constants.py	../core/image/constants.py	1;"	kind:file	line:1
+constants.py	../indiaelections/constants.py	1;"	kind:file	line:1
+constants.py	../poll/constants.py	1;"	kind:file	line:1
+convert_timedata_to_2d	../core/twitter/utils.py	/^def convert_timedata_to_2d(data):$/;"	kind:function	line:314
+convert_timedata_to_2d_new	../core/twitter/utils.py	/^def convert_timedata_to_2d_new(data1, data2, party1, party2):$/;"	kind:function	line:325
+count	../core/models.py	/^    count = models.PositiveIntegerField()$/;"	kind:variable	line:13
+create_wordcloud	../core/twitter/utils.py	/^def create_wordcloud(comment_words, q):$/;"	kind:function	line:102
+db.py	../indiaelections/db.py	1;"	kind:file	line:1
+decorators.py	../core/decorators.py	1;"	kind:file	line:1
+dependencies	../core/migrations/0001_initial.py	/^    dependencies = [$/;"	kind:variable	line:10
+dependencies	../core/migrations/0002_auto_20190114_0136.py	/^    dependencies = [$/;"	kind:variable	line:8
+dependencies	../core/migrations/0003_auto_20190122_0222.py	/^    dependencies = [$/;"	kind:variable	line:8
+dependencies	../core/migrations/0004_tweetstats_party.py	/^    dependencies = [$/;"	kind:variable	line:8
+dependencies	../core/migrations/0005_alliance.py	/^    dependencies = [$/;"	kind:variable	line:8
+dependencies	../core/migrations/0006_commentwords.py	/^    dependencies = [$/;"	kind:variable	line:8
+dependencies	../core/migrations/0007_remove_tweetstats_comment_words.py	/^    dependencies = [$/;"	kind:variable	line:8
+dependencies	../core/migrations/0008_auto_20190220_0259.py	/^    dependencies = [$/;"	kind:variable	line:6
+dependencies	../core/migrations/0009_auto_20190226_0148.py	/^    dependencies = [$/;"	kind:variable	line:8
+dependencies	../poll/migrations/0001_initial.py	/^    dependencies = [$/;"	kind:variable	line:11
+dependencies	../poll/migrations/0002_auto_20190226_0226.py	/^    dependencies = [$/;"	kind:variable	line:8
+dependencies	../poll/migrations/0003_auto_20190226_1230.py	/^    dependencies = [$/;"	kind:variable	line:33
+dependencies	../poll/migrations/0004_auto_20190227_0232.py	/^    dependencies = [$/;"	kind:variable	line:9
+dest	../job.py	/^        dest='interval',$/;"	kind:variable	line:55
+dest	../job.py	/^        dest='queries',$/;"	kind:variable	line:50
+dest	../job.py	/^        dest='quit',$/;"	kind:variable	line:61
+dest	../job1.py	/^        dest='interval',$/;"	kind:variable	line:55
+dest	../job1.py	/^        dest='queries',$/;"	kind:variable	line:50
+dest	../job1.py	/^        dest='quit',$/;"	kind:variable	line:61
+domain	../poll/models.py	/^    domain = models.CharField(max_length=100, unique=True, db_index=True)$/;"	kind:variable	line:8
+dsn	../indiaelections/settings.py	/^    dsn="https:\/\/{}@sentry.io\/1362707".format(os.environ["SENTRY_TOKEN"]),$/;"	kind:variable	line:24
+email	../poll/models.py	/^    email = models.EmailField(max_length=100, unique=True, blank=False, null=False, db_index=True)$/;"	kind:variable	line:31
+enabled	../poll/models.py	/^    enabled = models.BooleanField(default=False)$/;"	kind:variable	line:9
+female	../core/models.py	/^    female = models.PositiveIntegerField(default=0)$/;"	kind:variable	line:19
+fetch_and_save_tweets.py	../core/management/commands/fetch_and_save_tweets.py	1;"	kind:file	line:1
+field	../core/migrations/0002_auto_20190114_0136.py	/^            field=models.PositiveIntegerField(default=0),$/;"	kind:variable	line:16
+field	../core/migrations/0002_auto_20190114_0136.py	/^            field=models.PositiveIntegerField(default=0),$/;"	kind:variable	line:21
+field	../core/migrations/0002_auto_20190114_0136.py	/^            field=models.PositiveIntegerField(default=0),$/;"	kind:variable	line:26
+field	../core/migrations/0003_auto_20190122_0222.py	/^            field=models.PositiveIntegerField(default=0),$/;"	kind:variable	line:16
+field	../core/migrations/0003_auto_20190122_0222.py	/^            field=models.PositiveIntegerField(default=0),$/;"	kind:variable	line:21
+field	../core/migrations/0004_tweetstats_party.py	/^            field=models.CharField(choices=[('u', 'upa'), ('n', 'nda')], default='', max_length=1),$/;"	kind:variable	line:16
+field	../core/migrations/0008_auto_20190220_0259.py	/^            field=models.CharField(choices=[('u', 'upa'), ('n', 'nda'), ('a', 'admk'), ('d', 'dmk')], default='', max_length=1),$/;"	kind:variable	line:14
+field	../core/migrations/0008_auto_20190220_0259.py	/^            field=models.CharField(choices=[('u', 'upa'), ('n', 'nda'), ('a', 'admk'), ('d', 'dmk')], default='', max_length=1),$/;"	kind:variable	line:19
+field	../core/migrations/0009_auto_20190226_0148.py	/^            field=models.CharField(max_length=100, unique=True),$/;"	kind:variable	line:16
+field	../poll/migrations/0002_auto_20190226_0226.py	/^            field=models.EmailField(db_index=True, max_length=100, unique=True),$/;"	kind:variable	line:24
+field	../poll/migrations/0003_auto_20190226_1230.py	/^            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='poll.StateUnion'),$/;"	kind:variable	line:55
+field	../poll/migrations/0004_auto_20190227_0232.py	/^            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='poll.Constituency'),$/;"	kind:variable	line:17
+field	../poll/migrations/0004_auto_20190227_0232.py	/^            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='poll.StateUnion'),$/;"	kind:variable	line:22
+fields	../core/migrations/0001_initial.py	/^            fields=[$/;"	kind:variable	line:16
+fields	../core/migrations/0001_initial.py	/^            fields=[$/;"	kind:variable	line:26
+fields	../core/migrations/0005_alliance.py	/^            fields=[$/;"	kind:variable	line:15
+fields	../core/migrations/0006_commentwords.py	/^            fields=[$/;"	kind:variable	line:15
+fields	../poll/forms.py	/^        fields = ('email', 'age', 'gender', 'state', 'place', 'choices')$/;"	kind:variable	line:10
+fields	../poll/migrations/0001_initial.py	/^            fields=[$/;"	kind:variable	line:17
+fields	../poll/migrations/0002_auto_20190226_0226.py	/^            fields=[$/;"	kind:variable	line:15
+fields	../poll/migrations/0003_auto_20190226_1230.py	/^            fields=[$/;"	kind:variable	line:40
+fields	../poll/migrations/0003_auto_20190226_1230.py	/^            fields=[$/;"	kind:variable	line:47
+file_path	../core/models.py	/^    file_path = models.CharField(max_length=200)$/;"	kind:variable	line:140
+filename	../poll/management/commands/scrape_loksabha_constituencies.py	/^filename = "loksabha_constituencies_list.{}"$/;"	kind:variable	line:18
+filter_by_date_range	../core/models.py	/^    def filter_by_date_range(cls, range, parties):$/;"	kind:member	line:32
+fixtures.py	../core/tests/fixtures.py	1;"	kind:file	line:1
+forms.py	../poll/forms.py	1;"	kind:file	line:1
+frame_tweets	../core/twitter/twitter_api.py	/^    def frame_tweets(self, fetched_tweets, query):$/;"	kind:member	line:21
+gender	../poll/models.py	/^    gender = models.CharField(max_length=1, choices=GENDER, blank=False, null=False)$/;"	kind:variable	line:34
+generate_tweet_image	../core/image/helpers.py	/^def generate_tweet_image(text, image_path):$/;"	kind:function	line:12
+generate_view_data	../core/twitter/utils.py	/^def generate_view_data(party_1, party_2, remove=False, timerange=ALL_TIME):$/;"	kind:function	line:219
+generate_word_cloud_1	../core/twitter/utils.py	/^def generate_word_cloud_1(q, tweets_dict):$/;"	kind:function	line:124
+get	../core/views.py	/^    def get(self, request):$/;"	kind:member	line:56
+get_all_time_sentiment_difference	../core/models.py	/^    def get_all_time_sentiment_difference(cls, party, alias, data):$/;"	kind:member	line:111
+get_and_save_tweets	../core/twitter/twitter_api.py	/^    def get_and_save_tweets(self, query, max_count=200) -> int:$/;"	kind:member	line:44
+get_candidate_and_party_dict	../core/twitter/utils.py	/^def get_candidate_and_party_dict() -> dict:$/;"	kind:function	line:167
+get_comment_words	../core/models.py	/^    def get_comment_words(cls, q) -> str:$/;"	kind:member	line:162
+get_comment_words	../core/models.py	/^    def get_comment_words(cls, q) -> str:$/;"	kind:member	line:23
+get_country_code	../core/twitter/twitter_api.py	/^    def get_country_code(self, country="india"):$/;"	kind:member	line:50
+get_db_config	../indiaelections/db.py	/^def get_db_config():$/;"	kind:function	line:34
+get_ip_address	../poll/utils.py	/^def get_ip_address(request):$/;"	kind:function	line:7
+get_new_timeseries_data	../core/twitter/utils.py	/^def get_new_timeseries_data(key, party_1, party_2, queryset=None):$/;"	kind:function	line:355
+get_sentiment_data_party_by_date	../core/models.py	/^    def get_sentiment_data_party_by_date(cls, party, queryset=None):$/;"	kind:member	line:67
+get_timeseries_data	../core/twitter/utils.py	/^def get_timeseries_data(key, party_1, party_2):$/;"	kind:function	line:344
+get_trends	../core/twitter/twitter_api.py	/^    def get_trends(self, country_code=INDIA):$/;"	kind:member	line:58
+get_tweet	../core/twitter/bot/templates.py	/^    def get_tweet(self):$/;"	kind:member	line:20
+get_tweet_count_of_party_by_date	../core/models.py	/^    def get_tweet_count_of_party_by_date(cls, party, queryset=None):$/;"	kind:member	line:40
+get_tweet_sentiment	../core/twitter/utils.py	/^def get_tweet_sentiment(tweet) -> str:$/;"	kind:function	line:60
+get_word_cloud	../core/twitter/utils.py	/^def get_word_cloud(q):$/;"	kind:function	line:70
+get_word_cloud	../core/views.py	/^def get_word_cloud(request):$/;"	kind:function	line:37
+handle	../core/management/commands/clear_tmp.py	/^    def handle(self, *args, **options):$/;"	kind:member	line:12
+handle	../core/management/commands/migrate_commentwords.py	/^    def handle(self, *args, **options):$/;"	kind:member	line:19
+handle	../core/management/commands/populate_alliance.py	/^    def handle(self, *args, **kwargs):$/;"	kind:member	line:9
+handle	../core/management/commands/setup_dev_env.py	/^    def handle(self, *args, **options):$/;"	kind:member	line:10
+handle	../core/management/commands/textblob_download_corpora.py	/^    def handle(self, *args, **options):$/;"	kind:member	line:9
+handle	../poll/management/commands/scrape_loksabha_constituencies.py	/^    def handle(self, *args, **kwargs):$/;"	kind:member	line:57
+handle_label	../core/management/commands/fetch_and_save_tweets.py	/^    def handle_label(self, label, **options):$/;"	kind:member	line:8
+handler404	../core/views.py	/^def handler404(request, *args, **kwargs):$/;"	kind:function	line:97
+handler422	../core/views.py	/^def handler422(request, *args, **kwargs):$/;"	kind:function	line:111
+handler500	../core/views.py	/^def handler500(request, *args, **kwargs):$/;"	kind:function	line:104
+hello_world	../core/views.py	/^def hello_world(request):$/;"	kind:function	line:16
+help	../core/management/commands/clear_tmp.py	/^    help = "Clear tmp directory used to store wordclouds."$/;"	kind:variable	line:10
+help	../core/management/commands/migrate_commentwords.py	/^    help = "Utility to migrate existing comment words from Tweetstats table to CommentWords table,"$/;"	kind:variable	line:17
+help	../core/management/commands/populate_alliance.py	/^    help = "Run this command to populate initial data for Alliance table."$/;"	kind:variable	line:7
+help	../core/management/commands/setup_dev_env.py	/^    help = "Bootstrap\/Setup development environment with data."$/;"	kind:variable	line:8
+help	../core/management/commands/textblob_download_corpora.py	/^    help = 'Download textblob corpora.'$/;"	kind:variable	line:7
+help	../job.py	/^        help="comma seperated list of words to fetch and save tweets",$/;"	kind:variable	line:51
+help	../job.py	/^        help="hours after which the script should quit.",$/;"	kind:variable	line:62
+help	../job.py	/^        help="time interval in minutes to fetch the queries repeatedly",$/;"	kind:variable	line:56
+help	../job1.py	/^        help="comma seperated list of words to fetch and save tweets",$/;"	kind:variable	line:51
+help	../job1.py	/^        help="hours after which the script should quit.",$/;"	kind:variable	line:62
+help	../job1.py	/^        help="time interval in minutes to fetch the queries repeatedly",$/;"	kind:variable	line:56
+help	../poll/management/commands/scrape_loksabha_constituencies.py	/^    help = "Scrape constituencies list from wikipedia and write them to a file."$/;"	kind:variable	line:52
+helpers.py	../core/image/helpers.py	1;"	kind:file	line:1
+helpers.py	../core/twitter/helpers.py	1;"	kind:file	line:1
+index	../core/views.py	/^def index(request):$/;"	kind:function	line:25
+initial	../core/migrations/0001_initial.py	/^    initial = True$/;"	kind:variable	line:8
+initial	../poll/migrations/0001_initial.py	/^    initial = True$/;"	kind:variable	line:9
+integrations	../indiaelections/settings.py	/^    integrations=[DjangoIntegration()]$/;"	kind:variable	line:25
+ip_address	../poll/models.py	/^    ip_address = models.GenericIPAddressField()$/;"	kind:variable	line:37
+job.py	../job.py	1;"	kind:file	line:1
+job1.py	../job1.py	1;"	kind:file	line:1
+jsonify	../core/templatetags/app_filters.py	/^def jsonify(object):$/;"	kind:function	line:12
+link_to_wordcloud	../core/templatetags/app_filters.py	/^def link_to_wordcloud(object):$/;"	kind:function	line:17
+load_constituencies	../poll/views.py	/^def load_constituencies(request):$/;"	kind:function	line:39
+lower_bound	../core/twitter/helpers.py	/^def lower_bound(days):$/;"	kind:function	line:4
+male	../core/models.py	/^    male = models.PositiveIntegerField(default=0)$/;"	kind:variable	line:18
+manage.py	../manage.py	1;"	kind:file	line:1
+migrate_commentwords.py	../core/management/commands/migrate_commentwords.py	1;"	kind:file	line:1
+mock_tweet_prediction	../core/tests/fixtures.py	/^def mock_tweet_prediction(twitter_api, generate_view_data, mock_tweet_template, generate_tweet_image, tweet_template):$/;"	kind:function	line:140
+model	../poll/forms.py	/^        model = OpinionPoll$/;"	kind:variable	line:9
+model_name	../core/migrations/0002_auto_20190114_0136.py	/^            model_name='tweetstats',$/;"	kind:variable	line:14
+model_name	../core/migrations/0002_auto_20190114_0136.py	/^            model_name='tweetstats',$/;"	kind:variable	line:19
+model_name	../core/migrations/0002_auto_20190114_0136.py	/^            model_name='tweetstats',$/;"	kind:variable	line:24
+model_name	../core/migrations/0003_auto_20190122_0222.py	/^            model_name='tweetstats',$/;"	kind:variable	line:14
+model_name	../core/migrations/0003_auto_20190122_0222.py	/^            model_name='tweetstats',$/;"	kind:variable	line:19
+model_name	../core/migrations/0004_tweetstats_party.py	/^            model_name='tweetstats',$/;"	kind:variable	line:14
+model_name	../core/migrations/0007_remove_tweetstats_comment_words.py	/^            model_name='tweetstats',$/;"	kind:variable	line:14
+model_name	../core/migrations/0008_auto_20190220_0259.py	/^            model_name='alliance',$/;"	kind:variable	line:12
+model_name	../core/migrations/0008_auto_20190220_0259.py	/^            model_name='tweetstats',$/;"	kind:variable	line:17
+model_name	../core/migrations/0009_auto_20190226_0148.py	/^            model_name='alliance',$/;"	kind:variable	line:14
+model_name	../poll/migrations/0002_auto_20190226_0226.py	/^            model_name='opinionpoll',$/;"	kind:variable	line:22
+model_name	../poll/migrations/0003_auto_20190226_1230.py	/^            model_name='constituency',$/;"	kind:variable	line:53
+model_name	../poll/migrations/0004_auto_20190227_0232.py	/^            model_name='opinionpoll',$/;"	kind:variable	line:15
+model_name	../poll/migrations/0004_auto_20190227_0232.py	/^            model_name='opinionpoll',$/;"	kind:variable	line:20
+models.py	../core/models.py	1;"	kind:file	line:1
+models.py	../poll/models.py	1;"	kind:file	line:1
+name	../core/apps.py	/^    name = 'core'$/;"	kind:variable	line:5
+name	../core/migrations/0001_initial.py	/^            name='TweetStats',$/;"	kind:variable	line:15
+name	../core/migrations/0001_initial.py	/^            name='Wordcloud',$/;"	kind:variable	line:25
+name	../core/migrations/0002_auto_20190114_0136.py	/^            name='negative',$/;"	kind:variable	line:15
+name	../core/migrations/0002_auto_20190114_0136.py	/^            name='neutral',$/;"	kind:variable	line:20
+name	../core/migrations/0002_auto_20190114_0136.py	/^            name='positive',$/;"	kind:variable	line:25
+name	../core/migrations/0003_auto_20190122_0222.py	/^            name='female',$/;"	kind:variable	line:15
+name	../core/migrations/0003_auto_20190122_0222.py	/^            name='male',$/;"	kind:variable	line:20
+name	../core/migrations/0004_tweetstats_party.py	/^            name='party',$/;"	kind:variable	line:15
+name	../core/migrations/0005_alliance.py	/^            name='Alliance',$/;"	kind:variable	line:14
+name	../core/migrations/0006_commentwords.py	/^            name='CommentWords',$/;"	kind:variable	line:14
+name	../core/migrations/0007_remove_tweetstats_comment_words.py	/^            name='comment_words',$/;"	kind:variable	line:15
+name	../core/migrations/0008_auto_20190220_0259.py	/^            name='party',$/;"	kind:variable	line:13
+name	../core/migrations/0008_auto_20190220_0259.py	/^            name='party',$/;"	kind:variable	line:18
+name	../core/migrations/0009_auto_20190226_0148.py	/^            name='q',$/;"	kind:variable	line:15
+name	../poll/apps.py	/^    name = 'poll'$/;"	kind:variable	line:5
+name	../poll/migrations/0001_initial.py	/^            name='OpinionPoll',$/;"	kind:variable	line:16
+name	../poll/migrations/0002_auto_20190226_0226.py	/^            name='IFrameEnabledSites',$/;"	kind:variable	line:14
+name	../poll/migrations/0002_auto_20190226_0226.py	/^            name='email',$/;"	kind:variable	line:23
+name	../poll/migrations/0003_auto_20190226_1230.py	/^            name='Constituency',$/;"	kind:variable	line:39
+name	../poll/migrations/0003_auto_20190226_1230.py	/^            name='StateUnion',$/;"	kind:variable	line:46
+name	../poll/migrations/0003_auto_20190226_1230.py	/^            name='state_union',$/;"	kind:variable	line:54
+name	../poll/migrations/0004_auto_20190227_0232.py	/^            name='place',$/;"	kind:variable	line:16
+name	../poll/migrations/0004_auto_20190227_0232.py	/^            name='state',$/;"	kind:variable	line:21
+name	../poll/models.py	/^    name = models.CharField(max_length=30)$/;"	kind:variable	line:16
+name	../poll/models.py	/^    name = models.CharField(max_length=30)$/;"	kind:variable	line:24
+national_parties	../core/twitter/bot/__init__.py	/^national_parties = party_tuple(party1="BJP", party2="Congress", place="India's", alliance1='nda', alliance2='upa')$/;"	kind:variable	line:11
+negative	../core/models.py	/^    negative = models.PositiveIntegerField(default=0)$/;"	kind:variable	line:16
+negative	../core/tests/fixtures.py	/^def negative():$/;"	kind:function	line:50
+neutral	../core/models.py	/^    neutral = models.PositiveIntegerField(default=0)$/;"	kind:variable	line:17
+neutral	../core/tests/fixtures.py	/^def neutral():$/;"	kind:function	line:55
+new_ui_proto	../core/views.py	/^def new_ui_proto(request):$/;"	kind:function	line:83
+operations	../core/migrations/0001_initial.py	/^    operations = [$/;"	kind:variable	line:13
+operations	../core/migrations/0002_auto_20190114_0136.py	/^    operations = [$/;"	kind:variable	line:12
+operations	../core/migrations/0003_auto_20190122_0222.py	/^    operations = [$/;"	kind:variable	line:12
+operations	../core/migrations/0004_tweetstats_party.py	/^    operations = [$/;"	kind:variable	line:12
+operations	../core/migrations/0005_alliance.py	/^    operations = [$/;"	kind:variable	line:12
+operations	../core/migrations/0006_commentwords.py	/^    operations = [$/;"	kind:variable	line:12
+operations	../core/migrations/0007_remove_tweetstats_comment_words.py	/^    operations = [$/;"	kind:variable	line:12
+operations	../core/migrations/0008_auto_20190220_0259.py	/^    operations = [$/;"	kind:variable	line:10
+operations	../core/migrations/0009_auto_20190226_0148.py	/^    operations = [$/;"	kind:variable	line:12
+operations	../poll/migrations/0001_initial.py	/^    operations = [$/;"	kind:variable	line:14
+operations	../poll/migrations/0002_auto_20190226_0226.py	/^    operations = [$/;"	kind:variable	line:12
+operations	../poll/migrations/0003_auto_20190226_1230.py	/^    operations = [$/;"	kind:variable	line:37
+operations	../poll/migrations/0004_auto_20190227_0232.py	/^    operations = [$/;"	kind:variable	line:13
+opinion_poll	../poll/views.py	/^def opinion_poll(request):$/;"	kind:function	line:14
+parser	../job.py	/^    parser = argparse.ArgumentParser()$/;"	kind:variable	line:47
+parser	../job1.py	/^    parser = argparse.ArgumentParser()$/;"	kind:variable	line:47
+party	../core/models.py	/^    party = models.CharField(max_length=1, default='', choices=PARTIES)$/;"	kind:variable	line:151
+party	../core/models.py	/^    party = models.CharField(max_length=1, default='', choices=PARTIES)$/;"	kind:variable	line:20
+party_tuple	../core/twitter/bot/__init__.py	/^party_tuple = namedtuple("party_tuple", "party1 party2 place alliance1 alliance2")$/;"	kind:variable	line:10
+permission_classes	../core/views.py	/^    permission_classes = (IsAuthenticated, )$/;"	kind:variable	line:54
+place	../poll/models.py	/^    place = models.ForeignKey(Constituency, on_delete=models.SET_NULL, blank=False, null=True)$/;"	kind:variable	line:36
+populate_alliance.py	../core/management/commands/populate_alliance.py	1;"	kind:file	line:1
+populate_data	../poll/migrations/0003_auto_20190226_1230.py	/^def populate_data(apps, schema_editor):$/;"	kind:function	line:9
+positive	../core/models.py	/^    positive = models.PositiveIntegerField(default=0)$/;"	kind:variable	line:15
+positive	../core/tests/fixtures.py	/^def positive():$/;"	kind:function	line:45
+profile_endpoint	../core/decorators.py	/^def profile_endpoint(func):$/;"	kind:function	line:5
+put_word_cloud	../core/twitter/utils.py	/^def put_word_cloud(q, file_path):$/;"	kind:function	line:81
+q	../core/models.py	/^    q = models.CharField(max_length=100)$/;"	kind:variable	line:139
+q	../core/models.py	/^    q = models.CharField(max_length=100)$/;"	kind:variable	line:158
+q	../core/models.py	/^    q = models.CharField(max_length=100, unique=True)$/;"	kind:variable	line:150
+q	../core/models.py	/^    q = models.CharField(max_length=50)$/;"	kind:variable	line:12
+queries	../job.py	/^        queries = args.queries.split(",")$/;"	kind:variable	line:71
+queries	../job1.py	/^        queries = args.queries.split(",")$/;"	kind:variable	line:71
+quit	../job.py	/^    quit = args.quit * 60 * 60$/;"	kind:variable	line:67
+quit	../job1.py	/^    quit = args.quit * 60 * 60$/;"	kind:variable	line:67
+register	../core/templatetags/app_filters.py	/^register = Library()$/;"	kind:variable	line:8
+replace_parties_from_data	../core/twitter/utils.py	/^def replace_parties_from_data(data, party_1, party_2, queryset=None):$/;"	kind:function	line:270
+required	../job.py	/^        required=True)$/;"	kind:variable	line:52
+required	../job.py	/^        required=True)$/;"	kind:variable	line:58
+required	../job.py	/^        required=True)$/;"	kind:variable	line:64
+required	../job1.py	/^        required=True)$/;"	kind:variable	line:52
+required	../job1.py	/^        required=True)$/;"	kind:variable	line:58
+required	../job1.py	/^        required=True)$/;"	kind:variable	line:64
+run	../job.py	/^def run(queries):$/;"	kind:function	line:11
+run	../job1.py	/^def run(queries):$/;"	kind:function	line:11
+scrape_loksabha_constituencies.py	../poll/management/commands/scrape_loksabha_constituencies.py	1;"	kind:file	line:1
+sentiment_data	../core/tests/fixtures.py	/^def sentiment_data(positive, negative, neutral):$/;"	kind:function	line:60
+sentiment_to_percentage	../core/twitter/utils.py	/^def sentiment_to_percentage(data, party_1, party_2):$/;"	kind:function	line:184
+serializers.py	../core/serializers.py	1;"	kind:file	line:1
+settings.py	../indiaelections/settings.py	1;"	kind:file	line:1
+setup_dev_env.py	../core/management/commands/setup_dev_env.py	1;"	kind:file	line:1
+sleep_time	../job.py	/^    sleep_time = 60 * args.interval$/;"	kind:variable	line:69
+sleep_time	../job1.py	/^    sleep_time = 60 * args.interval$/;"	kind:variable	line:69
+state	../poll/models.py	/^    state = models.ForeignKey(StateUnion, on_delete=models.SET_NULL, blank=False, null=True)$/;"	kind:variable	line:35
+state_union	../poll/models.py	/^    state_union = models.ForeignKey(StateUnion, on_delete=models.CASCADE)$/;"	kind:variable	line:23
+stringify	../core/templatetags/app_filters.py	/^def stringify(object):$/;"	kind:function	line:28
+template_name	../core/views.py	/^    template_name = "poc.html"$/;"	kind:variable	line:21
+templates.py	../core/twitter/bot/templates.py	1;"	kind:file	line:1
+terms_and_conditions	../core/views.py	/^def terms_and_conditions(request):$/;"	kind:function	line:79
+test_calculate_percentage	../core/tests/unit/test_twitter_utils.py	/^def test_calculate_percentage(positive, negative, neutral):$/;"	kind:function	line:128
+test_clean_tweet	../core/tests/unit/test_twitter_utils.py	/^def test_clean_tweet():$/;"	kind:function	line:25
+test_convert_sentiment_to_percentage	../core/tests/unit/test_twitter_utils.py	/^def test_convert_sentiment_to_percentage(sentiment_data):$/;"	kind:function	line:140
+test_convert_timedata_to_2d	../core/tests/unit/test_twitter_utils.py	/^def test_convert_timedata_to_2d(tweetstats):$/;"	kind:function	line:92
+test_frame_tweets	../core/tests/unit/test_twitter_api.py	/^def test_frame_tweets(tweets):$/;"	kind:function	line:19
+test_generate_view_dict	../core/tests/unit/test_twitter_utils.py	/^def test_generate_view_dict(mock_all_time_sentiment):$/;"	kind:function	line:48
+test_get_and_save_tweets	../core/tests/unit/test_twitter_api.py	/^def test_get_and_save_tweets(tweets):$/;"	kind:function	line:8
+test_get_timeseries_data	../core/tests/unit/test_twitter_utils.py	/^def test_get_timeseries_data(tweetstats):$/;"	kind:function	line:78
+test_get_tweet_sentiment	../core/tests/unit/test_twitter_utils.py	/^def test_get_tweet_sentiment():$/;"	kind:function	line:14
+test_get_wordcloud	../core/tests/unit/test_twitter_utils.py	/^def test_get_wordcloud(tweets):$/;"	kind:function	line:33
+test_old_wordcloud_files_removal	../core/tests/unit/test_twitter_utils.py	/^def test_old_wordcloud_files_removal():$/;"	kind:function	line:113
+test_tweet_prediction	../core/tests/unit/test_twitter_bot.py	/^def test_tweet_prediction(mock_all_time_sentiment, twitter_api, generate_view_data,$/;"	kind:function	line:26
+test_tweet_template	../core/tests/unit/test_twitter_bot.py	/^def test_tweet_template(mock_trends, tweet_template, twitter_trends):$/;"	kind:function	line:9
+test_twitter_api.py	../core/tests/unit/test_twitter_api.py	1;"	kind:file	line:1
+test_twitter_bot.py	../core/tests/unit/test_twitter_bot.py	1;"	kind:file	line:1
+test_twitter_utils.py	../core/tests/unit/test_twitter_utils.py	1;"	kind:file	line:1
+test_views.py	../core/tests/unit/test_views.py	1;"	kind:file	line:1
+tests.py	../core/tests.py	1;"	kind:file	line:1
+tests.py	../poll/tests.py	1;"	kind:file	line:1
+textblob_download_corpora.py	../core/management/commands/textblob_download_corpora.py	1;"	kind:file	line:1
+time_taken	../job.py	/^    time_taken = 0$/;"	kind:variable	line:68
+time_taken	../job1.py	/^    time_taken = 0$/;"	kind:variable	line:68
+timerange	../core/serializers.py	/^    timerange = serializers.CharField(max_length=20, source="range")$/;"	kind:variable	line:7
+tn	../core/views.py	/^def tn(request):$/;"	kind:function	line:67
+tn_parties	../core/twitter/bot/__init__.py	/^tn_parties = party_tuple(party1="Admk", party2="Dmk", place="Tamilnadu's", alliance1='admk', alliance2='dmk')$/;"	kind:variable	line:12
+tweet_all	../core/twitter/bot/__init__.py	/^def tweet_all():$/;"	kind:function	line:40
+tweet_prediction	../core/twitter/bot/__init__.py	/^def tweet_prediction(parties, remove=False, timerange=TODAY):$/;"	kind:function	line:15
+tweet_prediction_for_india	../core/twitter/bot/__init__.py	/^def tweet_prediction_for_india():$/;"	kind:function	line:32
+tweet_prediction_for_tamilnadu	../core/twitter/bot/__init__.py	/^def tweet_prediction_for_tamilnadu():$/;"	kind:function	line:36
+tweet_template	../core/tests/fixtures.py	/^def tweet_template():$/;"	kind:function	line:125
+tweets	../core/tests/fixtures.py	/^def tweets():$/;"	kind:function	line:21
+tweetstats	../core/tests/fixtures.py	/^def tweetstats(tweets):$/;"	kind:function	line:35
+tweettemplate	../core/twitter/bot/templates.py	/^tweettemplate = namedtuple("tweettemplate", "text link hashtags")$/;"	kind:variable	line:7
+twitter_api.py	../core/twitter/twitter_api.py	1;"	kind:file	line:1
+twitter_trends	../core/tests/fixtures.py	/^def twitter_trends():$/;"	kind:function	line:73
+type	../job.py	/^        type=int,$/;"	kind:variable	line:57
+type	../job.py	/^        type=int,$/;"	kind:variable	line:63
+type	../job1.py	/^        type=int,$/;"	kind:variable	line:57
+type	../job1.py	/^        type=int,$/;"	kind:variable	line:63
+unpopulate_data	../poll/migrations/0003_auto_20190226_1230.py	/^def unpopulate_data(apps, model_name):$/;"	kind:function	line:24
+update_status	../core/twitter/twitter_api.py	/^    def update_status(self, status):$/;"	kind:member	line:68
+update_winning_seats	../core/twitter/utils.py	/^def update_winning_seats(data, parties):$/;"	kind:function	line:302
+upper_bound	../core/twitter/helpers.py	/^def upper_bound(yesterday=False):$/;"	kind:function	line:9
+urlpatterns	../indiaelections/urls.py	/^urlpatterns = [$/;"	kind:variable	line:30
+urlpatterns	../poll/urls.py	/^urlpatterns = [$/;"	kind:variable	line:5
+urls.py	../indiaelections/urls.py	1;"	kind:file	line:1
+urls.py	../poll/urls.py	1;"	kind:file	line:1
+utils.py	../core/twitter/utils.py	1;"	kind:file	line:1
+utils.py	../poll/utils.py	1;"	kind:file	line:1
+validate_range	../core/serializers.py	/^    def validate_range(self, range):$/;"	kind:member	line:9
+verify_recaptcha	../poll/utils.py	/^def verify_recaptcha(request):$/;"	kind:function	line:17
+views.py	../core/views.py	1;"	kind:file	line:1
+views.py	../poll/views.py	1;"	kind:file	line:1
+whatsup_with_tweets	../core/views.py	/^def whatsup_with_tweets(request):$/;"	kind:function	line:89
+wrapper	../core/decorators.py	/^    def wrapper(*args, **kwargs):$/;"	kind:function	line:8
+write_csv	../poll/management/commands/scrape_loksabha_constituencies.py	/^def write_csv(data):$/;"	kind:function	line:26
+write_json	../poll/management/commands/scrape_loksabha_constituencies.py	/^def write_json(data):$/;"	kind:function	line:21
+write_output	../poll/management/commands/scrape_loksabha_constituencies.py	/^def write_output(data, output_format):$/;"	kind:function	line:40
+write_yaml	../poll/management/commands/scrape_loksabha_constituencies.py	/^def write_yaml(data):$/;"	kind:function	line:35
+wsgi.py	../indiaelections/wsgi.py	1;"	kind:file	line:1

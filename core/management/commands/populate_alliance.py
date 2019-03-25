@@ -9,7 +9,7 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         data = {
             'bjp': 'nda',
-            'congress': 'upa',
+            'inccongress': 'upa',
             'modi': 'nda',
             'rahulgandhi': 'upa',
             'admk': 'admk',
