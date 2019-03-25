@@ -80,7 +80,7 @@ def main():
     parser.add_argument("--savetweets", action='store_true', help="Extract, Transform and Save tweets.")
     parser.add_argument("--tweetprediction", action="store_true", help="Tweet prediction stats.")
     parser.add_argument('--queries', type=str, help='Comma seperated search terms for which ETL should be performed.',
-                        default="bjp, inccongress, modi, rahulgandhi", required=False)
+                        default="bjp, incindia, modi, rahulgandhi", required=False)
     parser.add_argument("--interval", type=int,
                         help="Time interval to sleep between each request in minutes", default=INTERVAL, required=False)
     parser.add_argument("-runfor", type=int,
