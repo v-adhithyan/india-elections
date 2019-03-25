@@ -8,6 +8,7 @@ from core.twitter.twitter_api import TwitterApi
 
 
 class TweetFetchSaveJob(APIView):
+    authentication_classes = ()
     permission_classes = (JobAccess, )
 
     def get(self, request):
@@ -26,6 +27,7 @@ class TweetFetchSaveJob(APIView):
 
 
 class TweetPredictionJob(APIView):
+    authentication_classes = ()
     permission_classes = (JobAccess,)
 
     def get(self, request):
