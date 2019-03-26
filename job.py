@@ -83,7 +83,7 @@ def main():
                         default="bjp, incindia, modi, rahulgandhi", required=False)
     parser.add_argument("--interval", type=int,
                         help="Time interval to sleep between each request in minutes", default=INTERVAL, required=False)
-    parser.add_argument("-runfor", type=int,
+    parser.add_argument("--runfor", type=int,
                         help="Time in hours for which the script should run before quitting.",
                         default=HOURS, required=False)
     parser.add_argument("--onetimejob", type=bool, help="Enable this flag to run this job only once",

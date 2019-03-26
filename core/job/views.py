@@ -17,8 +17,11 @@ class TweetFetchSaveJob(APIView):
             api = TwitterApi()
             for q in queries.split(","):
                 try:
+                    q = q.strip()
                     api.get_and_save_tweets(query=q)
-                except BaseException:
+                except BaseException as e:
+                    print(repr(e))
+                    print(q)
                     pass
                 # pass
             return HttpResponse("success", status=200)
