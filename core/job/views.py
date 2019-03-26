@@ -1,10 +1,13 @@
 from django.http.response import HttpResponse
 from rest_framework.views import APIView
+import logging
 
 from core.constants import TODAY
 from core.job.constants import PLACE_PREDICTION_DICT
 from core.job.permissions import JobAccess
 from core.twitter.twitter_api import TwitterApi
+
+logging.basicConfig(level=logging.INFO)
 
 
 class TweetFetchSaveJob(APIView):
@@ -17,11 +20,12 @@ class TweetFetchSaveJob(APIView):
             api = TwitterApi()
             for q in queries.split(","):
                 try:
+                    logging.info("Tweet fetch job started for {}".format(q))
                     q = q.strip()
                     api.get_and_save_tweets(query=q)
+                    logging.info("Tweet fetch job completed for {}".format(q))
                 except BaseException as e:
-                    print(repr(e))
-                    print(q)
+                    logging.info("Tweet fetch job failed for {} :: {}".format(q, repr(e)))
                     pass
                 # pass
             return HttpResponse("success", status=200)
