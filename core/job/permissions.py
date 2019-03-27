@@ -1,15 +1,13 @@
+import socket
+
 from rest_framework.permissions import BasePermission
 
-
-LOCALHOST = ['127.0.0.1', '54.221.194.108']
+LOCALHOST = socket.gethostname()
 
 
 class JobAccess(BasePermission):
 
     def has_permission(self, request, view):
-        ip_address = request.META.get('HTTP_X_FORWARDED_FOR')
+        host = request.META.get('HTTP_REFERER', None)
 
-        if not ip_address:
-            ip_address = request.META.get('REMOTE_ADDR')
-
-        return ip_address in LOCALHOST
+        return host and host == LOCALHOST

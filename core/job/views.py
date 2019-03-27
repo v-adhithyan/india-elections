@@ -10,9 +10,12 @@ from core.twitter.twitter_api import TwitterApi
 logging.basicConfig(level=logging.INFO)
 
 
-class TweetFetchSaveJob(APIView):
+class BaseJob(APIView):
     authentication_classes = ()
     permission_classes = (JobAccess, )
+
+
+class TweetFetchSaveJob(BaseJob):
 
     def get(self, request):
         try:
@@ -33,9 +36,7 @@ class TweetFetchSaveJob(APIView):
             return HttpResponse("param q is required", status=422)
 
 
-class TweetPredictionJob(APIView):
-    authentication_classes = ()
-    permission_classes = (JobAccess,)
+class TweetPredictionJob(BaseJob):
 
     def get(self, request):
         place = request.GET.get('place', 'all')
