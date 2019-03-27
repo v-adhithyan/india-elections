@@ -1,14 +1,21 @@
 from django.http.response import HttpResponse
 from rest_framework.views import APIView
+import logging
 
 from core.constants import TODAY
 from core.job.constants import PLACE_PREDICTION_DICT
 from core.job.permissions import JobAccess
 from core.twitter.twitter_api import TwitterApi
 
+logging.basicConfig(level=logging.INFO)
 
-class TweetFetchSaveJob(APIView):
+
+class BaseJob(APIView):
+    authentication_classes = ()
     permission_classes = (JobAccess, )
+
+
+class TweetFetchSaveJob(BaseJob):
 
     def get(self, request):
         try:
@@ -16,8 +23,12 @@ class TweetFetchSaveJob(APIView):
             api = TwitterApi()
             for q in queries.split(","):
                 try:
+                    logging.info("Tweet fetch job started for {}".format(q))
+                    q = q.strip()
                     api.get_and_save_tweets(query=q)
-                except BaseException:
+                    logging.info("Tweet fetch job completed for {}".format(q))
+                except BaseException as e:
+                    logging.info("Tweet fetch job failed for {} :: {}".format(q, repr(e)))
                     pass
                 # pass
             return HttpResponse("success", status=200)
@@ -25,8 +36,7 @@ class TweetFetchSaveJob(APIView):
             return HttpResponse("param q is required", status=422)
 
 
-class TweetPredictionJob(APIView):
-    permission_classes = (JobAccess,)
+class TweetPredictionJob(BaseJob):
 
     def get(self, request):
         place = request.GET.get('place', 'all')

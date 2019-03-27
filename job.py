@@ -1,29 +1,35 @@
 #!/usr/local/bin/python3
 import argparse
+import functools
 import logging
 import os
 import sys
+import time
 from urllib.parse import urljoin
+import socket
 
 import requests
 from dotenv import load_dotenv
-import functools
-import time
 
 load_dotenv()
+
 prefix = "job/"
 host = urljoin(os.environ["PC_HOST"], prefix)
+
 SAVE_TWEETS = "save-tweets"
 TWEET_PREDICTION = "tweet-prediction"
-jobs = {
-    SAVE_TWEETS: host + "save-tweets/",
-    TWEET_PREDICTION: host + "tweet-prediction/"
-}
 INTERVAL = 10
 HOURS = 9
 ONETIMEJOB = False
 MINUTES_IN_HOUR = 60
 SECONDS = 60
+HOST = socket.gethostname()
+
+jobs = {
+    SAVE_TWEETS: host + "save-tweets/",
+    TWEET_PREDICTION: host + "tweet-prediction/"
+}
+
 logging.basicConfig(level=logging.INFO)
 
 
@@ -47,10 +53,11 @@ def run(func):
 @run
 def make_get_request(job, params):
     url = jobs.get(job)
+    headers = {'referer': HOST}
     if not params:
-        response = requests.get(url=url)
+        response = requests.get(url=url, headers=headers)
     else:
-        response = requests.get(url=url, params=params)
+        response = requests.get(url=url, params=params, headers=headers)
 
     if response.ok:
         logging.info("{} success.".format(job))
@@ -80,10 +87,10 @@ def main():
     parser.add_argument("--savetweets", action='store_true', help="Extract, Transform and Save tweets.")
     parser.add_argument("--tweetprediction", action="store_true", help="Tweet prediction stats.")
     parser.add_argument('--queries', type=str, help='Comma seperated search terms for which ETL should be performed.',
-                        default="bjp, inccongress, modi, rahulgandhi", required=False)
+                        default="bjp, incindia, modi, rahulgandhi", required=False)
     parser.add_argument("--interval", type=int,
                         help="Time interval to sleep between each request in minutes", default=INTERVAL, required=False)
-    parser.add_argument("-runfor", type=int,
+    parser.add_argument("--runfor", type=int,
                         help="Time in hours for which the script should run before quitting.",
                         default=HOURS, required=False)
     parser.add_argument("--onetimejob", type=bool, help="Enable this flag to run this job only once",

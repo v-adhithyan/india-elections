@@ -3,7 +3,7 @@ indiaelections/static/
 __pycache__/
 *.py[cod]
 *$py.class
-.vs_code/
+.vscode/
 # C extensions
 *.so
 
