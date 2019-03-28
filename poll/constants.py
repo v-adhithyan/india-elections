@@ -6,7 +6,7 @@ load_dotenv()
 
 OPINION_POLL_OPTIONS = (
     ('c', 'UPA - Congress - DMK'),
-    ('b', 'NDA - BJP - ADMK - PMK'),
+    ('b', 'NDA - ADMK - PMK'),
     ('o', 'Others'),
     ('n', 'Nota'),
 )
