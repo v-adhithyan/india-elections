@@ -10,7 +10,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # use this flag to enable mysql
 # only in production we use mysql
 # for dev and testing we will use sqlite
-MYSQL = int(os.getenv("MYSQL", True))
+MYSQL = bool(os.getenv("MYSQL", False))
 
 MYSQL_DATABASE = {
     'default': {
