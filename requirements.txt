@@ -15,7 +15,7 @@ Django==2.1.4
 django-bmemcached==0.2.3
 django-crispy-forms==1.7.2
 django-request-logging==0.6.6
-djangorestframework==3.9.0
+djangorestframework==3.11.2
 djangorestframework-simplejwt==3.3
 Faker==1.0.2
 flake8==3.6.0
