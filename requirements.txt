@@ -63,7 +63,7 @@ python-memcached==1.59
 python-memcached-stats==0.1
 pytz==2018.7
 pyxel==1.0.0
-PyYAML==3.13
+PyYAML==5.4
 requests==2.21.0
 requests-oauthlib==1.0.0
 sentry-sdk==0.6.4
