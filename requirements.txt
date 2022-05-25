@@ -49,7 +49,7 @@ pycodestyle==2.4.0
 pycparser==2.19
 pyflakes==2.0.0
 Pygments==2.3.1
-PyJWT==1.7.1
+PyJWT==2.4.0
 PyOpenGL==3.1.0
 pyparsing==2.3.0
 PySocks==1.6.8
